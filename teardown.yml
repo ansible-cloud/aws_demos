@@ -1,0 +1,16 @@
+---
+- name: AWS PLAYBOOK TEARDOWN 101
+  connection: local
+  hosts: localhost
+  gather_facts: false
+  # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
+  module_defaults:
+    group/aws:
+      region: us-west-2
+  tasks:
+
+    - name: Destroy EC2 TEST_INSTANCE
+      ec2:
+        state: absent
+        instance_tags:
+            Name: TEST_INSTANCE
