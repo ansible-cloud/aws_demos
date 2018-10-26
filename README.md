@@ -131,14 +131,21 @@ filters:
   tag:Name: TEST_INSTANCE
 ```
 
-This grabs instance information (such as IP address) dynamically from AWS so we can run additional tasks on the instance.  On the command line we can call this plugin with the `-i` command e.g. `ansible-playbook provision_rhel.yml -i demo.aws_ec2.yml` but in the case of this demonstration we set the inventory in the `ansible.cfg` file like this:
+To test if dynamic inventory is working use the `ansible-inventory` command like the following:
+
+```
+ansible-inventory -i demo.aws_ec2.yml --list
+```
+
+
+This grabs instance information (such as IP address) dynamically from AWS so we can run additional tasks on the instance.  On the command line we can call this plugin with the `-i` command for Playbooks as well, e.g. `ansible-playbook provision_rhel.yml -i demo.aws_ec2.yml` but in the case of this demonstration we set the inventory in the `ansible.cfg` file like this:
 ```
 inventory      = demo.aws_ec2.yml
 ```
 
 ### Dynamic Inventory Strategy
 
-In the Playbook we load the dynamic inventory by default.  By default there may be no instances actually provisioned so we only get the implicit localhost.  We need to reload the inventory after the `ec2` module provisions the instance.  To do this we use the `meta` module as shown here:
+In the Playbook we load the dynamic inventory by default. By default there may be no instances actually provisioned so we only get the implicit localhost.  We need to reload the inventory after the `ec2` module provisions the instance.  To do this we use the `meta` module as shown here:
 
 ```
 - name: grab new aws facts
