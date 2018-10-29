@@ -7,6 +7,8 @@
   module_defaults:
     group/aws:
       region: us-west-2
+  vars:
+    instance_name: "TEST_INSTANCE"
 
   tasks:
     - name: Include vars of resources.yml which contains the vpc-subnet-id that we need
@@ -45,7 +47,7 @@
         wait: yes
         exact_count: 1
         instance_tags:
-            Name: TEST_INSTANCE
+            Name: {{instance_name}}
         count_tag:
             Name: TEST_INSTANCE
 
