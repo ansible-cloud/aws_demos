@@ -47,7 +47,7 @@
         wait: yes
         exact_count: 1
         instance_tags:
-            Name: {{instance_name}}
+            Name: "{{instance_name}}"
         count_tag:
             Name: TEST_INSTANCE
 
