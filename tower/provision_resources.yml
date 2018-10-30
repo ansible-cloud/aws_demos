@@ -34,6 +34,7 @@
         ssh_key_data: "{{playbook_dir}}/aws-reinvent-private.pem"
       delegate_to: localhost
       run_once: true
+      when: create_key.changed
 
     - name: delete flat-file private key
       file:
