@@ -4,7 +4,19 @@
   gather_facts: false
 
   tasks:
-# This task will wait to get a ssh connetion to the
+
+    - name: update SSH key with latest
+      tower_credential:
+        name: AWS_DEMO_INSTANCES_KEY
+        organization: Default
+        tower_host: "https://localhost"
+        tower_username: admin
+        tower_password: ansible
+        kind: ssh
+        ssh_key_data: "{{playbook_dir}}/aws-reinvent-private.pem"
+
+
+# This task will wait to get a ssh connetion to the provisioned aws hosts
     - name: wait to connect
       wait_for_connection:
 
