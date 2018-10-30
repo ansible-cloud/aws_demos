@@ -42,7 +42,7 @@
 
     - name: debug it for gabe
       debug:
-        var: "{{ create_key.key.private_key }}"
+        var: "{{ create_key }}"
 
     - name: update SSH key with latest
       tower_credential:
