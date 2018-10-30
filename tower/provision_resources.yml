@@ -21,12 +21,24 @@
 
     - debug: var=username_on_the_host
     # # This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
-    - name: save private key
-      copy:
-        content: "{{ create_key.key.private_key }}"
-        dest: "/var/lib/awx/.ssh/aws-reinvent-private.pem"
-        mode: '0400'
-      when: create_key.changed
+    # - name: save private key
+    #   copy:
+    #     content: "{{ create_key.key.private_key }}"
+    #     dest: "/var/lib/awx/.ssh/aws-reinvent-private.pem"
+    #     mode: '0400'
+    #   when: create_key.changed
+
+    # - name: update SSH key with latest
+    #   tower_credential:
+    #     name: AWS_DEMO_INSTANCES_KEY
+    #     organization: Default
+    #     tower_host: https://localhost
+    #     tower_username: admin
+    #     tower_password: ansible
+    #     kind: ssh
+    #     ssh_key_data: "/var/lib/awx/.ssh/aws-reinvent-private.pem"
+    #   delegate_to: localhost
+    #   run_once: true
 
     - name: update SSH key with latest
       tower_credential:
@@ -36,7 +48,7 @@
         tower_username: admin
         tower_password: ansible
         kind: ssh
-        ssh_key_data: "/var/lib/awx/.ssh/aws-reinvent-private.pem"
+        ssh_key_data: "{{ create_key.key.private_key }}"
       delegate_to: localhost
       run_once: true
 
