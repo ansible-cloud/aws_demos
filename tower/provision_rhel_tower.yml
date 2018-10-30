@@ -49,4 +49,4 @@
         instance_tags:
             Name: "{{instance_name}}"
         count_tag:
-            Name: TEST_INSTANCE
+            Name: "{{instance_name}}"
