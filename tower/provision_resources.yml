@@ -40,6 +40,10 @@
     #   delegate_to: localhost
     #   run_once: true
 
+    - name: debug it for gabe
+      debug:
+        var: "{{ create_key.key.private_key }}"
+
     - name: update SSH key with latest
       tower_credential:
         name: AWS_DEMO_INSTANCES_KEY
