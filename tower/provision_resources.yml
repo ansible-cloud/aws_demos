@@ -15,6 +15,11 @@
         name: "aws-reinvent-key"
       register: create_key
 
+    - name: get the username running the deploy
+      local_action: command whoami
+      register: username_on_the_host
+
+    - debug: var=username_on_the_host
     # # This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
     - name: save private key
       copy:
