@@ -1,3 +1,4 @@
+---
 - name: use wait for connection
   hosts: all
   remote_user: ec2-user
@@ -9,12 +10,13 @@
       tower_credential:
         name: AWS_DEMO_INSTANCES_KEY
         organization: Default
-        tower_host: "https://localhost"
+        tower_host: https://localhost
         tower_username: admin
         tower_password: ansible
         kind: ssh
         ssh_key_data: "{{playbook_dir}}/aws-reinvent-private.pem"
-
+      delegate_to: localhost
+      run_once: true
 
 # This task will wait to get a ssh connetion to the provisioned aws hosts
     - name: wait to connect
