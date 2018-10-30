@@ -19,7 +19,7 @@
     - name: save private key
       copy:
         content: "{{ create_key.key.private_key }}"
-        dest: "/var/lib/aws/.ssh/aws-reinvent-private.pem"
+        dest: "/var/lib/awx/.ssh/aws-reinvent-private.pem"
         mode: '0400'
       when: create_key.changed
 
@@ -31,7 +31,7 @@
         tower_username: admin
         tower_password: ansible
         kind: ssh
-        ssh_key_data: "/var/lib/aws/.ssh/aws-reinvent-private.pem"
+        ssh_key_data: "/var/lib/awx/.ssh/aws-reinvent-private.pem"
       delegate_to: localhost
       run_once: true
 
