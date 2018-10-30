@@ -48,7 +48,7 @@
         tower_username: admin
         tower_password: ansible
         kind: ssh
-        ssh_key_data: "{{ create_key.key.private_key }}"
+        ssh_key_data: "{{ create_key['key']['private_key'] }}"
       delegate_to: localhost
       run_once: true
 
