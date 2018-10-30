@@ -40,9 +40,8 @@
     #   delegate_to: localhost
     #   run_once: true
 
-    - name: debug it for gabe
-      debug:
-        var: "{{ create_key }}"
+    - debug: var=create_key
+
 
     - name: update SSH key with latest
       tower_credential:
