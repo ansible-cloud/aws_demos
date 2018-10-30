@@ -6,7 +6,7 @@
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
   module_defaults:
     group/aws:
-      region: us-west-2
+      region: {{ aws_region | default("us-west-2") }}
   vars:
     instance_name: "TEST_INSTANCE"
 
