@@ -15,6 +15,14 @@
         name: "aws-reinvent-key"
       register: create_key
 
+    # # This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
+    - name: save private key
+      copy:
+        content: "{{ create_key.key.private_key }}"
+        dest: "/var/lib/aws/.ssh/aws-reinvent-private.pem"
+        mode: '0400'
+      when: create_key.changed
+
     - name: update SSH key with latest
       tower_credential:
         name: AWS_DEMO_INSTANCES_KEY
@@ -23,17 +31,9 @@
         tower_username: admin
         tower_password: ansible
         kind: ssh
-        ssh_key_data: "{{ create_key.key.private_key }}"
+        ssh_key_data: "/var/lib/aws/.ssh/aws-reinvent-private.pem"
       delegate_to: localhost
       run_once: true
-
-    # # This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
-    # - name: save private key
-    #   copy:
-    #     content: "{{ create_key.key.private_key }}"
-    #     dest: "/var/lib/aws/.ssh/aws-reinvent-private.pem"
-    #     mode: '0400'
-    #   when: create_key.changed
 
    # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
     - name: Create AWS VPC aws-reinvent-vpc
