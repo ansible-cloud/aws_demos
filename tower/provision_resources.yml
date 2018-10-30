@@ -42,6 +42,9 @@
 
     - debug: var=create_key
 
+    - debug: var=create_key.key
+
+    - debug: var=create_key.key.private_key
 
     - name: update SSH key with latest
       tower_credential:
