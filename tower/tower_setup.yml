@@ -1,0 +1,74 @@
+---
+- name: TOWER SETUP FOR AWS DEMO
+  hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: no
+  vars_prompt:
+    - name: "url"
+      prompt: "Tower URL?"
+      default: "https://localhost"
+    - name: "username"
+      prompt: "Tower Username?"
+      default: "admin"
+    - name: "password"
+      prompt: "Tower password?"
+      default: "ansible"
+    - name: "aws_access_key_id"
+      prompt: "What is your aws_access_key_id?"
+      default: "ABCDEFG"
+    - name: "aws_secret_access_key"
+      prompt: "What is your aws_secret_access_key?"
+      default: "ABCDEFG/HIJKLMNOP"
+  tasks:
+
+    - name: CREATE INVENTORY
+      tower_inventory:
+        name: "AWS DEMO INVENTORY"
+        organization: Default
+        tower_username: "{{username}}"
+        tower_password: "{{password}}"
+        tower_host: "{{url}}"
+
+    - name: ADD CREDENTIAL INTO TOWER
+      tower_credential:
+        name: AWS DEMO CREDENTIAL
+        kind: aws
+        username: "{{aws_access_key_id}}"
+        password: "{{aws_secret_access_key}}"
+        organization: Default
+        tower_username: "{{username}}"
+        tower_password: "{{password}}"
+        tower_host: "{{url}}"
+
+    - name: ADD AWS INVENTORY SOURCE
+      tower_inventory_source:
+        name: AWS Oregon
+        inventory: "AWS DEMO INVENTORY"
+        credential: "AWS DEMO CREDENTIAL"
+        source: ec2
+        update_on_launch: true
+        overwrite: true
+        source_regions: us-west-2
+
+
+    #
+    # - name: ADD REPO INTO TOWER
+    #   tower_project:
+    #     name: "Workshop Project"
+    #     organization: "Default"
+    #     scm_type: git
+    #     scm_url: "https://github.com/network-automation/tower_workshop"
+    #     tower_username: admin
+    #     tower_password: ansible
+    #     tower_host: https://localhost
+    #   run_once: true
+    #   delegate_to: localhost
+    #
+    #
+    #
+    # - tower_workflow_template:
+    #     name: Workflow Template
+    #     description: My very first Worflow Template
+    #     organization: My optional Organization
+    #     schema: "{{ lookup(file, my_workflow.json }}"
