@@ -1,0 +1,6 @@
+---
+plugin: aws_ec2
+regions:
+  - ca-central-1
+filters:
+  tag:Name: TEST_INSTANCE
