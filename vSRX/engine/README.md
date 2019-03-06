@@ -9,7 +9,7 @@
 
 # Objective
 
-Demonstrate using Ansible Playbooks to provision a RHEL 7.4 instance on Amazon Web Services (AWS).
+Demonstrate using Ansible Playbooks to provision a vSRX instance on Amazon Web Services (AWS).
 
 This demonstration is broken into two parts, configuring AWS resources (such as a VPC) and then spinning up an AWS instance itself, then using dynamic inventory to connect to the instance.
 
@@ -21,7 +21,7 @@ The following modules will be demonstrated in the [provision_resources.yml](prov
 - [ec2_vpc_igw](https://docs.ansible.com/ansible/latest/modules/ec2_vpc_igw_module.html) - Manage an AWS VPC Internet gateway
 - [ec2_vpc_route_table](https://docs.ansible.com/ansible/latest/modules/ec2_vpc_route_table_module.html) - Manage route tables for AWS virtual private clouds
 
-The following modules will be demonstrated in the [provision_rhel.yml](provision_rhel.yml) Playbook:
+The following modules will be demonstrated in the [provision_rhel.yml](provision_vsrx.yml) Playbook:
 - [ec2_ami_facts](https://docs.ansible.com/ansible/latest/modules/ec2_ami_facts_module.html) - Gather facts about ec2 AMIs
 - [ec2](https://docs.ansible.com/ansible/devel/modules/ec2_module.html) - create, terminate, start or stop an instance in ec2
 
@@ -79,12 +79,12 @@ localhost                  : ok=8    changed=8    unreachable=0    failed=0
 ## AWS Instance Provisioning
 
 This Playbook does the following:
-- Finds the correct AMI identifier for RHEL7 regardless of region
-- provisions the RHEL 7.4 instance into the VPC
+- Finds the correct AMI identifier for vSRX regardless of region
+- provisions the vSRX instance into the VPC
 - grabs Dynamic Inventory from AWS (which will grab the newly provisioned instance)
-- uses the `wait_for_connection` module to connect to the RHEL7 instance (which could be used for configuration management in the future).
+- uses the `wait_for` module to connect to the vSRX instance (which could be used for configuration management in the future).
 
-Running the provision_rhel.yml Playbook.
+Running the provision_vsrx.yml Playbook.
 
 ```
 ➜  aws_provision_instances ansible-playbook provision_rhel.yml
@@ -94,13 +94,13 @@ PLAY [AWS PLAYBOOK 101] ********************************************************
 TASK [Include vars of resources.yml which contains the vpc-subnet-id that we need] *
 ok: [localhost]
 
-TASK [find ami instance-id for RHEL7] ******************************************
+TASK [find ami instance-id for vSRX] ******************************************
 ok: [localhost]
 
-TASK [SET AMI FOR SERVER01] ****************************************************
+TASK [SET AMI FOR vSRX] ****************************************************
 ok: [localhost]
 
-TASK [Create EC2 instances for server01 node] **********************************
+TASK [Create EC2 instances for vsrx node] **********************************
 changed: [localhost]
 
 TASK [debug] *******************************************************************
