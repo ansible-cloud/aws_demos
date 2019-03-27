@@ -33,24 +33,56 @@
         vsrx_ami: >
           {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
 
-   # the ec2 module actually provisions the instance
+   # the ec2_instance module actually provisions the instance
    # group refers to the AWS Security Group
    # key_name refers to the SSH key pair to use for this instance
    # vpc_subnet_id refers to the Virtual Private Cloud (VPC) subnet idenitifer to tie the instance to
+    # - name: Create vSRX image
+    #   ec2_instance:
+    #     security_group: "aws-reinvent-sg"
+    #     key_name: "aws-reinvent-key"
+    #     instance_type: "c4.2xlarge"
+    #     image_id: "{{ vsrx_ami.image_id }}"
+    #     vpc_subnet_id: "{{ec2_vpc_subnet}}"
+    #     ebs_optimized: yes
+    #     wait: no
+    #     network:
+    #       ebs_optimized: yes
+    #       assign_public_ip: true
+    #       # interfaces: "{{ all_interfaces }}"
+    #     tags:
+    #       Name: "TEST_INSTANCE"
+    #     volumes:
+    #       - device_name: /dev/sda1
+    #         ebs:
+    #           volume_type: io1
+    #           iops: 1000
+    #           volume_size: 40
+    #           delete_on_termination: true
+    #   register: new_vsrx
+
     - name: Create EC2 instances for vsrx node
       ec2:
+        ebs_optimized: yes
         group: "aws-reinvent-sg"
         key_name: "aws-reinvent-key"
         vpc_subnet_id: "{{ec2_vpc_subnet}}"
         assign_public_ip: yes
-        instance_type: c4.xlarge
+        instance_type: "c4.2xlarge"
         image: "{{ vsrx_ami.image_id }}"
-        wait: yes
+        wait: no
         exact_count: 1
         instance_tags:
             Name: "{{instance_name}}"
         count_tag:
             Name: TEST_INSTANCE
+        volumes:
+          - device_name: /dev/sda1
+            volume_type: io1
+            iops: 1000
+            volume_size: 40
+            delete_on_termination: true
+      register: new_vsrx
 
     # Now that an instance has provisoined we can refresh inventory and grab new instances that are online
     - name: grab new aws facts
@@ -75,3 +107,4 @@
         host: "{{ ansible_host }}"
         timeout: 800
         port: 22
+      connection: local

@@ -1,0 +1,42 @@
+---
+- name: AWS PLAYBOOK TEARDOWN 101
+  connection: local
+  hosts: localhost
+  gather_facts: false
+  # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
+  module_defaults:
+    group/aws:
+      region: us-east-1
+  tasks:
+    - name: find AMI instance-id for RHEL7
+      ec2_ami_facts:
+        owners: 309956199498
+        filters:
+          name: "RHEL-7.4*GA*"
+          # architecture: x86_64
+      register: amis
+
+#aws ec2 describe-images --owners 309956199498 --filters 'Name=name,Values=RHEL-7.4*GA*' 'Name=state,Values=available' --output json | jq -r '.Images | sort_by(.CreationDate) | last(.[]).ImageId'
+
+
+    - name: print out AMIs to terminal window
+      debug:
+        var: amis
+
+    # The module ec2_ami_facts can return multiple ami instances for a given search
+    # we will grab the latest instance (by date) that meets are critiers (RHEL 7.4 GA)
+    # - name: sort the amis list
+    #   set_fact:
+    #     server01_ami: >
+    #       {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+
+    - name:  print out AMI instance id
+      vars:
+        server01_ami: >
+          {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+      debug:
+        msg: "{{server01_ami.image_id}}"
+
+    # - name: debug aws ec2
+    #   debug:
+    #     var: hostvars['ec2-52-89-148-206.us-west-2.compute.amazonaws.com']
