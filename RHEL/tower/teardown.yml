@@ -9,10 +9,20 @@
       region: "{{ aws_region | default('us-west-2') }}"
 
   tasks:
-    - name: Destroy EC2 TEST_INSTANCE
+    - name: grab facts for TEST_INSTANCE
+      ec2_instance_facts:
+        region: "{{ ec2_region }}"
+        filters:
+          "tag:Name": "TEST_INSTANCE"
+      register: TEST_INSTANCE
+
+    - name: destroy EC2 instances
       ec2:
+        region: "{{ ec2_region }}"
         state: absent
-        instance_id: "{{ec2_id}}"
+        instance_ids: "{{ TEST_INSTANCE.instances | map(attribute='instance_id') | list }}"
+      register: result
+      when: TEST_INSTANCE.instances
 
     - name: Deleted EC2 security group for  aws-reinvent-vpc
       ec2_group:
