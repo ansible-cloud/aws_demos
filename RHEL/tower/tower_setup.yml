@@ -2,7 +2,6 @@
 - name: TOWER SETUP FOR AWS DEMO
   hosts: localhost
   connection: local
-  become: yes
   gather_facts: no
   vars_prompt:
     - name: "url"
@@ -21,6 +20,15 @@
       prompt: "What is your aws_secret_access_key?"
       default: "ABCDEFG/HIJKLMNOP"
   tasks:
+    - name: ADD REPO AS PROJECT INTO TOWER
+      tower_project:
+        name: "AWS Project"
+        organization: "Default"
+        scm_type: git
+        scm_url: "https://github.com/IPvSean/aws_demo"
+        tower_username: "{{username}}"
+        tower_password: "{{password}}"
+        tower_host: "{{url}}"
 
     - name: CREATE INVENTORY
       tower_inventory:
@@ -50,20 +58,21 @@
         update_on_launch: true
         overwrite: true
         source_regions: us-west-2
+        tower_username: "{{username}}"
+        tower_password: "{{password}}"
+        tower_host: "{{url}}"
 
-
-    #
-    # - name: ADD REPO INTO TOWER
-    #   tower_project:
-    #     name: "Workshop Project"
-    #     organization: "Default"
-    #     scm_type: git
-    #     scm_url: "https://github.com/network-automation/tower_workshop"
-    #     tower_username: admin
-    #     tower_password: ansible
-    #     tower_host: https://localhost
-    #   run_once: true
-    #   delegate_to: localhost
+    - name: CREATE PROVISION RESOURCES JOB
+      tower_job_template:
+        name: "PROVISION AWS RESOURCES"
+        job_type: "run"
+        inventory: "AWS DEMO INVENTORY"
+        project: "AWS Project"
+        playbook: "provision_resources.yml"
+        credential: "AWS DEMO CREDENTIAL"
+        tower_username: "{{username}}"
+        tower_password: "{{password}}"
+        tower_host: "{{url}}"
     #
     #
     #

@@ -1,0 +1,6 @@
+juniper_volume:
+  - device_name: /dev/sda1
+    volume_type: io1
+    iops: 1000
+    volume_size: 40
+    delete_on_termination: true

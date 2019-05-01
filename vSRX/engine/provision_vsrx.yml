@@ -39,6 +39,7 @@
    # vpc_subnet_id refers to the Virtual Private Cloud (VPC) subnet idenitifer to tie the instance to
     # - name: Create vSRX image
     #   ec2_instance:
+    #     name: "this is def a new instance"
     #     security_group: "aws-reinvent-sg"
     #     key_name: "aws-reinvent-key"
     #     instance_type: "c4.2xlarge"
@@ -63,25 +64,23 @@
 
     - name: Create EC2 instances for vsrx node
       ec2:
-        ebs_optimized: yes
+        # ebs_optimized: yes
         group: "aws-reinvent-sg"
         key_name: "aws-reinvent-key"
         vpc_subnet_id: "{{ec2_vpc_subnet}}"
         assign_public_ip: yes
-        instance_type: "c4.2xlarge"
+        # instance_type: "c4.2xlarge" <- this takes 4 minutes
+        # instance_type: "c4.xlarge" <- 4 minuts 20 seconds
+        instance_type: "c4.xlarge"
         image: "{{ vsrx_ami.image_id }}"
         wait: no
         exact_count: 1
+        user_data: ''
         instance_tags:
             Name: "{{instance_name}}"
         count_tag:
             Name: TEST_INSTANCE
-        volumes:
-          - device_name: /dev/sda1
-            volume_type: io1
-            iops: 1000
-            volume_size: 40
-            delete_on_termination: true
+        volumes: "{{juniper_volume}}"
       register: new_vsrx
 
     # Now that an instance has provisoined we can refresh inventory and grab new instances that are online
