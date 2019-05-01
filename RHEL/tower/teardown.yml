@@ -38,6 +38,8 @@
       retries: 50
       delegate_to: localhost
       run_once: true
+      when: vpc_net_facts.vpcs|length > 0
+
 
     - name: Delete subnet for aws-reinvent-vpc
       ec2_vpc_subnet:
