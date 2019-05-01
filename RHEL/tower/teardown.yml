@@ -40,37 +40,35 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-
     - name: Delete subnet for aws-reinvent-vpc
       ec2_vpc_subnet:
-        vpc_id: "{{ec2_vpc_id}}"
+        vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         cidr: "192.168.0.0/28"
         state: absent
       delegate_to: localhost
       run_once: true
+      when: vpc_net_facts.vpcs|length > 0
 
     - name: vpc internet gateway is deleted for aws-reinvent-vpc
       ec2_vpc_igw:
-        vpc_id: "{{ec2_vpc_id}}"
+        vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
       delegate_to: localhost
       run_once: true
+      when: vpc_net_facts.vpcs|length > 0
 
     - name: grab route information for aws-reinvent-vpc
       ec2_vpc_route_table_facts:
         filters:
-          vpc_id: "{{ec2_vpc_id}}"
+          vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
       register: route_table_facts
       delegate_to: localhost
       run_once: true
-
-    - debug:
-        msg: "{{item.id}} and {{item.associations}}"
-      loop: "{{route_table_facts.route_tables}}"
+      when: vpc_net_facts.vpcs|length > 0
 
     - name: vpc public subnet route table is deleted
       ec2_vpc_route_table:
-        vpc_id: "{{ec2_vpc_id}}"
+        vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
         route_table_id: "{{item.id}}"
         lookup: id
@@ -78,6 +76,7 @@
       when: item.associations == []
       delegate_to: localhost
       run_once: true
+      when: vpc_net_facts.vpcs|length > 0
 
     - name: Delete AWS VPC aws-reinvent-vpc
       ec2_vpc_net:
@@ -89,6 +88,7 @@
       retries: 50
       delegate_to: localhost
       run_once: true
+      when: vpc_net_facts.vpcs|length > 0
 
     - name: remove ssh key pair
       ec2_key:
