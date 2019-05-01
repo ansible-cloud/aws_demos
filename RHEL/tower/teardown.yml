@@ -1,7 +1,7 @@
 ---
 - name: AWS PLAYBOOK TEARDOWN 101
   connection: local
-  hosts: all
+  hosts: localhost
   gather_facts: false
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
   module_defaults:
