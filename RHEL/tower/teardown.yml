@@ -73,3 +73,9 @@
       retries: 50
       delegate_to: localhost
       run_once: true
+
+    - name: remove ssh key pair
+      ec2_key:
+        name: "aws-reinvent-key"
+        state: absent
+      register: create_key

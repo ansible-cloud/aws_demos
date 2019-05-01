@@ -32,6 +32,7 @@
         tower_password: ansible
         kind: ssh
         ssh_key_data: "{{playbook_dir}}/aws-reinvent-private.pem"
+        tower_verify_ssl: false
       delegate_to: localhost
       run_once: true
       when: create_key.changed
