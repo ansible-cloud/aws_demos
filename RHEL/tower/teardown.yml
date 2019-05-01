@@ -22,10 +22,16 @@
       register: result
       when: TEST_INSTANCE.instances
 
+    - name: Get the VPC ID
+      ec2_vpc_net_facts:
+        filters:
+          "tag:Name": "aws-reinvent-sg"
+      register: vpc_net_facts
+
     - name: Deleted EC2 security group for  aws-reinvent-vpc
       ec2_group:
         name: "aws-reinvent-sg"
-        vpc_id: "{{ec2_vpc_id}}"
+        vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
       register: delete_sg
       until: delete_sg is not failed
