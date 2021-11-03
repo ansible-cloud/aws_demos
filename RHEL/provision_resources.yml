@@ -82,4 +82,4 @@
 
 - name: save vars for ec2 task
   set_fact:
-    ec2_vpc_subnet: create_subnet.subnet.id
+    ec2_vpc_subnet: "{{ create_subnet.subnet.id }}"
