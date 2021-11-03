@@ -2,6 +2,7 @@
 # It is possible to use a pre-existing key-pair, this is done just for simplicity
 - name: Create ssh key pair
   ec2_key:
+    region: "{{ ec2_region }}"
     name: "aws-demo-key"
   register: create_key
 
