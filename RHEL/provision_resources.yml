@@ -10,7 +10,7 @@
     name: AWS_DEMO_INSTANCES_KEY
     organization: Default
     credential_type: Machine
-    controller_host: https://localhost
+    controller_host: "https://localhost"
     controller_username: admin
     controller_password: "sean>colin"
     validate_certs: false
