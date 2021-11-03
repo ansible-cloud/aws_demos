@@ -40,7 +40,7 @@
       ec2:
         group: "aws-reinvent-sg"
         key_name: "aws-reinvent-key"
-        vpc_subnet_id: "{{ec2_vpc_subnet}}"
+        vpc_subnet_id: "{{ ec2_vpc_subnet }}"
         assign_public_ip: yes
         instance_type: t2.medium
         image: "{{ server01_ami.image_id }}"

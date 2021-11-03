@@ -1,32 +1,34 @@
 ---
-- name: AWS PLAYBOOK 101
+- name: provision RHEL on Amazon Web Services EC2
   connection: local
   hosts: localhost
   gather_facts: false
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
   module_defaults:
     group/aws:
-      region: "{{ aws_region | default('us-west-2') }}"
+      region: "{{ your_region | default('us-west-2') }}"
   vars:
     instance_name: "TEST_INSTANCE"
+    owner_tag: "unknown"
 
   tasks:
-    - name: Include vars of resources.yml which contains the vpc-subnet-id that we need
-      include_vars:
-        file: "{{playbook_dir}}/resources.yml"
+
+    ## provision resources to provision RHEL onto (e.g. VPC)
+    - include_tasks: 'provision_resources.yml'
+
 
     # Using ec2_ami_facts allows us to find a particular ami instance id regardless of region
     # Look for owner 309956199498 to find official Red Hat AMIs
     - name: find ami instance-id for RHEL
-      ec2_ami_facts:
+      amazon.aws.ec2_ami_facts:
         owners: 309956199498
         filters:
-          name: "RHEL-7.4*GA*"
+          name: "RHEL-8*HVM-*Hourly*"
           architecture: x86_64
       register: amis
 
     # The module ec2_ami_facts can return multiple ami instances for a given search
-    # we will grab the latest instance (by date) that meets are critiers (RHEL 7.4 GA)
+    # we will grab the latest instance (by date) that meets our criteria
     - name: SET AMI FOR SERVER01
       set_fact:
         server01_ami: >
@@ -37,16 +39,17 @@
    # key_name refers to the SSH key pair to use for this instance
    # vpc_subnet_id refers to the Virtual Private Cloud (VPC) subnet idenitifer to tie the instance to
     - name: Create EC2 instances for server01 node
-      ec2:
-        group: "aws-reinvent-sg"
-        key_name: "aws-reinvent-key"
-        vpc_subnet_id: "{{ec2_vpc_subnet}}"
+      amazon.aws.ec2:
+        group: "aws-demo-sg"
+        key_name: "aws-demo-key"
+        vpc_subnet_id: "{{ ec2_vpc_subnet }}"
         assign_public_ip: yes
         instance_type: t2.medium
         image: "{{ server01_ami.image_id }}"
         wait: yes
         exact_count: 1
         instance_tags:
-            Name: "{{instance_name}}"
+            Name: "{{ instance_name }}"
+            owner: "{{ owner_tag }}"
         count_tag:
-            Name: "{{instance_name}}"
+            Name: "{{ instance_name }}"
