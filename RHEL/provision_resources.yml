@@ -6,6 +6,7 @@
   register: create_key
 
 - name: update SSH key with latest
+  become: true
   ansible.controller.credential:
     name: AWS_DEMO_INSTANCES_KEY
     organization: Default
