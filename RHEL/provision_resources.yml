@@ -1,102 +1,92 @@
 ---
-- name: AWS PLAYBOOK 101
-  connection: local
-  hosts: localhost
-  gather_facts: false
-  # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
-  module_defaults:
-    group/aws:
-      region: "{{ aws_region | default('us-east-1') }}"
+# It is possible to use a pre-existing key-pair, this is done just for simplicity
+- name: Create ssh key pair
+  ec2_key:
+    name: "aws-demo-key"
+  register: create_key
 
-  tasks:
-    # It is possible to use a pre-existing key-pair, this is done just for simplicity
-    - name: Create ssh key pair
-      ec2_key:
-        name: "aws-demo-key"
-      register: create_key
+#This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
+- name: save private key
+  copy:
+    content: "{{ create_key.key.private_key }}"
+    dest: "{{playbook_dir}}/aws-demo-private.pem"
+    mode: '0400'
+  when: create_key.changed
 
-    #This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
-    - name: save private key
-      copy:
-        content: "{{ create_key.key.private_key }}"
-        dest: "{{playbook_dir}}/aws-demo-private.pem"
-        mode: '0400'
-      when: create_key.changed
+- name: update SSH key with latest
+  ansible.controller.credential:
+    name: AWS_DEMO_INSTANCES_KEY
+    organization: Default
+    controller_host: https://localhost
+    controller_username: admin
+    controller_password: ansible
+    kind: ssh
+    ssh_key_data: "{{playbook_dir}}/aws-demo-private.pem"
+    validate_certs: false
+  delegate_to: localhost
+  run_once: true
+  when: create_key.changed
 
-    - name: update SSH key with latest
-      ansible.controller.credential:
-        name: AWS_DEMO_INSTANCES_KEY
-        organization: Default
-        controller_host: https://localhost
-        controller_username: admin
-        controller_password: ansible
-        kind: ssh
-        ssh_key_data: "{{playbook_dir}}/aws-demo-private.pem"
-        validate_certs: false
-      delegate_to: localhost
-      run_once: true
-      when: create_key.changed
+- name: delete flat-file private key
+  file:
+    path: "{{playbook_dir}}/aws-demo-private.pem"
+    state: absent
 
-    - name: delete flat-file private key
-      file:
-        path: "{{playbook_dir}}/aws-demo-private.pem"
-        state: absent
+# VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
+- name: Create AWS VPC aws-demo-vpc
+  amazon.aws.ec2_vpc_net:
+    name: "aws-demo-vpc"
+    cidr_block: "192.168.0.0/24"
+    tags:
+      Demo: aws demo
+  register: create_vpc
 
-   # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
-    - name: Create AWS VPC aws-demo-vpc
-      amazon.aws.ec2_vpc_net:
-        name: "aws-demo-vpc"
-        cidr_block: "192.168.0.0/24"
-        tags:
-          Demo: aws demo
-      register: create_vpc
+# If a secruity group is not created, instances will be tied to the Default secruity grouop that allows all traffic (non-secure)
+- name: Create EC2 security group aws-demo-sg
+  amazon.aws.ec2_group:
+    name: "aws-demo-sg"
+    description: AWS demo SG for the demo
+    vpc_id: "{{create_vpc.vpc.id}}"
+    tags:
+      Demo: AWS demo
+    rules:
+      - proto: tcp
+        ports:
+        - 22
+        cidr_ip: 0.0.0.0/0
 
-    # If a secruity group is not created, instances will be tied to the Default secruity grouop that allows all traffic (non-secure)
-    - name: Create EC2 security group aws-demo-sg
-      amazon.aws.ec2_group:
-        name: "aws-demo-sg"
-        description: AWS demo SG for the demo
-        vpc_id: "{{create_vpc.vpc.id}}"
-        tags:
-          Demo: AWS demo
-        rules:
-          - proto: tcp
-            ports:
-            - 22
-            cidr_ip: 0.0.0.0/0
+# This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
+- name: Create subnet for aws-demo-vpc
+  amazon.aws.ec2_vpc_subnet:
+    vpc_id: "{{create_vpc.vpc.id}}"
+    cidr: "192.168.0.0/28"
+    tags:
+      Name: aws_revinent_subnet
+      Demo: aws demo
+  register: create_subnet
 
-    # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
-    - name: Create subnet for aws-demo-vpc
-      amazon.aws.ec2_vpc_subnet:
-        vpc_id: "{{create_vpc.vpc.id}}"
-        cidr: "192.168.0.0/28"
-        tags:
-          Name: aws_revinent_subnet
-          Demo: aws demo
-      register: create_subnet
+# Create Internet Gateway and attach it to VPC.  This allows instances on this VPC to reach the Internet
+- name: create vpc internet gateway for aws-demo-vpc
+  ec2_vpc_igw:
+    vpc_id: "{{ create_vpc.vpc.id }}"
+    tags:
+      Name: aws_demo_igw
+      Demo: aws demo
+  register: igw
 
-    # Create Internet Gateway and attach it to VPC.  This allows instances on this VPC to reach the Internet
-    - name: create vpc internet gateway for aws-demo-vpc
-      ec2_vpc_igw:
-        vpc_id: "{{ create_vpc.vpc.id }}"
-        tags:
-          Name: aws_demo_igw
-          Demo: aws demo
-      register: igw
+# This task adds a route to the internet from the subnet through the IGW
+- name: This creates a default route (0.0.0.0/0) for the subnet to
+  ec2_vpc_route_table:
+    vpc_id: "{{ create_vpc.vpc.id }}"
+    subnets:
+      - "{{ create_subnet.subnet.id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ igw.gateway_id }}"
+    tags:
+      Name: aws_demo_default_route
+      Demo: AWS demo
 
-    # This task adds a route to the internet from the subnet through the IGW
-    - name: This creates a default route (0.0.0.0/0) for the subnet to
-      ec2_vpc_route_table:
-        vpc_id: "{{ create_vpc.vpc.id }}"
-        subnets:
-          - "{{ create_subnet.subnet.id }}"
-        routes:
-          - dest: 0.0.0.0/0
-            gateway_id: "{{ igw.gateway_id }}"
-        tags:
-          Name: aws_demo_default_route
-          Demo: AWS demo
-
-    - name: save vars for ec2 task
-      set_fact:
-        ec2_vpc_subnet: create_subnet.subnet.id
+- name: save vars for ec2 task
+  set_fact:
+    ec2_vpc_subnet: create_subnet.subnet.id
