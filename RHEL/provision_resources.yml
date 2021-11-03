@@ -12,9 +12,9 @@
     name: AWS_DEMO_INSTANCES_KEY
     organization: Default
     credential_type: Machine
-    controller_host: "{{ ansible_host }}"
     controller_username: admin
-    controller_password: "sean>colin"
+    controller_password: sean>colin
+    controller_host: https://localhost
     validate_certs: false
     inputs:
       ssh_key_data: "{{ create_key.key.private_key }}"
