@@ -14,7 +14,7 @@
     credential_type: Machine
     controller_username: admin
     controller_password: sean>colin
-    controller_host: https://localhost
+    controller_host: https://student1.cfd12.demoredhat.com/
     validate_certs: false
     inputs:
       ssh_key_data: "{{ create_key.key.private_key }}"
