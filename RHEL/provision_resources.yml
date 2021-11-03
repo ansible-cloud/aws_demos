@@ -5,24 +5,17 @@
     name: "aws-demo-key"
   register: create_key
 
-#This is just saving off the private key, this can only be done 1 time on the first creation of the key, pair
-- name: save private key
-  copy:
-    content: "{{ create_key.key.private_key }}"
-    dest: "{{playbook_dir}}/aws-demo-private.pem"
-    mode: '0400'
-  when: create_key.changed
-
 - name: update SSH key with latest
   ansible.controller.credential:
     name: AWS_DEMO_INSTANCES_KEY
     organization: Default
+    credential_type: Machine
     controller_host: https://localhost
     controller_username: admin
     controller_password: ansible
-    kind: ssh
-    ssh_key_data: "{{playbook_dir}}/aws-demo-private.pem"
     validate_certs: false
+    inputs:
+      ssh_key_data: "{{ create_key.key.private_key }}"
   delegate_to: localhost
   run_once: true
   when: create_key.changed
