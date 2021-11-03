@@ -19,16 +19,12 @@
       ssh_key_data: "{{ create_key.key.private_key }}"
   when: create_key.changed
 
-- name: delete flat-file private key
-  file:
-    path: "{{playbook_dir}}/aws-demo-private.pem"
-    state: absent
-
 # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
 - name: Create AWS VPC aws-demo-vpc
   amazon.aws.ec2_vpc_net:
     name: "aws-demo-vpc"
     cidr_block: "192.168.0.0/24"
+    region: "{{ ec2_region }}"
     tags:
       Demo: aws demo
   register: create_vpc
@@ -37,6 +33,7 @@
 - name: Create EC2 security group aws-demo-sg
   amazon.aws.ec2_group:
     name: "aws-demo-sg"
+    region: "{{ ec2_region }}"
     description: AWS demo SG for the demo
     vpc_id: "{{create_vpc.vpc.id}}"
     tags:
@@ -50,6 +47,7 @@
 # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
 - name: Create subnet for aws-demo-vpc
   amazon.aws.ec2_vpc_subnet:
+    region: "{{ ec2_region }}"
     vpc_id: "{{create_vpc.vpc.id}}"
     cidr: "192.168.0.0/28"
     tags:
@@ -61,6 +59,7 @@
 - name: create vpc internet gateway for aws-demo-vpc
   ec2_vpc_igw:
     vpc_id: "{{ create_vpc.vpc.id }}"
+    region: "{{ ec2_region }}"
     tags:
       Name: aws_demo_igw
       Demo: aws demo
@@ -69,6 +68,7 @@
 # This task adds a route to the internet from the subnet through the IGW
 - name: This creates a default route (0.0.0.0/0) for the subnet to
   ec2_vpc_route_table:
+    region: "{{ ec2_region }}"
     vpc_id: "{{ create_vpc.vpc.id }}"
     subnets:
       - "{{ create_subnet.subnet.id }}"

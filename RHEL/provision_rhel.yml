@@ -4,13 +4,10 @@
   hosts: localhost
   gather_facts: false
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
-  module_defaults:
-    group/aws:
-      region: "{{ your_region | default('us-east-1') }}"
   vars:
     instance_name: "TEST_INSTANCE"
     owner_tag: "unknown"
-
+    ec2_region: "{{ your_region | default('us-east-1') }}"
   tasks:
 
     ## provision resources to provision RHEL onto (e.g. VPC)
@@ -40,6 +37,7 @@
    # vpc_subnet_id refers to the Virtual Private Cloud (VPC) subnet idenitifer to tie the instance to
     - name: Create EC2 instances for server01 node
       amazon.aws.ec2:
+        region: "{{ ec2_region }}"
         group: "aws-demo-sg"
         key_name: "aws-demo-key"
         vpc_subnet_id: "{{ ec2_vpc_subnet }}"
