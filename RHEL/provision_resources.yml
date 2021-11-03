@@ -12,7 +12,7 @@
     credential_type: Machine
     controller_host: https://localhost
     controller_username: admin
-    controller_password: ansible
+    controller_password: "sean>colin"
     validate_certs: false
     inputs:
       ssh_key_data: "{{ create_key.key.private_key }}"
