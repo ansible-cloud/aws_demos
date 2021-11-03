@@ -18,6 +18,7 @@
     # Look for owner 309956199498 to find official Red Hat AMIs
     - name: find ami instance-id for RHEL
       amazon.aws.ec2_ami_facts:
+        region: "{{ ec2_region }}"
         owners: 309956199498
         filters:
           name: "RHEL-8*HVM-*Hourly*"
