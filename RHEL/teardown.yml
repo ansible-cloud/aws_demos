@@ -1,12 +1,12 @@
 ---
-- name: AWS PLAYBOOK TEARDOWN 101
+- name: AWS ec2 de-provisioning
   connection: local
   hosts: localhost
   gather_facts: false
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
   module_defaults:
     group/aws:
-      region: "{{ aws_region | default('us-west-2') }}"
+      region: "{{ aws_region | default('us-west-1') }}"
 
   tasks:
     - name: grab facts for TEST_INSTANCE
@@ -25,12 +25,12 @@
     - name: Get the VPC ID
       ec2_vpc_net_facts:
         filters:
-          "tag:Name": "aws-reinvent-sg"
+          "tag:Name": "aws-demo-sg"
       register: vpc_net_facts
 
-    - name: Deleted EC2 security group for  aws-reinvent-vpc
+    - name: Deleted EC2 security group for  aws-demo-vpc
       ec2_group:
-        name: "aws-reinvent-sg"
+        name: "aws-demo-sg"
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
       register: delete_sg
@@ -40,7 +40,7 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: Delete subnet for aws-reinvent-vpc
+    - name: Delete subnet for aws-demo-vpc
       ec2_vpc_subnet:
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         cidr: "192.168.0.0/28"
@@ -49,7 +49,7 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: vpc internet gateway is deleted for aws-reinvent-vpc
+    - name: vpc internet gateway is deleted for aws-demo-vpc
       ec2_vpc_igw:
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
@@ -57,7 +57,7 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: grab route information for aws-reinvent-vpc
+    - name: grab route information for aws-demo-vpc
       ec2_vpc_route_table_facts:
         filters:
           vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
@@ -78,9 +78,9 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: Delete AWS VPC aws-reinvent-vpc
+    - name: Delete AWS VPC aws-demo-vpc
       ec2_vpc_net:
-        name: "aws-reinvent-vpc"
+        name: "aws-demo-vpc"
         cidr_block: "192.168.0.0/24"
         state: absent
       register: delete_vpc
@@ -92,6 +92,6 @@
 
     - name: remove ssh key pair
       ec2_key:
-        name: "aws-reinvent-key"
+        name: "aws-demo-key"
         state: absent
       register: create_key
