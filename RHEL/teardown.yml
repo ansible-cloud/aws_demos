@@ -29,6 +29,7 @@
 
     - name: Get the VPC ID
       amazon.aws.ec2_vpc_net_info:
+        region: "{{ your_region }}"
         filters:
           "tag:Name": "aws-demo-vpc"
       register: vpc_net_facts
