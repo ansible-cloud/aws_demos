@@ -4,15 +4,16 @@
   hosts: localhost
   gather_facts: false
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
+  module_defaults:
+    group/aws:
+      region: "{{ your_region | default('us-west-1') }}"
   vars:
     instance_name: "TEST_INSTANCE"
     owner_tag: "unknown"
-    ec2_region: "{{ your_region | default('us-east-1') }}"
 
   tasks:
     - name: grab facts for TEST_INSTANCE
       amazon.aws.ec2_vpc_net_info:
-        region: "{{ ec2_region }}"
         filters:
           "tag:Name": "{{ instance_name }}"
       register: TEST_INSTANCE
@@ -20,21 +21,18 @@
     - name: destroy EC2 instances
       ec2:
         state: absent
-        region: "{{ ec2_region }}"
         instance_ids: "{{ TEST_INSTANCE.instances | map(attribute='instance_id') | list }}"
       register: result
       when: TEST_INSTANCE.instances
 
     - name: Get the VPC ID
       amazon.aws.ec2_vpc_net_info:
-        region: "{{ ec2_region }}"
         filters:
           "tag:Name": "aws-demo-vpc"
       register: vpc_net_facts
 
     - name: Deleted EC2 security group for  aws-demo-vpc
       ec2_group:
-        region: "{{ ec2_region }}"
         name: "aws-demo-sg"
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
         state: absent
@@ -47,7 +45,6 @@
 
     - name: Delete subnet for aws-demo-vpc
       ec2_vpc_subnet:
-        region: "{{ ec2_region }}"
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         cidr: "192.168.0.0/28"
         state: absent
@@ -57,7 +54,6 @@
 
     - name: vpc internet gateway is deleted for aws-demo-vpc
       ec2_vpc_igw:
-        region: "{{ ec2_region }}"
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
       delegate_to: localhost
@@ -66,7 +62,6 @@
 
     - name: grab route information for aws-demo-vpc
       ec2_vpc_route_table_facts:
-        region: "{{ ec2_region }}"
         filters:
           vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
       register: route_table_facts
@@ -76,7 +71,6 @@
 
     - name: vpc public subnet route table is deleted
       ec2_vpc_route_table:
-        region: "{{ ec2_region }}"
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
         route_table_id: "{{item.id}}"
@@ -89,7 +83,6 @@
     - name: Delete AWS VPC aws-demo-vpc
       ec2_vpc_net:
         name: "aws-demo-vpc"
-        region: "{{ ec2_region }}"
         cidr_block: "192.168.0.0/24"
         state: absent
       register: delete_vpc
@@ -101,7 +94,6 @@
 
     - name: remove ssh key pair
       ec2_key:
-        region: "{{ ec2_region }}"
         name: "aws-demo-key"
         state: absent
       register: create_key
