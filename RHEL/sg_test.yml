@@ -1,0 +1,22 @@
+---
+- name: AWS ec2 de-provisioning
+  connection: local
+  hosts: localhost
+  gather_facts: false
+  # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
+  vars:
+    instance_name: "TEST_INSTANCE"
+    owner_tag: "unknown"
+    ec2_region: "{{ your_region | default('us-east-1') }}"
+
+  tasks:
+    - name: Get the VPC ID
+      amazon.aws.ec2_vpc_net_info:
+        region: "{{ ec2_region }}"
+        filters:
+          "tag:Name": "aws-demo-sg"
+      register: vpc_net_facts
+
+    - name: print
+      debug:
+        var: vpc_net_facts
