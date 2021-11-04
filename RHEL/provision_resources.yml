@@ -38,6 +38,7 @@
     description: AWS demo SG for the demo
     vpc_id: "{{create_vpc.vpc.id}}"
     tags:
+      Name: "aws-demo-sg"
       Demo: AWS demo
     rules:
       - proto: tcp

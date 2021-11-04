@@ -82,7 +82,6 @@
         route_table_id: "{{item.id}}"
         lookup: id
       loop: "{{route_table_facts.route_tables}}"
-      when: item.associations == []
       delegate_to: localhost
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
@@ -102,7 +101,7 @@
 
     - name: remove ssh key pair
       ec2_key:
-        region: "{{ ec2_region }}"        
+        region: "{{ ec2_region }}"
         name: "aws-demo-key"
         state: absent
       register: create_key
