@@ -47,7 +47,7 @@
 
     - name: Delete subnet for aws-demo-vpc
       ec2_vpc_subnet:
-        vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
+        vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
         cidr: "192.168.0.0/28"
         state: absent
       delegate_to: localhost
@@ -63,9 +63,9 @@
       when: vpc_net_facts.vpcs|length > 0
 
     - name: grab route information for aws-demo-vpc
-      ec2_vpc_route_table_facts:
+      ec2_vpc_route_table_info:
         filters:
-          vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
+          vpc-id: "{{ vpc_net_facts.vpcs[0].id }}"
       register: route_table_facts
       delegate_to: localhost
       run_once: true
