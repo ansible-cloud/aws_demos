@@ -19,7 +19,7 @@
       register: TEST_INSTANCE
 
     - name: destroy EC2 instances
-      amazon.aws.ec2:
+      ec2:
         state: absent
         instance_ids: "{{ TEST_INSTANCE.instances | map(attribute='instance_id') | list }}"
       register: result
