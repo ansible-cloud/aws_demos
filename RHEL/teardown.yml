@@ -73,15 +73,15 @@
 
     - name: vpc public subnet route table is deleted
       ec2_vpc_route_table:
-        vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
         state: absent
-        route_table_id: "{{item.id}}"
+        vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
+        route_table_id: "{{ item.id }}"
         lookup: id
-      loop: "{{route_table_facts.route_tables}}"
-      delegate_to: localhost
-      run_once: true
-      when: vpc_net_facts.vpcs|length > 0
-
+      loop: "{{ route_table_facts.route_tables }}"
+      when:
+        - vpc_net_facts.vpcs|length > 0
+        - item.associations == []
+        
     - name: Delete AWS VPC aws-demo-vpc
       ec2_vpc_net:
         name: "aws-demo-vpc"
