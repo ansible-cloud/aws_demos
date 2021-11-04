@@ -19,11 +19,13 @@
       register: TEST_INSTANCE
 
     - name: destroy EC2 instances
-      ec2:
+      amazon.aws.ec2:
         state: absent
         instance_ids: "{{ TEST_INSTANCE.instances | map(attribute='instance_id') | list }}"
       register: result
-      when: TEST_INSTANCE.instances
+      when:
+        - TEST_INSTANCE.instances is defined
+        - TEST_INSTANCE.instances
 
     - name: Get the VPC ID
       amazon.aws.ec2_vpc_net_info:
