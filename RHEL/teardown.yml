@@ -13,9 +13,9 @@
 
   tasks:
     - name: grab facts for TEST_INSTANCE
-      amazon.aws.ec2_vpc_net_info:
+      amazon.ec2.ec2_instance_info:
         filters:
-          "tag:Name": "{{ instance_name }}"
+          "tag:Name": "TEST_INSTANCE"
       register: TEST_INSTANCE
 
     - name: destroy EC2 instances
