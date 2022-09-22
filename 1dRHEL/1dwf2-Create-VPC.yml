@@ -1,15 +1,16 @@
 ---
+- name: Play to Create AWS VPC
+  tasks:
+    # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
+    - name: Create AWS VPC aws-demo1-vpc
+      amazon.aws.ec2_vpc_net:
+        name: "aws-demo1-vpc"
+        cidr_block: "192.168.0.0/24"
+        region: "{{ ec2_region }}"
+        tags:
+          Demo: "AWS demo1"
+      register: create_vpc
 
-# VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
-- name: Create AWS VPC aws-demo1-vpc
-  amazon.aws.ec2_vpc_net:
-    name: "aws-demo1-vpc"
-    cidr_block: "192.168.0.0/24"
-    region: "{{ ec2_region }}"
-    tags:
-      Demo: "AWS demo1"
-  register: create_vpc
-
-# - name: save VARS for following job templates
-#   ansible.builtin.set_fact:
-#     vpcid: "{{ create_vpc.vpc.id }}"
+    # - name: save VARS for following job templates
+    #   ansible.builtin.set_fact:
+    #     vpcid: "{{ create_vpc.vpc.id }}"
