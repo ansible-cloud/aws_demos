@@ -1,14 +1,14 @@
 # code: language=ansible
 ---
 - name: provision RHEL on Amazon Web Services EC2
-  connection: local
   hosts: localhost
+  connection: local
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
   vars:
     instance_name: "aws-demo1-ec2"
     owner_tag: "aws-demo1-user"
     ec2_region: "{{ your_region | default('us-east-2') }}"
-    
+
   tasks:
     ## provision resources to provision RHEL onto (e.g. VPC)
     # - name: provision resources required before provisioning RHEL
@@ -41,7 +41,7 @@
    # group refers to the AWS Security Group
    # key_name refers to the SSH key pair to use for this instance
    # vpc_subnet_id refers to the Virtual Private Cloud (VPC) subnet idenitifer to tie the instance to
-    - name: Create EC2 instances for server01 node
+    - name: Create EC2 instances for aws-demo1-ec2
       amazon.aws.ec2:
         region: "{{ ec2_region }}"
         group: "aws-demo1-sg"

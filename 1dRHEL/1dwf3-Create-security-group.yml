@@ -2,6 +2,7 @@
 ---
 - name: Play to Create the VPC security group, and subnet
   hosts: localhost
+  connection: local
   tasks:
     # If a secruity group is not created, instances will be tied to the Default secruity group that allows all traffic (NON-SECURE)
     - name: Create EC2 security group aws-demo1-sg

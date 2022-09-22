@@ -2,6 +2,7 @@
 ---
 - name: Play to Create the SSH key pair and machine credentials in Ansible controller
   hosts: localhost
+  connection: local
   tasks:
     # It is possible to use a pre-existing key-pair, this is done just for simplicity
     - name: Create ssh key pair
