@@ -1,5 +1,7 @@
+# code: language=ansible
 ---
 - name: Play to Create AWS VPC
+  hosts: localhost
   tasks:
     # VPC or Virtual Private Cloud.  The instance will be tied to a subnet that belongs to this particular VPC
     - name: Create AWS VPC aws-demo1-vpc

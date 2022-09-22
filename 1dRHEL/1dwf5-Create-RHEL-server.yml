@@ -1,22 +1,23 @@
+# code: language=ansible
 ---
 - name: provision RHEL on Amazon Web Services EC2
   connection: local
   hosts: localhost
-  ansible.builtin.gather_facts: false
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
   vars:
     instance_name: "aws-demo1-ec2"
     owner_tag: "aws-demo1-user"
     ec2_region: "{{ your_region | default('us-east-2') }}"
-  
+    
   tasks:
     ## provision resources to provision RHEL onto (e.g. VPC)
-    - ansible.builtin.include_tasks: "{{ item }}"
-      loop:
-        - '1dwf1-Create-ssh-key-pair.yml'
-        - '1dwf2-Create-VPC.yml'
-        - '1dwf3-Create-security-group.yml'
-        - '1dwf4-Create-internet-gateway.yml'
+    # - name: provision resources required before provisioning RHEL
+    #   ansible.builtin.include_tasks: "{{ item }}"
+    #   loop:
+    #     - '1dwf1-Create-ssh-key-pair.yml'
+    #     - '1dwf2-Create-VPC.yml'
+    #     - '1dwf3-Create-security-group.yml'
+    #     - '1dwf4-Create-internet-gateway.yml'
 
     # Using ec2_ami_facts allows us to find a particular ami instance id regardless of region
     # Look for owner 309956199498 to find official Red Hat AMIs
@@ -46,13 +47,13 @@
         group: "aws-demo1-sg"
         key_name: "aws-demo1-key"
         vpc_subnet_id: "{{ ec2_vpc_subnet }}"
-        assign_public_ip: yes
+        assign_public_ip: true
         instance_type: t2.medium
         image: "{{ server01_ami.image_id }}"
-        wait: yes
+        wait: true
         exact_count: 1
         instance_tags:
-            Name: "{{ instance_name }}"
-            owner: "{{ owner_tag }}"
+          Name: "{{ instance_name }}"
+          owner: "{{ owner_tag }}"
         count_tag:
-            Name: "{{ instance_name }}"
+          Name: "{{ instance_name }}"
