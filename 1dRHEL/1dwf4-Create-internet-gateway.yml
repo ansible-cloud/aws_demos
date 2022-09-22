@@ -1,0 +1,29 @@
+---
+
+# Create Internet Gateway and attach it to VPC.  This allows instances on this VPC to reach the Internet
+- name: create vpc internet gateway for aws-demo1-vpc
+  amazon.aws.ec2_vpc_igw:
+    vpc_id: "{{ create_vpc.vpc.id }}"
+    region: "{{ ec2_region }}"
+    tags:
+      Name: aws_demo1_igw
+      Demo: "AWS demo1"
+  register: igw
+
+# This task adds a route to the internet from the subnet through the IGW
+- name: This creates a default route (0.0.0.0/0) for the subnet to
+  amazon.aws.ec2_vpc_route_table:
+    region: "{{ ec2_region }}"
+    vpc_id: "{{ create_vpc.vpc.id }}"
+    subnets:
+      - "{{ create_subnet.subnet.id }}"
+    routes:
+      - dest: 0.0.0.0/0
+        gateway_id: "{{ igw.gateway_id }}"
+    tags:
+      Name: aws_demo1_default_route
+      Demo: "AWS demo1"
+
+- name: save VARS for the ec2 creation task
+  ansible.builtin.set_fact:
+    ec2_vpc_subnet: "{{ create_subnet.subnet.id }}"
