@@ -18,8 +18,8 @@
       ansible.builtin.set_stats:
         data:
           vpcid: "{{ create_vpc.vpc.id }}"
-        per_host: no
+        per_host: false
 #
     - name: print vpcid
       ansible.builtin.debug:
-        msg: '"The Demo1 VPC ID is: "{{ vpcid }}"'
+        msg: '"The Demo1 VPC ID is: "{{ create_vpc.vpc.id }}"'
