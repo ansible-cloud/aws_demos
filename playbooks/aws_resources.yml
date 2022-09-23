@@ -1,0 +1,104 @@
+---
+- name: Create lab instances in AWS
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Create ssh key pair
+      amazon.aws.ec2_key:
+        region: "{{ ec2_region | default('us-east-1') }}"
+        name: "ansible-demo"
+      register: create_key
+
+    - name: save private key
+      ansible.builtin.copy:
+        content: "{{ create_key.key.private_key }}"
+        dest: "ansible-demo.pem"
+        mode: '0400'
+      when: create_key.changed
+
+    - name: Add machine credential
+      awx.awx.credential:
+        name: "RHEL on AWS - SSH KEY"
+        description: "Machine Credential for AWS instances"
+        organization: "{{ organization | default('Default') }}"
+        credential_type: Machine
+        inputs:
+          username: ec2-user
+          ssh_key_data: "{{ lookup('file', 'ansible-demo.pem') }}"
+        controller_username: "{{ controller_username | default('admin') }}"
+        controller_password: "{{ controller_password | default('ansible123!') }}"
+        controller_host: "{{ controller_host | default('https://localhost') }}"
+        validate_certs: "{{ validate_certs | default('False') }}"
+
+    - name: Create AWS VPC {{ ec2_name_prefix }}-vpc
+      amazon.aws.ec2_vpc_net:
+        name: "{{ ec2_name_prefix | default('ansible-demo') }}"
+        cidr_block:
+          - "{{ ec2_subnet | default('192.168.0.0/24') }}"
+        region: "{{ ec2_region | default('us-east-1') }}"
+        tags:
+          ansible-demo: "true"
+          ansible: "is awesome"
+      register: create_vpc
+      until: create_vpc is not failed
+      retries: 5
+
+    - name: Create EC2 security group aws-demo-sg
+      amazon.aws.ec2_group:
+        name: "{{ ec2_name_prefix | default('ansible-demo') }}"
+        region: "{{ ec2_region | default('us-east-1') }}"
+        description: AWS demo SG for the demo
+        vpc_id: "{{create_vpc.vpc.id}}"
+        tags:
+          Name: "{{ ec2_name_prefix | default('ansible-demo') }}"
+          ansible: "is awesome"
+        rules:
+          - proto: tcp
+            ports:
+            - 22
+            cidr_ip: 0.0.0.0/0
+      register: create_sg
+      until: create_sg is not failed
+      retries: 5
+
+    # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
+    - name: Create subnet for aws-demo-vpc
+      amazon.aws.ec2_vpc_subnet:
+        region: "{{ ec2_region | default('us-east-1') }}"
+        vpc_id: "{{ create_vpc.vpc.id }}"
+        cidr: " {{ ec2_cidr }} | default('192.168.0.0/28') }}"
+        tags:
+          Name: "{{ ec2_name_prefix | default('ansible-demo') }}"
+          ansible: "is awesome"
+      register: create_subnet
+      until: create_subnet is not failed
+      retries: 15
+
+    - name: vpc internet gateway is present for {{ create_vpc.vpc.id }}
+      amazon.aws.ec2_vpc_igw:
+        region: "{{ ec2_region | default('us-east-1') }}"
+        vpc_id: "{{ create_vpc.vpc.id }}"
+        tags:
+          Name: "{{ ec2_name_prefix | default('ansible-demo') }}"
+          ansible: "is awesome"
+      register: igw
+      until: igw is not failed
+      retries: 15
+
+    - name: vpc public subnet route table is present for {{ create_vpc.vpc.id }}
+      amazon.aws.ec2_vpc_route_table:
+        region: "{{ ec2_region | default('us-east-1') }}"
+        vpc_id: "{{ create_vpc.vpc.id }}"
+        subnets:
+          - "{{ create_subnet.subnet.id }}"
+        routes:
+          - dest: 0.0.0.0/0
+            gateway_id: "{{ igw.gateway_id }}"
+        tags:
+        tags:
+          Name: "{{ ec2_name_prefix | default('ansible-demo') }}"
+          ansible: "is awesome"
+      register: routetable
+      until: routetable is not failed
+      retries: 5
