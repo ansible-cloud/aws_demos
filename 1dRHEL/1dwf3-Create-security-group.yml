@@ -10,7 +10,7 @@
         name: "aws-demo1-sg"
         region: "{{ ec2_region }}"
         description: AWS demo1 SG for the demo
-        vpc_id: "{{ create_vpc.vpc.id }}"
+        vpc_id: "{{ vpcid }}"
         tags:
           Name: "aws-demo1-sg"
           Demo: "AWS demo1"
@@ -23,7 +23,7 @@
     - name: Create subnet for aws-demo1-vpc
       amazon.aws.ec2_vpc_subnet:
         region: "{{ ec2_region }}"
-        vpc_id: "{{ create_vpc.vpc.id }}"
+        vpc_id: "{{ vpcid }}"
         cidr: "192.168.0.0/28"
         tags:
           Name: "aws_demo1_subnet"
