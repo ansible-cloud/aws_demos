@@ -13,7 +13,10 @@
         tags:
           Demo: "AWS demo1"
       register: create_vpc
-
-    # - name: save VARS for following job templates
-    #   ansible.builtin.set_fact:
-    #     vpcid: "{{ create_vpc.vpc.id }}"
+    - name: save the create_vpc variable for following job templates
+      ansible.builtin.set_stats:
+        data:
+          vpcid: "{{ create_vpc.vpc.id }}"
+    - name: print vpcid
+      ansible.builtin.debug:
+        msg: "{{ vpcid }}"
