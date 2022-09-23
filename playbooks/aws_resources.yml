@@ -29,6 +29,7 @@
         controller_username: "{{ controller_username | default('admin') }}"
         controller_password: "{{ controller_password | default('ansible123!') }}"
         controller_host: "{{ controller_host | default('https://localhost') }}"
+        validate_certs: {{ validate_certs | default('False') }}"
 
     - name: Create AWS VPC {{ ec2_name_prefix }}-vpc
       amazon.aws.ec2_vpc_net:
