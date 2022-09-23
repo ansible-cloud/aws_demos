@@ -1,6 +1,6 @@
 # code: language=ansible
 ---
-- name: Play to Create the SSH key pair and machine credentials in Ansible controller
+- name: Play to Create the SSH key pair in AWS, and machine creds in Ansible controller
   hosts: localhost
   connection: local
   tasks:
@@ -10,15 +10,15 @@
         region: "{{ ec2_region }}"
         name: "aws-demo1-key"
       register: create_key
-    - name: Update SSH key with latest
-      ansible.controller.credential:
-        name: AWS Demo1 Instance Key
-        organization: Default
-        credential_type: Machine
-        # controller_username: "{{ controller_username }}"
-        # controller_password: "{{ controller_password }}"
-        # controller_host: "{{ controller_host }}"
-        validate_certs: false
-        inputs:
-          ssh_key_data: "{{ create_key.key.private_key }}"
-      when: create_key.changed
+    # - name: Update SSH key with latest
+    #   ansible.controller.credential:
+    #     name: AWS Demo1 Instance Key
+    #     organization: Default
+    #     credential_type: Machine
+    #     # controller_username: "{{ controller_username }}"
+    #     # controller_password: "{{ controller_password }}"
+    #     # controller_host: "{{ controller_host }}"
+    #     validate_certs: false
+    #     inputs:
+    #       ssh_key_data: "{{ create_key.key.private_key }}"
+    #   when: create_key.changed
