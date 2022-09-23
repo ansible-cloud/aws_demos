@@ -29,3 +29,13 @@
           Name: "aws_demo1_subnet"
           Demo: "AWS demo1"
       register: create_subnet
+#
+    - name: save the create_subnet variable for following job templates
+      ansible.builtin.set_stats:
+        data:
+          vpcsubnetid: "{{ create_subnet.subnet.id }}"
+        per_host: false
+#
+    - name: print the vpc subnet id
+      ansible.builtin.debug:
+        msg: "The Demo1 VPC Subnet ID is: '{{ create_subnet.subnet.id }}'"

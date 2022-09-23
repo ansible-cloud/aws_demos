@@ -10,15 +10,6 @@
     ec2_region: "{{ your_region | default('us-east-2') }}"
 
   tasks:
-    ## provision resources to provision RHEL onto (e.g. VPC)
-    # - name: provision resources required before provisioning RHEL
-    #   ansible.builtin.include_tasks: "{{ item }}"
-    #   loop:
-    #     - '1dwf1-Create-ssh-key-pair.yml'
-    #     - '1dwf2-Create-VPC.yml'
-    #     - '1dwf3-Create-security-group.yml'
-    #     - '1dwf4-Create-internet-gateway.yml'
-
     # Using ec2_ami_facts allows us to find a particular ami instance id regardless of region
     # Look for owner 309956199498 to find official Red Hat AMIs
     - name: find the AMI instance-id for RHEL
@@ -46,7 +37,7 @@
         region: "{{ ec2_region }}"
         group: "aws-demo1-sg"
         key_name: "aws-demo1-key"
-        vpc_subnet_id: "{{ ec2_vpc_subnet }}"
+        vpc_subnet_id: "{{ vpcsubnetid }}"
         assign_public_ip: true
         instance_type: t2.medium
         image: "{{ server01_ami.image_id }}"

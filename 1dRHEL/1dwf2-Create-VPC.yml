@@ -22,4 +22,4 @@
 #
     - name: print vpcid
       ansible.builtin.debug:
-        msg: '"The Demo1 VPC ID is: "{{ create_vpc.vpc.id }}"'
+        msg: "The Demo1 VPC ID is: '{{ create_vpc.vpc.id }}'"
