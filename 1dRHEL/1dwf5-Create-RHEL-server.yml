@@ -8,7 +8,7 @@
     instance_name: "aws-demo1-ec2"
     owner_tag: "aws-demo1-user"
     ec2_region: "{{ your_region | default('us-east-2') }}"
-
+#
   tasks:
     # Using ec2_ami_facts allows us to find a particular ami instance id regardless of region
     # Look for owner 309956199498 to find official Red Hat AMIs
@@ -20,14 +20,14 @@
           name: "RHEL-8*HVM-*Hourly*"
           architecture: x86_64
       register: amis
-
+#
     # The module ec2_ami_facts can return multiple ami instances for a given search
     # we will grab the latest instance (by date) that meets our criteria
     - name: SET AMI FOR SERVER01
       ansible.builtin.set_fact:
         server01_ami: >
           {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
-
+#
    # the ec2 module actually provisions the instance
    # group refers to the AWS Security Group
    # key_name refers to the SSH key pair to use for this instance
