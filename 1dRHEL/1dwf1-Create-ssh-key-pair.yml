@@ -12,7 +12,7 @@
       register: create_key
     - name: Update SSH key with latest
       ansible.controller.credential:
-        name: AWS_Demo1_Instance_key
+        name: AWS Demo1 Instance Key
         organization: Default
         credential_type: Machine
         # controller_username: "{{ controller_username }}"
