@@ -10,7 +10,7 @@
         region: "{{ ec2_region }}"
         name: "aws-demo1-key"
       register: create_key
-#    
+#
     # - name: Update SSH key with latest
     #   ansible.controller.credential:
     #     name: AWS Demo1 Instance Key

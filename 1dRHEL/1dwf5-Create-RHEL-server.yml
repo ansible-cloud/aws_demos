@@ -13,7 +13,7 @@
     # Using ec2_ami_facts allows us to find a particular ami instance id regardless of region
     # Look for owner 309956199498 to find official Red Hat AMIs
     - name: find the AMI instance-id for RHEL
-      amazon.aws.ec2_ami_facts:
+      amazon.aws.ec2_ami_info:
         region: "{{ ec2_region }}"
         owners: 309956199498
         filters:
