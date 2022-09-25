@@ -82,8 +82,6 @@
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
         route_table_id: "{{ item.id }}"
         lookup: id
-        filters:
-          "tag:Name": aws_demo1_default_route  
         state: absent
       loop: "{{ route_table_facts.route_tables }}"
       when:
