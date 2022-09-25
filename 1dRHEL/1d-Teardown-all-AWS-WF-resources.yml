@@ -39,8 +39,8 @@
     - name: Delete the EC2 security group for aws-demo1-vpc
       amazon.aws.ec2_group:
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
-        tags:
-          Name: "aws_demo1_sg"
+        filters:
+          "tag:Name": "aws-demo1-sg"
         state: absent
       register: delete_sg
       until: delete_sg is not failed
@@ -53,8 +53,8 @@
       amazon.aws.ec2_vpc_subnet:
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
         cidr: "192.168.0.0/28"
-        tags:
-          Name: "aws-demo1-subnet"
+        filters:
+          "tag:Name": "aws-demo1-subnet"
         state: absent
       delegate_to: localhost
       run_once: true
@@ -63,8 +63,8 @@
     - name: Delete the vpc Internet Gateway for aws-demo1-vpc
       amazon.aws.ec2_vpc_igw:
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
-        tags:
-          Name: "aws-demo1-igw"
+        filters:
+          "tag:Name": "aws-demo1-igw"
         state: absent
       delegate_to: localhost
       run_once: true
@@ -84,8 +84,8 @@
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
         route_table_id: "{{ item.id }}"
         lookup: id
-        tags:
-          Name: aws_demo1_default_route  
+        filters:
+          "tag:Name": aws_demo1_default_route  
         state: absent
       loop: "{{ route_table_facts.route_tables }}"
       when:
