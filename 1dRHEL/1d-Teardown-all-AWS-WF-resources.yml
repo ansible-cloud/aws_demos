@@ -20,9 +20,9 @@
       register: ec2_node_info
 
     - name: destroy the EC2 instance
-      amazon.aws.ec2:
-        tags:
-          Name: "aws-demo1-ec2"
+      amazon.aws.ec2_instance:
+        filters:
+          "tag:Name": "aws-demo1-ec2"
         state: absent
         instance_ids: "{{ ec2_node_info.instances | map(attribute='instance_id') | list }}"
       register: result
