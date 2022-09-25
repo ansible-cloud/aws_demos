@@ -63,8 +63,6 @@
     - name: Delete the vpc Internet Gateway for aws-demo1-vpc
       amazon.aws.ec2_vpc_igw:
         vpc_id: "{{vpc_net_facts.vpcs[0].id}}"
-        filters:
-          "tag:Name": "aws-demo1-igw"
         state: absent
       delegate_to: localhost
       run_once: true
