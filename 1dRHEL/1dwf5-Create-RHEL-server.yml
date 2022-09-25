@@ -35,12 +35,12 @@
     - name: Create EC2 instances for aws-demo1-ec2
       amazon.aws.ec2_instance:
         region: "{{ ec2_region }}"
-        name: aws-demo1-ec2
-        security_groups: aws-demo1-sg
+        name: "aws-demo1-ec2"
         key_name: "aws-demo1-key"
         network: 
           assign_public_ip: yes
-          subnet_id: "{{ vpcsubnetid }}"
+          vpc_subnet_id: "{{ vpcsubnetid }}"
+          security_group: aws-demo1-sg
         instance_type: t2.medium
         image_id: "{{ server01_ami.image_id }}"
         wait: true
