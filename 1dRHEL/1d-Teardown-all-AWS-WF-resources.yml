@@ -7,7 +7,7 @@
   # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
   module_defaults:
     group/aws:
-      region: "{{ your_region | default('us-east-2') }}"
+      region: "{{ ec2_region | default('us-east-2') }}"
   vars:
     instance_name: "aws-demo1-ec2"
     owner_tag: "aws-demo1-user"
