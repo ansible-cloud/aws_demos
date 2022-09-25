@@ -37,7 +37,6 @@
         region: "{{ ec2_region }}"
         name: aws-demo1-ec2
         security_group: aws-demo1-sg
-        security_groups: aws-demo1-sg
         key_name: "aws-demo1-key"
         network: 
           assign_public_ip: yes
