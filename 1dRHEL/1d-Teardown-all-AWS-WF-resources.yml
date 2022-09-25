@@ -13,13 +13,13 @@
     owner_tag: "aws-demo1-user"
 
   tasks:
-    - name: grab facts for aws-demo1-ec2
+    - name: Grab facts for aws-demo1-ec2
       amazon.aws.ec2_instance_info:
         filters:
           "tag:Name": "aws-demo1-ec2"
       register: ec2_node_info
 
-    - name: destroy the EC2 instance
+    - name: Destroy the EC2 instance
       amazon.aws.ec2_instance:
         filters:
           "tag:Name": "aws-demo1-ec2"
@@ -42,7 +42,7 @@
 
     - name: Delete the EC2 security group for aws-demo1-vpc
       amazon.aws.ec2_group:
-        name": "aws-demo1-sg"
+        name: "aws-demo1-sg"
         state: absent
       register: delete_sg
       until: delete_sg is not failed
@@ -72,7 +72,7 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: grab the route information for aws-demo1-vpc
+    - name: Grab the route information for aws-demo1-vpc
       amazon.aws.ec2_vpc_route_table_info:
         filters:
           vpc-id: "{{ vpc_net_facts.vpcs[0].id }}"
@@ -106,7 +106,7 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: remove ssh key pair
+    - name: Remove ssh key pair
       amazon.aws.ec2_key:
         name: "aws-demo1-key"
         state: absent
