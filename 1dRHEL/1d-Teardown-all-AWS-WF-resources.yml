@@ -39,8 +39,8 @@
     - name: Delete the EC2 security group for aws-demo1-vpc
       amazon.aws.ec2_group:
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
-        filters:
-          "tag:Name": "aws-demo1-sg"
+        # filters:
+        #   "tag:Name": "aws-demo1-sg"
         state: absent
       register: delete_sg
       until: delete_sg is not failed
