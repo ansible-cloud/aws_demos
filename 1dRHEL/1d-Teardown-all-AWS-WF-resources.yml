@@ -55,8 +55,6 @@
       amazon.aws.ec2_vpc_subnet:
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
         cidr: "192.168.0.0/28"
-        filters:
-          "tag:Name": "aws-demo1-subnet"
         state: absent
       delegate_to: localhost
       run_once: true
