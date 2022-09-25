@@ -77,7 +77,7 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: Delete the VPC public Subnet Route table entry
+    - name: Delete the VPC public Subnet Route Table entry
       amazon.aws.ec2_vpc_route_table:
         vpc_id: "{{ vpc_net_facts.vpcs[0].id }}"
         route_table_id: "{{ item.id }}"
@@ -100,7 +100,7 @@
       run_once: true
       when: vpc_net_facts.vpcs|length > 0
 
-    - name: Remove ssh key pair
+    - name: Remove the SSH Key Pair
       amazon.aws.ec2_key:
         name: "aws-demo1-key"
         state: absent

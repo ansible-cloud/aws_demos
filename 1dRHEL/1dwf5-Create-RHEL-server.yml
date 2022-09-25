@@ -47,4 +47,3 @@
         exact_count: 1
         tags:
           owner: "{{ owner_tag }}"
-
