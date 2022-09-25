@@ -33,7 +33,7 @@
    # key_name refers to the SSH key pair to use for this instance
    # vpc_subnet_id refers to the Virtual Private Cloud (VPC) subnet idenitifer to tie the instance to
     - name: Create EC2 instances for aws-demo1-ec2
-      amazon.aws.ec2:
+      amazon.aws.ec2_instance:
         region: "{{ ec2_region }}"
         group: "aws-demo1-sg"
         key_name: "aws-demo1-key"
