@@ -40,7 +40,7 @@
         vpc_subnet_id: "{{ vpcsubnetid }}"
         assign_public_ip: true
         instance_type: t2.medium
-        image: "{{ server01_ami.image_id }}"
+        image_id: "{{ server01_ami.image_id }}"
         wait: true
         exact_count: 1
         instance_tags:
