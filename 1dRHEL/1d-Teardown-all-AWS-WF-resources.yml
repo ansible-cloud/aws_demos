@@ -37,7 +37,7 @@
       register: vpc_net_facts
 
     - name: Print the VPC ID
-      ansibl.util.debug:
+      ansible.builtin.debug:
         msg: 'The VPC ID is "{{ vpc_net_facts.vpcs[0].id }}"'
 
     - name: Delete the EC2 security group for aws-demo1-vpc
