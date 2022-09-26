@@ -19,7 +19,7 @@
         state: present
         controller_username: "{{ controller_username }}"
         controller_password: "{{ controller_password }}"
-        controller_host: https://localhost
+        controller_host: "{{ controller_host }}"
         validate_certs: false
         inputs:
           ssh_key_data: "{{ create_key.key.private_key }}"
