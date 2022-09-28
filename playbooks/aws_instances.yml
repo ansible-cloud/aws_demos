@@ -17,10 +17,21 @@
 
     # The module ec2_ami_facts can return multiple ami instances for a given search
     # we will grab the latest instance (by date) that meets our criteria
-    - name: SET AMI FOR RHEL
+    - name: set AMI for RHEL
       ansible.builtin.set_fact:
         rhel_ami: >
           {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+
+    - name: retrieve VPC subnet id
+      amazon.aws.ec2_vpc_subnet_info:
+        region: "{{ ec2_region | default('us-east-1') }}"
+        filters:
+          "tag:Name": "{{ ec2_vpc_subnet_name | default('ansible-demo') }}"
+      register: ec2_vpc_subnet_id
+
+    - name: debug ec2_vpc_subnet_name
+      debug:
+        msg: "{{ ec2_vpc_subnet_id }}"
 
     - name: Create EC2 instances for ansible node (control node)
       amazon.aws.ec2_instance:
@@ -36,7 +47,7 @@
           instance-state-name: running
         tags:
           ansible-demo: "true"
-        vpc_subnet_id: "{{ ec2_vpc_subnet_id }}"
+        vpc_subnet_id: "{{ ec2_vpc_subnet_id.subnets.subnet_id }}"
         volumes:
           - device_name: /dev/sda1
             ebs:
