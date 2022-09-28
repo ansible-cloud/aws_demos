@@ -47,6 +47,7 @@
           instance-state-name: running
         tags:
           ansible-demo: "true"
+          instruqt": "true"
         vpc_subnet_id: "{{ ec2_vpc_subnet_id.subnets[0].subnet_id }}"
         volumes:
           - device_name: /dev/sda1
