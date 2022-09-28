@@ -67,7 +67,7 @@
       amazon.aws.ec2_vpc_subnet:
         region: "{{ ec2_region | default('us-east-1') }}"
         vpc_id: "{{ create_vpc.vpc.id }}"
-        cidr: " {{ ec2_cidr | default('192.168.0.0/28') }}"
+        cidr: "{{ ec2_cidr | default('192.168.0.0/28') }}"
         tags:
           Name: "{{ ec2_name_prefix | default('ansible-demo') }}"
           ansible: "is awesome"
