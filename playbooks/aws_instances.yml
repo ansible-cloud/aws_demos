@@ -1,0 +1,70 @@
+---
+- name: Create lab instances in AWS
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    # Using ec2_ami_facts allows us to find a particular ami instance id regardless of region
+    # Look for owner 309956199498 to find official Red Hat AMIs
+    - name: find ami instance-id for RHEL
+      amazon.aws.ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: 309956199498
+        filters:
+          name: "RHEL-8*HVM-*Hourly*"
+          architecture: x86_64
+      register: amis
+
+    # The module ec2_ami_facts can return multiple ami instances for a given search
+    # we will grab the latest instance (by date) that meets our criteria
+    - name: SET AMI FOR RHEL
+      ansible.builtin.set_fact:
+        rhel_ami: >
+          {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+
+    - name: Create EC2 instances for ansible node (control node)
+      amazon.aws.ec2_instance:
+        key_name: "{{ ec2_key_name | default('ansible-demo') }}"
+        security_group: "{{ ec2_security_group | default('ansible-demo') }}"
+        instance_type: "{{ ec2_instance_type | default('t2.micro') }}"
+        image_id: "{{ rhel_ami.image_id }}"
+        region: "{{ ec2_region | default('us-east-1') }}"
+        exact_count: "{{ ec2_exact_count | default('2') }}"
+        state: running
+        filters:
+          "tag:instruqt": "true"
+          instance-state-name: running
+        tags:
+          ansible-demo: "true"
+        wait: "{{ ec2_wait }}"
+        vpc_subnet_id: "{{ ec2_vpc_subnet_id }}"
+        volumes:
+          - device_name: /dev/sda1
+            ebs:
+              volume_type: "{{ ec2_info[control_type].disk_volume_type }}"
+              volume_size: "{{ ec2_info[control_type].disk_space }}"
+              iops: "{{ ec2_info[control_type].disk_iops }}"
+              throughput: "{{ ec2_info[control_type].disk_throughput }}"
+              delete_on_termination: true
+      register: control_output
+
+    - name: grab instance ids to tag them all
+      amazon.aws.ec2_instance_info:
+        region: "{{ ec2_region | default('us-east-1') }}"
+        filters:
+          instance-state-name: running
+          "tag:instruqt": "true"
+      register: control_output
+
+    - name: Ensure tags are present
+      amazon.aws.ec2_tag:
+        region: "{{ ec2_region | default('us-east-1') }}"
+        resource: "{{ item.1.instance_id }}"
+        state: present
+        tags:
+          Name: "rhel{{ item.0 + 1 }}"
+          Index: "{{ item[0] }}"
+          launch_time: "{{ item.1.launch_time }}"
+      with_indexed_items:
+        - "{{ control_output.instances }}"
+      when: control_output.instances|length > 0
