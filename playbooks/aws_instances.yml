@@ -36,7 +36,6 @@
           instance-state-name: running
         tags:
           ansible-demo: "true"
-        wait: "{{ ec2_wait }}"
         vpc_subnet_id: "{{ ec2_vpc_subnet_id }}"
         volumes:
           - device_name: /dev/sda1
