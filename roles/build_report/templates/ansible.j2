@@ -1,0 +1,33 @@
+<!-- INTERNAL TABLE FOR Ansible -->
+<div id="accordion">
+<div>
+<h3>Ansible Automation Info</h3>
+<div class="net_content">
+<table class="net_info">
+<tbody>
+  <tr>
+    <td>Ansible user</td>
+    <td class="sub_net_info">{{ hostvars[localhost]['ansible_user'] }}</td>
+  </tr>
+  <tr>
+    <td>Ansible Mgmt IP</td>
+    <td class="sub_net_info">{{ hostvars[localhost]['ansible_host'] }}</td>
+  </tr>
+  <tr>
+    <td>Ansible core version</td>
+    <td class="sub_net_info">{% for group in hostvars[localhost]['ansible_version']['string']|default("Unknown") %}{{ group }} {% endfor %}</td>
+  </tr>
+  <tr>
+    <td>Ansible Python</td>
+    <td class="sub_net_info">{{ hostvars[localhost]['ansible_playbook_python']|default("Unknown") }} </td>
+  </tr>
+  <tr>
+    <td>Python version</td>
+    <td class="sub_net_info">{{ hostvars[localhost]['ansible_net_python_version']|default("Unknown") }} </td>
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- END INTERNAL TABLE FOR Ansible -->

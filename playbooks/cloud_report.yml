@@ -1,0 +1,19 @@
+---
+- name: retrieve AWS information
+  hosts: localhost
+  gather_facts: true
+
+  tasks:
+    - name: load retrieve info role
+      include_role:
+        name: "../roles/retrieve_info"
+
+- name: build report with facts
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+
+    - name: build a report
+      include_role:
+        name: "../roles/build_report"

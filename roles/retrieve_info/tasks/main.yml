@@ -1,0 +1,14 @@
+- name: retrieve vpc information
+  amazon.aws.ec2_vpc_net_info:
+    region: "{{ ec2_region | default('us-east-1') }}"
+  register: vpc_info
+
+- name: retrieve info for ec2 instances
+  amazon.aws.ec2_instance_info:
+    region: "{{ ec2_region | default('us-east-1') }}"
+  register: ec2_instance_info
+
+- name: Gather information about Internet Gateways IGWs
+  amazon.aws.ec2_vpc_igw_info:
+    region: "{{ ec2_region | default('us-east-1') }}"
+  register: igw_info
