@@ -1,0 +1,14 @@
+---
+- name: Create AWS resources
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Gather information about Internet Gateways IGWs
+      amazon.aws.ec2_vpc_igw_info:
+        region: "{{ ec2_region | default('us-east-1') }}"
+      register: igw_info
+
+    - name: print out igw info
+      ansible.builtin.debug:
+        msg: "{{ igw_info }}"

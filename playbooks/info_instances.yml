@@ -1,0 +1,14 @@
+---
+- name: Create AWS resources
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: retrieve information about all instances
+      amazon.aws.ec2_instance_info:
+        region: "{{ ec2_region | default('us-east-1') }}"
+      register: ec2_instance_info
+
+    - name: print instance info to terminal
+      ansible.builtin.debug:
+        msg: "{{ ec2_instance_info }}"
