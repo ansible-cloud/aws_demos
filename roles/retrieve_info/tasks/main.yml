@@ -2,6 +2,7 @@
   amazon.aws.ec2_vpc_net_info:
     region: "{{ ec2_region | default('us-east-1') }}"
   register: vpc_info
+  delegate_to: localhost
 
 - name: retrieve info for ec2 instances
   amazon.aws.ec2_instance_info:
