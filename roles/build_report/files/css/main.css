@@ -210,11 +210,16 @@ p.description {
 }
 
 th.region_column {
-    min-width: 965px;
+    min-width: 980px;
 }
 
 th.vpc_info {
     color: #ffffff;
     background-color: #000000;
     height: 30px;
+    min-width: 80px;
+}
+
+#cidr_assoc {
+    min-width: 120px;
 }

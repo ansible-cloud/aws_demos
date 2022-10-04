@@ -11,8 +11,8 @@
     <th class="vpc_info">{{ '%-38s'|format('VPC name')}}</th>
     <th class="vpc_info">{{ '%-28s'|format('VPC id') }}</th>
     <th class="vpc_info">{{ '%-14s'|format('instances') }}</th>
-    <th class="vpc_info">{{ '%-18s'|format('cidr_block') }}</th>
-    <th class="vpc_info">{{ '%-26s'|format('cidr block associations') }}</th>
+    <th class="vpc_info">{{ '%-18s'|format('CIDR block') }}</th>
+    <th class="vpc_info" id="cidr_assoc">{{ '%-26s'|format('CIDR block associations') }}</th>
     <th class="vpc_info">{{ '%-22s'|format('IGW') }}</th>
   </tr>
   {% for vpc in vpc_info.vpcs %}
