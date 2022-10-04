@@ -1,0 +1,35 @@
+<!-- INTERNAL TABLE FOR Ansible -->
+<div id="accordion">
+<div>
+<h3>{{ ec2_region | default('unknown') }}</h3>
+<div class="net_content">
+<p>There are {{ vpc_info.vpcs | length }} AWS VPCs configured and {{ ec2_instance_info.instances | length }} instances on region {{ ec2_region | default('unknown') }}
+
+<table class="net_info">
+<tbody>
+  <tr>
+    <td>Ansible user</td>
+    <td class="sub_net_info">asdf</td>
+  </tr>
+  <tr>
+    <td>Ansible Mgmt IP</td>
+    <td class="sub_net_info">asdf</td>
+  </tr>
+  <tr>
+    <td>Ansible core version</td>
+    <td class="sub_net_info">asdf</td>
+  </tr>
+  <tr>
+    <td>Ansible Python</td>
+    <td class="sub_net_info">asdf</td>
+  </tr>
+  <tr>
+    <td>Python version</td>
+    <td class="sub_net_info">asdf</td>
+  </tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- END INTERNAL TABLE FOR Ansible -->
