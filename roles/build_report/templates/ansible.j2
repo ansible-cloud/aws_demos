@@ -10,8 +10,8 @@
     <td class="sub_net_info">{{ ansible_user_id | default('unknown') }}</td>
   </tr>
   <tr>
-    <td>Ansible Mgmt IP</td>
-    <td class="sub_net_info">asdf</td>
+    <td>Ansible FQDN</td>
+    <td class="sub_net_info">{{ ansible_fqdn | default('unknown') }}</td>
   </tr>
   <tr>
     <td>Ansible core version</td>
@@ -23,7 +23,7 @@
   </tr>
   <tr>
     <td>Host OS</td>
-    <td class="sub_net_info">{{ distribution | default ("unknown distribution")}} {{ distribution_version | default ("unknown distro version") }}</td>
+    <td class="sub_net_info">{{ ansible_distribution | default ("unknown distribution")}} {{ ansible_distribution_version | default ("unknown distro version") }}</td>
   </tr>
 </tbody>
 </table>
