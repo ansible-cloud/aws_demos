@@ -48,12 +48,12 @@
   loop:
     - "webpage_logo.png"
     - "redhat-ansible-logo.svg"
-    - "router.png"
+    - "aws.png"
 
 - name: display link to inventory report
   debug:
-    var: hostvars
+    var: hostvars['ansible-1']
 
 - name: display link to inventory report
   debug:
-    msg: "Please go to http://{{hostvars['ansible-1'].ansible_host}}:{{web_port}}"
+    msg: "Please go to http://{{ hostvars['ansible-1'].fqdn }}:{{ web_port }}"
