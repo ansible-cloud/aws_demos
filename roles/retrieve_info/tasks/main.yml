@@ -35,5 +35,6 @@
 - name: save username of AWS user
   set_fact:
     aws_user: '{{ whoami.arn.split("/")[-1] }}'
-    py_cmd: "{{ lookup('pipe', '{{ ansible_playbook_python[\"executable\"] }} -c \"import boto3; print(boto3.__version__)\"') }}"
+    py_cmd: >-
+      {{ lookup('pipe', ansible_playbook_python ~ ' -c "import boto3; print(boto3.__version__)"') }}
   delegate_to: localhost
