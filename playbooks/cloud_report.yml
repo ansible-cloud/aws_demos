@@ -1,7 +1,7 @@
 ---
 - name: build report with facts
   hosts: ansible-1
-  gather_facts: false
+  gather_facts: true
   vars:
     ec2_region: us-east-1
 

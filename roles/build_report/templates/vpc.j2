@@ -16,20 +16,25 @@
     <td class="sub_net_info">{{ '%-22s'|format('IGW') }}</td>
   </tr>
   <tr>
-    <td>Ansible Mgmt IP</td>
-    <td class="sub_net_info">asdf</td>
-  </tr>
-  <tr>
-    <td>Ansible core version</td>
-    <td class="sub_net_info">asdf</td>
-  </tr>
-  <tr>
-    <td>Ansible Python</td>
-    <td class="sub_net_info">asdf</td>
-  </tr>
-  <tr>
-    <td>Python version</td>
-    <td class="sub_net_info">asdf</td>
+  {% for vpc in vpc_info.vpcs %}
+  <td>{{ '%-38s'|format(vpc.tags['Name'] | default('Unspecified, missing name tag')) }}</td>
+  <td>{{ '%-28s' | format(vpc.id) }}</td>
+  <td>{{ '%-12s'|format(ec2_instance_info.instances | selectattr('vpc_id', 'equalto', vpc.id ) | length) -}}</td>
+  <td>{{ '%-18s'|format(vpc.cidr_block) }}</td>
+  <td>{{ '%-26s' | format(vpc.cidr_block_association_set | length | default('0')) }}</td>
+  {% set ns = namespace(igwfound=False) %}
+  {%- for igw in igw_info.internet_gateways -%}
+  {% if igw['attachments'] | length > 0 %}
+  {% if igw['attachments'][0]['vpc_id'] == vpc.id %}
+  <td>{{ '%-22s'|format(igw['internet_gateway_id']) }}</td>
+  {% set ns.igwfound = True %}
+  {% endif %}
+  {% endif %}
+  {%- endfor -%}
+  {% if not ns.igwfound %}
+  <td>{{ '%-22s'|format('No IGW found') }}</td>
+  {% endif %}
+  {% endfor %}
   </tr>
 </tbody>
 </table>
