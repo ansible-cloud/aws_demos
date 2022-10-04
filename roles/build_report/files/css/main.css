@@ -212,3 +212,9 @@ p.description {
 th.region_column {
     min-width: 965px;
 }
+
+th.vpc_info {
+    color: #ffffff;
+    background-color: #000000;
+    height: 30px;
+}

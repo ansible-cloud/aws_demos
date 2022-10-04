@@ -15,3 +15,20 @@
     region: "{{ ec2_region }}"
   register: igw_info
   delegate_to: localhost
+
+- name: grab boto version
+  command: "{{ansible_python['executable']}} -c 'import boto3; print(boto3.__version__)'"
+  register: py_cmd
+
+- name: grab information about AWS user
+  amazon.aws.aws_caller_info:
+    region: "{{ ec2_region }}"
+  register: whoami
+
+- name: print whoami
+  debug:
+    var: whoami
+
+- name: save username of AWS user
+  set_fact:
+    aws_user: '{{ whoami.arn.split("/")[-1] }}'
