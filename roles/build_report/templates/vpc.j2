@@ -3,13 +3,13 @@
 <div>
 <h3>{{ ec2_region | default('unknown') }}</h3>
 <div class="net_content">
-<p>There are {{ vpc_info.vpcs | length }} AWS VPCs configured and {{ ec2_instance_info.instances | length }} instances on region {{ ec2_region | default('unknown') }}
+<p class="description">There are {{ vpc_info.vpcs | length }} AWS VPCs configured and {{ ec2_instance_info.instances | length }} instances on region {{ ec2_region | default('unknown') }}
 
 <table class="net_info">
 <tbody>
   <tr>
-    <td>Ansible user</td>
-    <td class="sub_net_info">asdf</td>
+    <td>{{ '%-38s'|format('VPC name')}}</td>
+    <td class="sub_net_info">{{ '%-18s'|format('cidr_block') }}</td>
   </tr>
   <tr>
     <td>Ansible Mgmt IP</td>
