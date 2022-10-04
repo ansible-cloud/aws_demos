@@ -56,4 +56,7 @@
 
 - name: display link to inventory report
   debug:
-    msg: "Please go to http://{{ ansible_fqdn }}:{{ web_port }}"
+    msg:
+      - "Please go to http://{{ ansible_fqdn }}:{{ web_port }}"
+      - "or just refresh the Cloud Report tab
+      - "at the top of your window if you using Instruqt labs!"
