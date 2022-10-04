@@ -3,12 +3,12 @@
 <div>
 <h3>{{ ec2_region | default('unknown') }}</h3>
 <div class="net_content">
-<p class="description">There are <p class="bold_me">{{ vpc_info.vpcs | length }}</p> AWS VPCs configured and <p class="bold_me">{{ ec2_instance_info.instances | length }}</p> instances on region {{ ec2_region | default('unknown') }}
+<p class="description">There are <div id="bold_me">{{ vpc_info.vpcs | length }}</div> AWS VPCs configured and <div id="bold_me">{{ ec2_instance_info.instances | length }}</div> instances on region {{ ec2_region | default('unknown') }}
 
 <table class="net_info">
 <tbody>
   <tr>
-    <th>class="vpc_info">{{ '%-38s'|format('VPC name')}}</th>
+    <th class="vpc_info">{{ '%-38s'|format('VPC name')}}</th>
     <th class="vpc_info">{{ '%-28s'|format('VPC id') }}</th>
     <th class="vpc_info">{{ '%-12s'|format('instances') }}</th>
     <th class="vpc_info">{{ '%-18s'|format('cidr_block') }}</th>

@@ -56,4 +56,4 @@
 
 - name: display link to inventory report
   debug:
-    msg: "Please go to http://{{ hostvars['ansible-1'].fqdn }}:{{ web_port }}"
+    msg: "Please go to http://{{ ansible_fqdn }}:{{ web_port }}"
