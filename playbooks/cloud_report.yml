@@ -1,19 +1,13 @@
 ---
-- name: retrieve AWS information
+- name: build report with facts
   hosts: ansible-1
-  gather_facts: true
+  gather_facts: false
 
   tasks:
     - name: load retrieve info role
       include_role:
         name: "../roles/retrieve_info"
-
-- name: build report with facts
-  hosts: ansible-1
-  gather_facts: no
-
-  tasks:
-
+        
     - name: build a report
       include_role:
         name: "../roles/build_report"
