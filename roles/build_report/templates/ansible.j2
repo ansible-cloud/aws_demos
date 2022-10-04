@@ -7,7 +7,7 @@
 <tbody>
   <tr>
     <td>Ansible user</td>
-    <td class="sub_net_info">{{ ansible_user_id }}</td>
+    <td class="sub_net_info">{{ ansible_user_id | default('unknown') }}</td>
   </tr>
   <tr>
     <td>Ansible Mgmt IP</td>
@@ -15,15 +15,15 @@
   </tr>
   <tr>
     <td>Ansible core version</td>
-    <td class="sub_net_info">asdf</td>
+    <td class="sub_net_info">{{ ansible_version.full }}</td>
   </tr>
   <tr>
     <td>Ansible Python</td>
-    <td class="sub_net_info">asdf</td>
+    <td class="sub_net_info">{{ ansible_python_version | default('unknown')}}</td>
   </tr>
   <tr>
-    <td>Python version</td>
-    <td class="sub_net_info">asdf</td>
+    <td>Host OS</td>
+    <td class="sub_net_info">{{ distribution | default ("unknown distribution")}} {{ distribution_version | default ("unknown distro version") }}</td>
   </tr>
 </tbody>
 </table>

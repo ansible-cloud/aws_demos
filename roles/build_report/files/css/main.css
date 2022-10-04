@@ -209,3 +209,7 @@ p.internal_label {
 p.description {
     color: #5f6062;
 }
+
+th.region_column {
+    min-width: 965px;
+}
