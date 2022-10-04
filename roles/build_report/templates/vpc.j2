@@ -15,8 +15,8 @@
     <td class="sub_net_info">{{ '%-26s'|format('cidr block associations') }}</td>
     <td class="sub_net_info">{{ '%-22s'|format('IGW') }}</td>
   </tr>
-  <tr>
   {% for vpc in vpc_info.vpcs %}
+  <tr>
   <td>{{ '%-38s'|format(vpc.tags['Name'] | default('Unspecified, missing name tag')) }}</td>
   <td>{{ '%-28s' | format(vpc.id) }}</td>
   <td>{{ '%-12s'|format(ec2_instance_info.instances | selectattr('vpc_id', 'equalto', vpc.id ) | length) -}}</td>
@@ -34,8 +34,8 @@
   {% if not ns.igwfound %}
   <td>{{ '%-22s'|format('No IGW found') }}</td>
   {% endif %}
-  {% endfor %}
   </tr>
+  {% endfor %}
 </tbody>
 </table>
 </div>
