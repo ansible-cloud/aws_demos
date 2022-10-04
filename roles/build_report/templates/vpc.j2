@@ -9,7 +9,11 @@
 <tbody>
   <tr>
     <td>{{ '%-38s'|format('VPC name')}}</td>
+    <td class="sub_net_info">{{ '%-28s'|format('VPC id') }}</td>
+    <td class="sub_net_info">{{ '%-12s'|format('instances') }}</td>
     <td class="sub_net_info">{{ '%-18s'|format('cidr_block') }}</td>
+    <td class="sub_net_info">{{ '%-26s'|format('cidr block associations') }}</td>
+    <td class="sub_net_info">{{ '%-22s'|format('IGW') }}</td>
   </tr>
   <tr>
     <td>Ansible Mgmt IP</td>

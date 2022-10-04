@@ -205,3 +205,7 @@ table.net_info {
 p.internal_label {
     color: #000000;
 }
+
+p.description {
+    color: #5f6062;
+}
