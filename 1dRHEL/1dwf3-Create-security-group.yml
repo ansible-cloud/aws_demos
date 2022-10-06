@@ -1,0 +1,41 @@
+# code: language=ansible
+---
+- name: Play to Create the VPC security group, and subnet
+  hosts: localhost
+  connection: local
+  tasks:
+    # If a secruity group is not created, instances will be tied to the Default secruity group that allows all traffic (NON-SECURE)
+    - name: Create EC2 security group aws-demo1-sg
+      amazon.aws.ec2_group:
+        name: "aws-demo1-sg"
+        region: "{{ ec2_region }}"
+        description: AWS demo1 SG for the demo
+        vpc_id: "{{ vpcid }}"
+        tags:
+          Name: "aws-demo1-sg"
+          Demo: "AWS demo1"
+        rules:
+          - proto: tcp
+            ports: 22
+            cidr_ip: 0.0.0.0/0
+
+    # This task is subdiving up the 192.168.0.0/24 and getting a smaller chunk, a /28
+    - name: Create subnet for aws-demo1-vpc
+      amazon.aws.ec2_vpc_subnet:
+        region: "{{ ec2_region }}"
+        vpc_id: "{{ vpcid }}"
+        cidr: "192.168.0.0/28"
+        tags:
+          Name: "aws_demo1_subnet"
+          Demo: "AWS demo1"
+      register: create_subnet
+#
+    - name: save the create_subnet variable for following job templates
+      ansible.builtin.set_stats:
+        data:
+          vpcsubnetid: "{{ create_subnet.subnet.id }}"
+        per_host: false
+#
+    - name: print the vpc subnet id
+      ansible.builtin.debug:
+        msg: "The Demo1 VPC Subnet ID is: '{{ create_subnet.subnet.id }}'"

@@ -1,0 +1,49 @@
+# code: language=ansible
+---
+- name: provision RHEL on Amazon Web Services EC2
+  hosts: localhost
+  connection: local
+  # The paramater region will be set for all ec2 modules by specifying it here under module_defaults
+  vars:
+    instance_name: "aws-demo1-ec2"
+    owner_tag: "aws-demo1-user"
+    ec2_region: "{{ your_region | default('us-east-2') }}"
+#
+  tasks:
+    # Using ec2_ami_facts allows us to find a particular ami instance id regardless of region
+    # Look for owner 309956199498 to find official Red Hat AMIs
+    - name: find the AMI instance-id for RHEL
+      amazon.aws.ec2_ami_info:
+        region: "{{ ec2_region }}"
+        owners: 309956199498
+        filters:
+          name: "RHEL-8*HVM-*Hourly*"
+          architecture: x86_64
+      register: amis
+#
+    # The module ec2_ami_facts can return multiple ami instances for a given search
+    # we will grab the latest instance (by date) that meets our criteria
+    - name: SET AMI FOR SERVER01
+      ansible.builtin.set_fact:
+        server01_ami: >
+          {{ amis.images | selectattr('name', 'defined') | sort(attribute='creation_date') | last }}
+#
+   # the ec2 module actually provisions the instance
+   # group refers to the AWS Security Group
+   # key_name refers to the SSH key pair to use for this instance
+   # vpc_subnet_id refers to the Virtual Private Cloud (VPC) subnet idenitifer to tie the instance to
+    - name: Create EC2 instances for aws-demo1-ec2
+      amazon.aws.ec2_instance:
+        region: "{{ ec2_region }}"
+        name: "aws-demo1-ec2"
+        key_name: "aws-demo1-key"
+        network: 
+          assign_public_ip: yes
+          vpc_subnet_id: "{{ vpcsubnetid }}"
+          security_group: aws-demo1-sg
+        instance_type: t2.medium
+        image_id: "{{ server01_ami.image_id }}"
+        wait: true
+        exact_count: 1
+        tags:
+          owner: "{{ owner_tag }}"
