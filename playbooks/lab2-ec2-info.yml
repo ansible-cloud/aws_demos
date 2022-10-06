@@ -4,7 +4,7 @@
   connection: local
   gather_facts: false
   vars:
-    ec2_region: "{{ your_region | default('us-east-2') }}"
+    ec2_region: "{{ your_region | default('us-east-1') }}"
     filter_tag: "{{ your_tag | default('*')}}"
 
   tasks:
