@@ -19,7 +19,7 @@
         msg:
           - "EC2 Instance Name:             {{ item.tags['Name'] | default('The tag *Name* Does not exist') }}"
           - "EC2 Instance ID:               {{ item.instance_id }}"
-          - "EC2 Instance Platform:         {{ item.platform_details }}"
+         # - "EC2 Instance Platform:         {{ item.platform_details }}"
           - "EC2 Instance Private DNS Name: {{ item.private_dns_name }}"
           - "EC2 Instance Private IP:       {{ item.private_ip_address }}"
           - "EC2 Instance Public DNS Name:  {{ item.public_dns_name }}"
