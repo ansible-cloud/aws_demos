@@ -1,0 +1,29 @@
+---
+- name: Grab some specific details about the EC2 instances and display them
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    ec2_region: "{{ your_region | default('us-east-2') }}"
+    filter_tag: "{{ your_tag | default('*')}}"
+
+  tasks:
+
+    - name: Retrieve info for the EC2 instances
+      amazon.aws.ec2_instance_info:
+        region: "{{ ec2_region }}"
+      register: ec2_instance_info
+
+    - name: Display AWS EC2 information to terminal
+      debug:
+        msg:
+          - "EC2 Instance Name:             {{ item.tags['Name'] | default('The tag *Name* Does not exist') }}"
+          - "EC2 Instance ID:               {{ item.instance_id }}"
+          - "EC2 Instance Platform:         {{ item.platform_details }}"
+          - "EC2 Instance Private DNS Name: {{ item.private_dns_name }}"
+          - "EC2 Instance Private IP:       {{ item.private_ip_address }}"
+          - "EC2 Instance Public DNS Name:  {{ item.public_dns_name }}"
+          - "EC2 Instance State:            {{ item.state.name }}"          
+      loop: "{{ ec2_instance_info.instances }}"
+      loop_control:
+        label: "Display the EC2 information that we desire"
