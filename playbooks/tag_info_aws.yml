@@ -6,7 +6,7 @@
   vars:
     ec2_region: "{{ your_region | default('us-east-2') }}"
     filter_tag: "{{ your_tag | default('*')}}"
-  
+
   tasks:
 
     - name: Retrieve the VPC information
@@ -18,7 +18,7 @@
       debug:
         msg:
           - "{{ item.id }}"
-          - "{{ item.tags['Name'] | default('The tag *Name* Does not exist on this VPC') }}" 
+          - "{{ item.tags['Name'] | default('The tag *Name* Does not exist on this VPC') }}"
           - "{{ item.tags }}"
       loop: "{{ vpc_info.vpcs }}"
       loop_control:
@@ -29,21 +29,11 @@
         region: "{{ ec2_region }}"
       register: ec2_instance_info
 
-    - name: Set the Tagged instances to a variable
-      ansible.builtin.set_fact:
-        tagged_instances: "{{ ec2_instance_info.instances | selectattr('tags', '!=', {}) | map(attribute='instance_id') | list }}"
-
-    - name: Display the tagged instances to terminal
-      debug:
-        msg:
-          - "These are the EC2 instances that have tags:"
-          - "{{ tagged_instances }}"
-
     - name: Display AWS EC2 info and tags information to terminal
       debug:
         msg:
-          - "{{ item.tags['Name'] | default('The tag *Name* Does not exist') }}" 
-          - "{{ item.instance_id }}" 
+          - "{{ item.tags['Name'] | default('The tag *Name* Does not exist') }}"
+          - "{{ item.instance_id }}"
           - "{{ item.tags }}"
       loop: "{{ ec2_instance_info.instances }}"
       loop_control:
