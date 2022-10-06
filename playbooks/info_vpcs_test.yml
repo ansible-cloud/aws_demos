@@ -1,0 +1,23 @@
+---
+- name: Create AWS resources
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: retrieve vpc information
+      amazon.aws.ec2_vpc_net_info:
+        region: "{{ ec2_region | default('us-east-1') }}"
+      register: vpc_info
+
+    - name: print vpc info to terminal
+      ansible.builtin.debug:
+        msg: "{{ vpc_info }}"
+
+    - name: sub list
+      ansible.builtin.debug:
+        msg: "{{ vpc_info.vpcs }}"
+
+    - name: loop print
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop: "{{ vpc_info.vpcs }}"
