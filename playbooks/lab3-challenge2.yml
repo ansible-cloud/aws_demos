@@ -5,28 +5,21 @@
   gather_facts: false
   vars:
     ec2_region: "{{ your_region | default('us-east-1') }}"
+    filter_input: |
+      "tag:Name": "rhel*"
 
   tasks:
-
-    - name: Retrieve the VPC information
-      amazon.aws.ec2_vpc_net_info:
-        region: "{{ ec2_region }}"
-      register: vpc_info
-
-    - name: Display AWS VPC IDs and tags information to terminal
-      debug:
-        msg:
-          - "{{ item.id }}"
-          - "{{ item.tags['Name'] | default('The tag *Name* Does not exist on this VPC') }}"
-          - "{{ item.tags }}"
-      loop: "{{ vpc_info.vpcs }}"
-      loop_control:
-        label: "VPC Info and all Tags on the VPC"
 
     - name: Retrieve info for the EC2 instances
       amazon.aws.ec2_instance_info:
         region: "{{ ec2_region }}"
+        filters: "{{ filter_input | from_yaml }}"
       register: ec2_instance_info
+
+    - name: Display AWS EC2 info and tags information to terminal
+      debug:
+        msg:
+          - "There are {{ ec2_instance_info.instances | length }} instances that match your filter"
 
     - name: Display AWS EC2 info and tags information to terminal
       debug:
@@ -37,3 +30,10 @@
       loop: "{{ ec2_instance_info.instances }}"
       loop_control:
         label: "EC2 info and associated tags"
+
+    - name: save the instances to be used in a workflow variable for following job templates
+      ansible.builtin.set_stats:
+        data:
+          identified_instances: "{{ ec2_instance_info.instances | map(attribute='instance_id') | list }}"
+        per_host: false
+      when: ec2_instance_info.instances | length > 0
