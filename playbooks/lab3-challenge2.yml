@@ -1,0 +1,33 @@
+---
+- name: Grab the tags on the VPC and EC2 instances and display them
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    ec2_region: "{{ your_region | default('us-east-1') }}"
+    filter_input:
+      "tag:Name": "roger*"
+      "tag:Owner": "rlopez"
+
+  tasks:
+
+    - name: Retrieve info for the EC2 instances
+      amazon.aws.ec2_instance_info:
+        region: "{{ ec2_region }}"
+        filters: "{{ filter_input }}"
+      register: ec2_instance_info
+
+    - name: Display AWS EC2 info and tags information to terminal
+      debug:
+        msg:
+          - "There are {{ ec2_instance_info.instances | length }} instances that match your filter"
+
+    - name: Display AWS EC2 info and tags information to terminal
+      debug:
+        msg:
+          - "{{ item.tags['Name'] | default('The tag *Name* Does not exist') }}"
+          - "{{ item.instance_id }}"
+          - "{{ item.tags }}"
+      loop: "{{ ec2_instance_info.instances }}"
+      loop_control:
+        label: "EC2 info and associated tags"
