@@ -2,25 +2,24 @@
 - hosts: "{{ HOSTS }}"
   become: yes
   vars:
-    report_server: node1
+    report_server: rhel1
   
   tasks:
   - include_role:
-      name: demo.patching.patch_linux
+      name: patch_linux
 
   - block:
 
     - include_role:
         name: "{{ item }}"
       loop:
-        - demo.patching.report_server
-        - demo.patching.report_linux
-        - demo.patching.report_linux_patching
+        - report_server
+        - report_linux
+        - report_linux_patching
 
     - include_role:
-        name: demo.patching.report_server
+        name: report_server
         tasks_from: linux_landing_page
         
     delegate_to: "{{ report_server }}"
     run_once: yes
-    
