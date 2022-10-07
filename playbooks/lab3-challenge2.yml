@@ -36,4 +36,4 @@
         data:
           identified_instances: "{{ ec2_instance_info.instances | map(attribute='instance_id') | list }}"
         per_host: false
-      when: ec2_instance_info.instances > 0
+      when: ec2_instance_info.instances | length > 0
