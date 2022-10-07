@@ -6,8 +6,7 @@
   vars:
     ec2_region: "{{ your_region | default('us-east-1') }}"
     filter_input:
-      "tag:Name": "roger*"
-      "tag:Owner": "rlopez"
+      "tag:Name": "rhel*"
 
   tasks:
 
