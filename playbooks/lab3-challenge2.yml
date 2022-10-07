@@ -30,3 +30,10 @@
       loop: "{{ ec2_instance_info.instances }}"
       loop_control:
         label: "EC2 info and associated tags"
+
+    - name: save the instances to be used in a workflow variable for following job templates
+      ansible.builtin.set_stats:
+        data:
+          identified_instances: "{{ ec2_instance_info.instances | map(attribute='instance_id') | list }}"
+        per_host: false
+      when: ec2_instance_info.instances > 0
