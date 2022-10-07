@@ -1,0 +1,13 @@
+---
+- name: this Ansible Playbook will stop instances instances
+  hosts: localhost
+  gather_facts: false
+  vars:
+    ec2_region: "{{ your_region | default('us-east-1') }}"
+  tasks:
+    - name: stop every un-tagged running instance in a region.
+      amazon.aws.ec2_instance:
+        region: "{{ ec2_region }}"
+        state: stopped
+        instance_ids: "{{ identified_instances }}"
+      when: missing_tag | length  > 0
