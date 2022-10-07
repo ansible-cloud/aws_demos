@@ -10,4 +10,4 @@
         region: "{{ ec2_region }}"
         state: stopped
         instance_ids: "{{ identified_instances }}"
-      when: missing_tag | length  > 0
+      when: identified_instances | length  > 0
