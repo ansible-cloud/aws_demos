@@ -2,23 +2,23 @@
 - hosts: localhost
   become: yes
   vars:
-    report_server: rhel1
+    report_server: node1
   
   tasks:
   - include_role:
-      name: "patch_linux"
+      name: "../collections/ansible_collections/roles/patch_linux"
 
   - block:
 
     - include_role:
         name: "{{ item }}"
       loop:
-        - "report_server"
-        - "report_linux"
-        - "report_linux_patching"
+        - "../collections/ansible_collections/roles/report_server"
+        - "../collections/ansible_collections/roles/report_linux"
+        - "../collections/ansible_collections/roles/report_linux_patching"
 
     - include_role:
-        name: "report_server"
+        name: "../collections/ansible_collections/roles/report_server"
         tasks_from: linux_landing_page
         
     delegate_to: "{{ report_server }}"
