@@ -6,19 +6,19 @@
   
   tasks:
   - include_role:
-      name: "../patching/roles/patch_linux"
+      name: "patch_linux"
 
   - block:
 
     - include_role:
         name: "{{ item }}"
       loop:
-        - "../patching/roles/report_server"
-        - "../patching/roles/report_linux"
-        - "../patching/roles/report_linux_patching"
+        - "report_server"
+        - "report_linux"
+        - "report_linux_patching"
 
     - include_role:
-        name: "../patching/roles/report_server"
+        name: "report_server"
         tasks_from: linux_landing_page
         
     delegate_to: "{{ report_server }}"
