@@ -6,19 +6,19 @@
   
   tasks:
   - include_role:
-      name: "./collections/ansible_collections/roles/patch_linux"
+      name: "demo.patching.patch_linux"
 
   - block:
 
     - include_role:
         name: "{{ item }}"
       loop:
-        - "./collections/ansible_collections/roles/report_server"
-        - "./collections/ansible_collections/roles/report_linux"
-        - "./collections/ansible_collections/roles/report_linux_patching"
+        - "demo.patching.report_server"
+        - "demo.patching.report_linux"
+        - "demo.patching.report_linux_patching"
 
     - include_role:
-        name: "./collections/ansible_collections/roles/report_server"
+        name: "demo.patching.report_server"
         tasks_from: linux_landing_page
         
     delegate_to: "{{ report_server }}"
