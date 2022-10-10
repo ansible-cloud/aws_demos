@@ -1,11 +1,11 @@
 ---
 - name: Scan packages
-  ./collections/ansible_collections/plugins/modules/scan_packages:
+  scan_packages:
     os_family: "{{ ansible_os_family }}"
   check_mode: no
 
 - name: Scan services
-  ./collections/ansible_collections/plugins/modules/scan_services:
+  scan_services:
   check_mode: no
 
 - name: upgrade packages (yum)
