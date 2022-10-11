@@ -1,6 +1,6 @@
 ---
 - name: Application deployment Playbook
-  hosts: localhost
+  hosts: "{{ HOSTS }}"
   gather_facts: false
   become: true
   
