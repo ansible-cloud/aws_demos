@@ -2,7 +2,7 @@
 - hosts: "{{ HOSTS }}"
   become: yes
   vars:
-    report_server: node1
+    report_server: rhel1
   
   tasks:
   - include_role:
