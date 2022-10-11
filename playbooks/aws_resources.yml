@@ -58,6 +58,10 @@
             ports:
             - 22
             cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            ports:
+            - 80
+            cidr_ip: 0.0.0.0/0
       register: create_sg
       until: create_sg is not failed
       retries: 5
