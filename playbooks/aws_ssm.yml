@@ -17,4 +17,9 @@
         ansible_aws_ssm_instance_id: i-09793f817c1a29bf4
       ansible.builtin.file:
         path: blah.txt
-        state: toucclient_loop: send disconnect: Broken pipe
+        state: touch
+      register: output
+
+    - name: print out output
+      debug:
+        var: output
