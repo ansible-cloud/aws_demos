@@ -1,0 +1,35 @@
+---
+- hosts: ssm
+  gather_facts: false
+  tasks:
+    - name: SSMrole
+      community.aws.sts_assume_role:
+        role_arn: arn:aws:iam::962147768365:role/SSMSeanTesting
+        #role_arn: "arn:aws:iam::123456789012:role/someRole"
+        role_session_name: "seantestrole"
+      register: assumed_role
+      delegate_to: localhost
+      run_once: true
+
+    - name: print out assumed_role info
+      debug:
+        var: assumed_role
+
+    - name: do something via SSM
+      vars:
+        access_key_id: "{{ assumed_role.sts_creds.access_key }}"
+        secret_access_key: "{{ assumed_role.sts_creds.secret_key }}"
+        session_token: "{{ assumed_role.sts_creds.session_token }}"
+        ansible_connection: "community.aws.aws_ssm"
+        ansible_aws_ssm_region: "us-east-1"
+        ansible_aws_ssm_bucket_name: "ssmtestingoctober"
+        ansible_aws_ssm_instance_id: i-09793f817c1a29bf4
+        ansible_user: ssm-user
+      ansible.builtin.file:
+        path: blah.txt
+        state: touch
+      register: output
+
+    - name: print out output
+      debug:
+        var: output
