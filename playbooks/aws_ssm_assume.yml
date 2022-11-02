@@ -33,3 +33,14 @@
     - name: print out output
       debug:
         var: output
+
+    - amazon.aws.ec2_tag:
+        aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
+        aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+        security_token: "{{ assumed_role.sts_creds.session_token }}"
+        resource: vpc-0ae1d7baeaa323b44
+        state: present
+        tags:
+          Name: craigcraig-f5-vpc
+      delegate_to: localhost
+      run_once: true
