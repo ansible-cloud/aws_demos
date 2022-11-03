@@ -3,7 +3,7 @@
   gather_facts: false
   tasks:
 
-    # This is assuming a role, not a sure
+    # This is assuming a role SSMSeanTesting configured under IAM
     - name: SSMrole
       community.aws.sts_assume_role:
         role_arn: arn:aws:iam::962147768365:role/SSMSeanTesting
