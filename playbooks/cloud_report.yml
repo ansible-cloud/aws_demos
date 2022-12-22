@@ -9,6 +9,7 @@
     - name: load retrieve info role
       include_role:
         name: "../roles/retrieve_info"
+      loop: ["us-east-1","us-east-2"]
 
     - name: build a report
       include_role:
