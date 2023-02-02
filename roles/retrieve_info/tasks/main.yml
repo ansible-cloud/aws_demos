@@ -4,10 +4,10 @@
     file: retrieve_info.yml
   loop: "{{ ec2_regions }}"
 
-- name: print out all region info
-  debug:
-    var: us_east_1
+# - name: print out all region info
+#   debug:
+#     var: us_east_1
 
 - name: print out all region info
   debug:
-    var: hostvars[localhost]
+    var: hostvars
