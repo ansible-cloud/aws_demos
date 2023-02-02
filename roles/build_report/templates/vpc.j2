@@ -1,6 +1,6 @@
 <!-- INTERNAL TABLE FOR Ansible -->
 <div id="accordion">
-{% for ec2_region in ec2_regions %}
+{% for ec2_region in all_ec2_regions %}
 <div>
 <h3>{{ ec2_region | default('unknown') }}</h3>
 {% set loop_region = ec2_region|replace("-", "_") %}
