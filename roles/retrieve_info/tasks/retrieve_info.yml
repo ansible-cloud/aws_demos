@@ -32,4 +32,4 @@
       ec2_instance_info: '{{ ec2_instance_info }}'
       igw_info: '{{ igw_info }}' 
   set_fact:
-    all_ec2_regions: "{{ all_ec2_regions | default ([]) + item|replace('-','_') }}"
+    all_ec2_regions: "{{ all_ec2_regions | default ([]) + [item|replace('-','_')] }}"
