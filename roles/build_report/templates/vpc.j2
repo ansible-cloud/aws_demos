@@ -1,21 +1,21 @@
 <!-- INTERNAL TABLE FOR Ansible -->
 <div id="accordion">
 {% for ec2_region in all_ec2_regions %}
+{% for key,value in ec2_region.items() %}
 <div>
-<h3>{{ ec2_region | default('unknown') }}</h3>
-{% set loop_region = ec2_region|replace("-", "_") %}
+<h3>{{ key | default('unknown') }}</h3>
 <div class="net_content">
-<p class="description">There are <strong>{{ loop_region[vpc_info.vpcs] | length }}</strong>
+<p class="description">There are <strong>{{ value[vpc_info.vpcs] | length }}</strong>
 
 <table class="net_info">
 <tbody>
   <tr>
-    <th class="vpc_info">{{ '%-38s'|format('VPC name')}}</th>
-    <th class="vpc_info">{{ '%-28s'|format('VPC id') }}</th>
-    <th class="vpc_info">{{ '%-14s'|format('instances') }}</th>
-    <th class="vpc_info">{{ '%-18s'|format('CIDR block') }}</th>
-    <th class="vpc_info" id="cidr_assoc">{{ '%-26s'|format('CIDR block associations') }}</th>
-    <th class="vpc_info">{{ '%-22s'|format('IGW') }}</th>
+    <th class="vpc_info">VPC name</th>
+    <th class="vpc_info">VPC id</th>
+    <th class="vpc_info">instances</th>
+    <th class="vpc_info">CIDR block'</th>
+    <th class="vpc_info" id="cidr_assoc">CIDR block associations</th>
+    <th class="vpc_info">IGW</th>
   </tr>
  
 </tbody>
