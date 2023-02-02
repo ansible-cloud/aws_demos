@@ -31,4 +31,4 @@
   vars:
     specific_region: '{{ item|replace("-", "_") }}'
   set_fact:
-    all_ec2_regions: "{{ all_ec2_regions | default ({}) | combine( '{{ specific_region }}' )
+    all_ec2_regions: "{{ all_ec2_regions | default ({}) | combine( specific_region ) }}"
