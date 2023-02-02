@@ -7,3 +7,7 @@
 - name: print out all region info
   debug:
     var: us_east_1
+
+- name: print out all region info
+  debug:
+    var: hostvars[localhost]
