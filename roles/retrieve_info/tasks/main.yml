@@ -19,6 +19,6 @@
 
 - name: Set facts all info for {{ ec2_region }}
   set_fact:
-    '{{ ec2_region }}': '{{ vpc_info }}'
-    '{{ ec2_region }}': '{{ ec2_instance_info }}'
-    '{{ ec2_region }}': '{{ igw_info }}'    
+    '{{ ec2_region|replace("-", "_") }}': '{{ vpc_info }}'
+    '{{ ec2_region|replace("-", "_") }}': '{{ ec2_instance_info }}'
+    '{{ ec2_region|replace("-", "_") }}': '{{ igw_info }}'    
