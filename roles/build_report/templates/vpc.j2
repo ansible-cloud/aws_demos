@@ -3,8 +3,9 @@
 {% for ec2_region in ec2_regions %}
 <div>
 <h3>{{ ec2_region | default('unknown') }}</h3>
+{% set loop_region = ec2_region|replace("-", "_") %}
 <div class="net_content">
-<p class="description">There are <strong>{{ ec2_region|replace("-", "_").vpc_info.vpcs | length }}</strong> AWS VPCs configured and <strong>{{ ec2_instance_info.instances | length }}</strong> instances on region {{ ec2_region | default('unknown') }}
+<p class="description">There are <strong>{{ loop_region.vpc_info.vpcs | length }}</strong> AWS VPCs configured and <strong>{{ ec2_instance_info.instances | length }}</strong> instances on region {{ ec2_region | default('unknown') }}
 
 <table class="net_info">
 <tbody>
