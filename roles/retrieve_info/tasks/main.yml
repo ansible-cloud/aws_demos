@@ -1,20 +1,24 @@
 ---
-- name: retrieve vpc information
+- name: Retrieve vpc information
   amazon.aws.ec2_vpc_net_info:
     region: "{{ ec2_region }}"
-  register: "{{ ec2_region }}.vpc_info"
+  register: vpc_info
   delegate_to: localhost
 
-- name: retrieve info for ec2 instances
+- name: Retrieve info for ec2 instances
   amazon.aws.ec2_instance_info:
     region: "{{ ec2_region }}"
-  register: "{{ ec2_region }}.ec2_instance_info"
+  register: ec2_instance_info
   delegate_to: localhost
 
-- name: Gather information about Internet Gateways IGWs
+- name: Retrieve information about Internet Gateways IGWs
   amazon.aws.ec2_vpc_igw_info:
     region: "{{ ec2_region }}"
-  register: "{{ ec2_region }}.igw_info"
+  register: igw_info
   delegate_to: localhost
 
-
+- name: Set facts all info for {{ ec2_region }}
+  set_fact:
+    '{{ ec2_region }}': '{{ vpc_info }}'
+    '{{ ec2_region }}': '{{ ec2_instance_info }}'
+    '{{ ec2_region }}': '{{ igw_info }}'    
