@@ -27,4 +27,4 @@
 
 - name: Set facts all info for {{ item }}
   set_fact:
-    all_ec2_regions: "{{ all_ec2_regions | default ({}) | combine( item|replace('-'', '_') ) }}"
+    all_ec2_regions: "{{ all_ec2_regions | default ({}) | combine( item|replace('-','_') ) }}"
