@@ -17,7 +17,27 @@
     <th class="vpc_info" id="cidr_assoc">CIDR block associations</th>
     <th class="vpc_info">IGW</th>
   </tr>
- 
+  {% for vpc in value.vpc_info.vpcs %}
+  <tr>
+  <td>{{ vpc.tags['Name'] | default('Unspecified, missing name tag') }}</td>
+  <td>{{ vpc.id }}</td>
+  <td>{{ value.ec2_instance_info.instances | selectattr('vpc_id', 'equalto', vpc.id ) | length -}}</td>
+  <td>{{ vpc.cidr_block }}</td>
+  <td>{{ vpc.cidr_block_association_set | length | default('0') }}</td>
+  {% set ns = namespace(igwfound=False) %}
+  {%- for igw in value.igw_info.internet_gateways -%}
+  {% if igw['attachments'] | length > 0 %}
+  {% if igw['attachments'][0]['vpc_id'] == vpc.id %}
+  <td>{{ igw['internet_gateway_id'] }}</td>
+  {% set ns.igwfound = True %}
+  {% endif %}
+  {% endif %}
+  {%- endfor -%}
+  {% if not ns.igwfound %}
+  <td>No IGW found</td>
+  {% endif %}
+  </tr>
+  {% endfor %}
 </tbody>
 </table>
 </div>
