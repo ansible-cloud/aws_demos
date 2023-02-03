@@ -1,7 +1,7 @@
 <!-- INTERNAL TABLE FOR Ansible -->
 <div id="accordion">
 {% for ec2_region in all_ec2_regions %}
-{% for key,value in ec2_region.items() %}
+{% for key, value in ec2_region.items() %}
 <div>
 <h3>{{ key | default('unknown') }}</h3>
 <div class="net_content">
