@@ -3,7 +3,7 @@
 {% for ec2_region in all_ec2_regions %}
 {% for key, value in ec2_region.items() %}
 <div>
-<h3><p class="region_title">{{ key | default('unknown') }}</p> &nbsp;&nbsp;<p class="instances_highlight">{% if value.ec2_instance_info.instances | length > 0 %}{{ value.ec2_instance_info.instances | length }} instances running{% endif %}</p></h3>
+<h3><div id="region_title">{{ key | default('unknown') }}</div> &nbsp;&nbsp;<div id="instances_highlight">{% if value.ec2_instance_info.instances | length > 0 %}{{ value.ec2_instance_info.instances | length }} instances running{% endif %}</div></h3>
 <div class="net_content">
 <p class="description">There are <strong>{{ value.vpc_info.vpcs | length }}</strong> AWS VPCs configured and <strong>{{ value.ec2_instance_info.instances | length }}</strong> instances on region {{ key | default('unknown') }}</p>
 
