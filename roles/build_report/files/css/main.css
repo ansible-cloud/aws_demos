@@ -223,3 +223,12 @@ th.vpc_info {
 #cidr_assoc {
     min-width: 155px;
 }
+
+#instances_highlight {
+    display: inline;
+    color: #ee0000;
+}
+
+#region_title {
+    display: inline;
+}
