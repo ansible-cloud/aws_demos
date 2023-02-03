@@ -5,11 +5,6 @@
   loop: "{{ ec2_regions }}"
 
 - name: grab boto version
-  command: "{{ ansible_python['executable'] }} -c 'import boto3; print(boto3.__version__)'"
-  register: py_cmd
-  delegate_to: localhost
-
-- name: grab boto version
   ansible.builtin.pip:
     name: boto3
   register: register_boto3_version
