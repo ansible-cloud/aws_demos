@@ -50,7 +50,7 @@
     - "redhat-ansible-logo.svg"
     - "aws.png"
 
-- name: display link to inventory report
+- name: print variables
   debug:
     var: hostvars['ansible-1']
 
