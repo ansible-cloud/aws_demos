@@ -224,11 +224,20 @@ th.vpc_info {
     min-width: 155px;
 }
 
-#instances_highlight {
+.instances_highlight {
+    display: inline;
+    color: #000000;
+}
+
+.instances_running {
     display: inline;
     color: #ee0000;
 }
 
 #region_title {
     display: inline;
+}
+
+.ui-state-active .instances_running {
+  color: #ffffff;
 }

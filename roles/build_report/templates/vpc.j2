@@ -2,8 +2,11 @@
 <div id="accordion">
 {% for ec2_region in all_ec2_regions %}
 {% for key, value in ec2_region.items() %}
+{% set running = value.ec2_instance_info.instances | selectattr('state.name', 'equalto', "running") | length %}
+{% set stopped = value.ec2_instance_info.instances | selectattr('state.name', 'equalto', "stopped") | length %}
+{% set total = value.ec2_instance_info.instances | length %}
 <div>
-<h3><div id="region_title">{{ key | default('unknown') }}</div> &nbsp;&nbsp;<div id="instances_highlight">{% if value.ec2_instance_info.instances | length > 0 %}{{ value.ec2_instance_info.instances | length }} instances - {{ value.ec2_instance_info.instances | selectattr('state.name', 'equalto', "running") | length }} running - {{ value.ec2_instance_info.instances | selectattr('state.name', 'equalto', "stopped") | length }} stopped {% endif %}</div></h3>
+<h3><div id="region_title">{{ key | default('unknown') }}</div> &nbsp;&nbsp;<div class="instances_highlight">{% if total | length > 0 %} - {% if running | length > 0 %}<div class="instances_running">{% endif %}{{ running }} instances running{% if running | length > 0 %}</div>{% endif %} - {{ stopped }} stopped ({{ total }} total){% endif %}</div></h3>
 <div class="net_content">
 <p class="description">There are <strong>{{ value.vpc_info.vpcs | length }}</strong> AWS VPCs configured and <strong>{{ value.ec2_instance_info.instances | length }}</strong> instances on region {{ key | default('unknown') }}</p>
 
