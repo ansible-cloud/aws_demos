@@ -250,3 +250,7 @@ th.vpc_info {
 .ui-state-active .instances_stopped {
   color: #ffffff;
 }
+
+.ui-state-default .instances_running {
+  background-image: ui-icons_ee0000_256x240.png;
+}
