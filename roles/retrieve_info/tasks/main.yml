@@ -10,11 +10,11 @@
   register: register_boto3_version
   check_mode: true
 
-- name: set boto3 facts
-  ansible.builtin.set_fact:
-    boto3_version: '{{ boto3[7:] }}'
-  vars:
-    boto3: '{{ register_boto3_version.stdout_lines | select("match","boto3") | first | default("Unknown") }}'
+# - name: set boto3 facts
+#   ansible.builtin.set_fact:
+#     boto3_version: '{{ boto3[7:] }}'
+#   vars:
+#     boto3: '{{ register_boto3_version.stdout_lines | select("match","boto3") | first | default("Unknown") }}'
 
 - name: grab information about AWS user
   amazon.aws.aws_caller_info:
@@ -29,4 +29,6 @@
 - name: save username of AWS user
   set_fact:
     aws_user: '{{ whoami.arn.split("/")[-1] }}'
+    boto3_version: >-
+      {{ lookup('pipe', ansible_playbook_python ~ ' -c "import boto3; print(boto3.__version__)"') | default('unknown') }}    
   delegate_to: localhost
