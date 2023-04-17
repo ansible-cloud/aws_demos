@@ -50,13 +50,18 @@
     - "redhat-ansible-logo.svg"
     - "aws.png"
 
-- name: display link to inventory report
+- name: print variables
   debug:
     var: hostvars['ansible-1']
+
+- name: retrieve public IP address
+  ansible.builtin.command: curl https://ifconfig.me
+  register: public_ip_report
+  ignore_errors: true
 
 - name: display link to inventory report
   debug:
     msg:
-      - "Please go to http://{{ ansible_fqdn }}:{{ web_port }}"
+      - "Please go to http://{{ public_ip_report.stdout | default(ansible_fqdn) }}:{{ web_port }}"
       - "or just refresh the Cloud Report tab"
       - "at the top of your window if you using Instruqt labs!"

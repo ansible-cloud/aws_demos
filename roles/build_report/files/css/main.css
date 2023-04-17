@@ -223,3 +223,42 @@ th.vpc_info {
 #cidr_assoc {
     min-width: 155px;
 }
+
+.instances_highlight {
+    display: inline-block;
+}
+
+.instances_running {
+    display: inline-block;
+    color: #ee0000;
+}
+
+.instances_stopped {
+  display: inline-block;
+  color: #000000;
+}
+
+#region_title {
+    display: inline-block;
+    padding-right:10px;
+}
+
+.ui-state-active .instances_running {
+  color: #ffffff;
+}
+
+.ui-state-active .instances_stopped {
+  color: #ffffff;
+}
+
+.ui-state-default .instances_running {
+  background-image: ui-icons_ee0000_256x240.png;
+}
+
+.instances_running .ui-icon {
+  background-image: url("https://s3.amazonaws.com/ansible.demoredhat.com.private/ui-icons_ee0000_256x240.png");
+}
+
+.ui-state-active .ui-icon, .ui-button:active .ui-icon {
+  background-image: url("http://code.jquery.com/ui/1.12.1/themes/base/images/ui-icons_ffffff_256x240.png") !important;
+}
