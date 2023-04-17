@@ -258,3 +258,7 @@ th.vpc_info {
 .instances_running .ui-icon {
   background-image: url("https://s3.amazonaws.com/ansible.demoredhat.com.private/ui-icons_ee0000_256x240.png");
 }
+
+.ui-state-active .ui-icon, .ui-button:active .ui-icon {
+  background-image: url("images/ui-icons_ffffff_256x240.png") !important;
+}
