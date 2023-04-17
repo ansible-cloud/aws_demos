@@ -49,6 +49,7 @@
     - "webpage_logo.png"
     - "redhat-ansible-logo.svg"
     - "aws.png"
+    - "ui-icons_ee0000_256x240.png"
 
 - name: print variables
   debug:
