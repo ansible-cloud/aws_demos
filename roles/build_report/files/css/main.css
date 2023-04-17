@@ -225,18 +225,28 @@ th.vpc_info {
 }
 
 .instances_highlight {
-    display: inline;
+    display: inline-block;
 }
 
 .instances_running {
-    display: inline;
+    display: inline-block;
     color: #ee0000;
 }
 
+.instances_stopped {
+  display: inline-block;
+  color: #000000;
+}
+
 #region_title {
-    display: inline;
+    display: inline-block;
+    padding-right:10px;
 }
 
 .ui-state-active .instances_running {
+  color: #ffffff;
+}
+
+.ui-state-active .instances_stopped {
   color: #ffffff;
 }
