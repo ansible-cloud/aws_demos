@@ -10,7 +10,8 @@
   register: register_boto3_version
   check_mode: true
 
-- set_fact:
+- name: set boto3 facts
+  ansible.builtin.set_fact:
     boto3_version: '{{ boto3[7:] }}'
   vars:
     boto3: '{{ register_boto3_version.stdout_lines | select("match","boto3") | first }}'
