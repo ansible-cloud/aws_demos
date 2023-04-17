@@ -25,7 +25,6 @@
   <tr>
   <td>{{ vpc.tags['Name'] | default('Unspecified, missing name tag') }}</td>
   <td>{{ vpc.id }}</td>
-  {% set vpc_instances = value.ec2_instance_info.instances | selectattr('vpc_id', 'equalto', vpc.id ) %}
   <td>sean1</td>
   <td>sean</td>
   <td>{{ vpc.cidr_block }}</td>
