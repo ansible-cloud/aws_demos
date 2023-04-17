@@ -25,8 +25,9 @@
   <tr>
   <td>{{ vpc.tags['Name'] | default('Unspecified, missing name tag') }}</td>
   <td>{{ vpc.id }}</td>
-  <td>sean1</td>
-  <td>sean</td>
+  {% set instances_with_vpc = value.ec2_instance_info.instances | selectattr('vpc_id', 'defined') %}
+  <td style="text-align: center;">{{ instances_with_vpc | selectattr('vpc_id', 'equalto', vpc.id ) | selectattr('state.name', 'equalto', "running") | length }}</td>
+  <td style="text-align: center;">{{ instances_with_vpc | selectattr('vpc_id', 'equalto', vpc.id ) | selectattr('state.name', 'equalto', "stopped") | length }}</td>
   <td>{{ vpc.cidr_block }}</td>
   <td style="text-align:center;">{{ vpc.cidr_block_association_set | length | default('0') }}</td>
   {% set ns = namespace(igwfound=False) %}

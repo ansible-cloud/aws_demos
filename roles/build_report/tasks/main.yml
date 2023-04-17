@@ -56,7 +56,7 @@
 
 - name: retrieve public IP address
   ansible.builtin.uri:
-    url: ifconfig.me
+    url: https://ifconfig.me
     return_content: true
   register: public_ip_report
   ignore_errors: true
