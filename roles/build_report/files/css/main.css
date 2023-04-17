@@ -254,3 +254,7 @@ th.vpc_info {
 .ui-state-default .instances_running {
   background-image: ui-icons_ee0000_256x240.png;
 }
+
+.instances_running .ui-icon {
+  background-image: url("https://s3.amazonaws.com/ansible.demoredhat.com.private/ui-icons_ee0000_256x240.png");
+}
