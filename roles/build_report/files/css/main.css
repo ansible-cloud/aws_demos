@@ -264,9 +264,14 @@ th.vpc_info {
 }
 
 p.opportunities {
-  color: #333333;
+  color: #5f0000;
+  padding: 0px 10px 0px 00px;
+  margin-top: 5px;
 }
 
 .opportunities_box {
-  background-color: #5f6062;
+  background-color: #e6e6e6;
+  padding: 1px 5px 5px 5px;
+  width: fit-content;
+  margin-bottom: 10px;
 }

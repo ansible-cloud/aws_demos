@@ -12,7 +12,7 @@
 {% set nsvpc = namespace(total_empty_vpc = 0) %}
 {% for vpc in value.vpc_info.vpcs %}
 {% set instances_with_vpc = value.ec2_instance_info.instances | selectattr('vpc_id', 'defined') %}
-{% if instances_with_vpc | selectattr('vpc_id', 'equalto', vpc.id ) | length > 0 %}
+{% if instances_with_vpc | selectattr('vpc_id', 'equalto', vpc.id ) | length <= 0 %}
 {% set nsvpc.total_empty_vpc = nsvpc.total_empty_vpc + 1 %} 
 {% endif %}
 {% endfor %}
