@@ -10,23 +10,12 @@
   register: register_boto3_version
   check_mode: true
 
-# - name: set boto3 facts
-#   ansible.builtin.set_fact:
-#     boto3_version: '{{ boto3[7:] }}'
-#   vars:
-#     boto3: '{{ register_boto3_version.stdout_lines | select("match","boto3") | first | default("Unknown") }}'
-
 - name: grab information about AWS user
   amazon.aws.aws_caller_info:
   register: whoami
   delegate_to: localhost
 
-- name: print whoami
-  debug:
-    var: whoami
-  delegate_to: localhost
-
-- name: save username of AWS user
+- name: save username of AWS user and boto3 version
   set_fact:
     aws_user: '{{ whoami.arn.split("/")[-1] }}'
     boto3_version: >-
