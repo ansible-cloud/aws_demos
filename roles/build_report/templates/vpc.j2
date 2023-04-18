@@ -36,7 +36,7 @@
   </tr>
   {% for vpc in value.vpc_info.vpcs %}
   <tr>
-  <td>{{ vpc.tags['Name'] | default('Unspecified, missing name tag') }}</td>
+  <td>{{ vpc.tags['Name'] | default('<span class="ui-accordion-header-icon ui-icon ui-icon-circle-close"></span>no name tag') }}</td>
   <td>{{ vpc.id }}</td>
   {% set instances_with_vpc = value.ec2_instance_info.instances | selectattr('vpc_id', 'defined') %}
   <td style="text-align: center;">{{ instances_with_vpc | selectattr('vpc_id', 'equalto', vpc.id ) | selectattr('state.name', 'equalto', "running") | length }}</td>
