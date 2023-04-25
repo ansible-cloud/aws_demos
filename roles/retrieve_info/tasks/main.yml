@@ -1,5 +1,5 @@
 ---
-- name: loop over all ec2 regins
+- name: loop over all ec2 regions
   ansible.builtin.include_tasks:
     file: retrieve_info.yml
   loop: "{{ ec2_regions }}"
