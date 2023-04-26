@@ -5,7 +5,7 @@
 #   loop: "{{ ec2_regions }}"
 
 - name: Get facts by tags
-  azure.azcollection.azure_rm_virtualnetwork_info :
+  azure.azcollection.azure_rm_virtualnetwork_info:
   register: azure_networks
 
 - name: Get facts by tags
