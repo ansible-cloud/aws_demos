@@ -10,12 +10,10 @@
 - name: print the thing 
   debug:
     msg: "{{ output }}"
-    
+
 - name: Get facts by tags
-  connection: local
   azure.azcollection.azure_rm_virtualnetwork_info:
   register: azure_networks
-  delegate_to: localhost
 
 - name: Get facts by tags
   debug:
