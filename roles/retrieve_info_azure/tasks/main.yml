@@ -3,13 +3,14 @@
 #   ansible.builtin.include_tasks:
 #     file: retrieve_info.yml
 #   loop: "{{ ec2_regions }}"
-- name: do the thing
-  shell: "ls -la /usr/libexec | grep platform-python"
-  register: output 
 
-- name: print the thing 
-  debug:
-    msg: "{{ output }}"
+# - name: do the thing
+#   shell: "ls -la /usr/libexec | grep platform-python"
+#   register: output 
+
+# - name: print the thing 
+#   debug:
+#     msg: "{{ output }}"
 
 - name: Get facts by tags
   azure.azcollection.azure_rm_virtualnetwork_info:
