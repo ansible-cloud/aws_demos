@@ -11,13 +11,13 @@
 # - name: print the thing 
 #   debug:
 #     msg: "{{ output }}"
-- name: Get facts for current logged in user
-  azure.azcollection.azure_rm_account_info:
-  register: azure_account_info
+# - name: Get facts for current logged in user
+#   azure.azcollection.azure_rm_account_info:
+#   register: azure_account_info
 
-- name: print azure_account_info
-  ansible.builtin.debug:
-    msg: "{{ azure_account_info }}"
+# - name: print azure_account_info
+#   ansible.builtin.debug:
+#     msg: "{{ azure_account_info }}"
 
 - name: get all networks
   azure.azcollection.azure_rm_virtualnetwork_info:
