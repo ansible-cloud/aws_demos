@@ -16,7 +16,7 @@
   register: azure_account_info
 
 - name: print azure_account_info
-  debug:
+  ansible.builtin.debug:
     msg: "{{ azure_account_info }}"
 
 - name: get all networks
@@ -24,8 +24,16 @@
   register: azure_networks
 
 - name: print azure_account_info azure_networks
-  debug:
+  ansible.builtin.debug:
     msg: "{{ azure_networks }}"
+
+- name: List automation account in a resource group
+  azure.azcollection.azure_rm_automationaccount_info:
+  register: automationaccount_info
+
+- name: print automationaccount_info
+  ansible.builtin.debug:
+    msg: "{{ automationaccount_info }}"
 
 # - name: grab boto version
 #   ansible.builtin.pip:
