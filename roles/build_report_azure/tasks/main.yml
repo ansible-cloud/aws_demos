@@ -1,7 +1,7 @@
 ---
 - name: debug
   debug:
-    var: hostvars[localhost]
+    var: hostvars["localhost"]
 
 - name: install apache
   become: true
