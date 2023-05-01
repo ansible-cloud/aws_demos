@@ -41,7 +41,7 @@
   <td><table>{% for subnet in virtual_network.subnets %}<tr><td>{{ subnet.name }}</td><td>{{ subnet.address_prefix }}</td></tr>{% endfor %}</table></td>
   <td style="text-align: center;">{{ virtual_network_specific_nics | length }}</td>
   <td><table>{% for nic in virtual_network_specific_nics %}<tr><td>{{ nic.name }}</td><td>{{ nic.mac_address }}</td></tr>{% endfor %}</table></td>
-  <td>{{ filtered_vms | length }}</td>
+  <td style="text-align: center;">{{ filtered_vms | length }}</td>
   </tr>
 {% endfor %}  
 </tbody>
