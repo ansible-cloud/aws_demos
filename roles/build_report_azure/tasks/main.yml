@@ -13,12 +13,12 @@
     insertafter: '^#Listen '
     line: 'Listen {{web_port}}'
 
-- name: Set nis_enabled flag on and keep it persistent across reboots
-  become: true
-  seboolean:
-    name: nis_enabled
-    state: true
-    persistent: true
+# - name: Set nis_enabled flag on and keep it persistent across reboots
+#   become: true
+#   seboolean:
+#     name: nis_enabled
+#     state: true
+#     persistent: true
 
 - name: start httpd
   become: true
