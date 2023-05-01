@@ -4,7 +4,7 @@
 <div id="accordion">
 {% for location in real_location %}
 <div>
-<h3><div id="region_title">{{ {{ location.name }} - {{ location["metadata"]["physicalLocation"] | default('unknown') }}</div></h3>
+<h3><div id="region_title">{{ location.name }} - {{ location["metadata"]["physicalLocation"] | default('unknown') }}</div></h3>
 <div class="net_content">
 <p class="description">some cool info for this region</p>
 
