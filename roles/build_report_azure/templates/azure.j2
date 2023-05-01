@@ -21,7 +21,7 @@
     <th class="vpc_info">Subnet Details</th>
     <th class="vpc_info">Network<br>Interfaces</th>
     <th class="vpc_info">Network Interface Details</th>
-    <th class="vpc_info">Virtual Machines</th>
+    <th class="vpc_info">Virtual<br>Machines</th>
   </tr>
 {% set region_specific_nics = azure_vars.network_interfaces.networkinterfaces | selectattr('location', 'equalto', location.name) %}
 {% set nic_names = region_specific_nics | map(attribute='name') | list %}
