@@ -12,7 +12,6 @@
   gather_facts: true
   tasks:
 
-
-    # - name: build a report
-    #   include_role:
-    #     name: "../roles/build_report"
+    - name: build a report
+      include_role:
+        name: "../roles/build_report_azure"

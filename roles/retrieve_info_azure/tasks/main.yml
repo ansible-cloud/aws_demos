@@ -10,11 +10,11 @@
   azure.azcollection.azure_rm_resource_info:
     url: "/locations"
     api_version: "2020-01-01"
-  register: result
+  register: all_regions
 
 - name: print #var
   debug:
-    msg: "{{ result }}"
+    msg: "{{ all_regions }}"
 
 - name: get all networks
   azure.azcollection.azure_rm_virtualnetwork_info:
