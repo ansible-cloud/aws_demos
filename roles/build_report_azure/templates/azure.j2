@@ -19,7 +19,7 @@
     <th class="vpc_info">Address Prefixes </th>
     <th class="vpc_info">Subnets</th>
     <th class="vpc_info">Subnet Details</th>
-    <th class="vpc_info">Network Interfaces</th>
+    <th class="vpc_info">Network<br>Interfaces</th>
     <th class="vpc_info" id="cidr_assoc">replace me 2</th>
   </tr>
 {% set region_specific_networks = azure_vars.azure_networks.virtualnetworks | selectattr('location', 'equalto', location.name) %}
@@ -30,9 +30,9 @@
   <td>{{ virtual_network.name | default("unknown") }}</td>
   <td>{% for prefix in virtual_network.address_prefixes %}{{ prefix }}{% endfor %}</td>
   <td style="text-align: center;">{{ virtual_network.subnets | length }}</td>
-  <td style="text-align: center;">{% for subnet in virtual_network.subnets %} {{ subnet.name }}{{ subnet.address_prefix }}{% endfor %}</td>
-  <td>{{ virtual_network_specific_nics | length }}</td>
-  <td style="text-align:center;">test6</td>
+  <td>{% for subnet in virtual_network.subnets %} {{ subnet.name }} {{ subnet.address_prefix }}{% endfor %}</td>
+  <td style="text-align: center;">{{ virtual_network_specific_nics | length }}</td>
+  <td>{% for nic in virtual_network_specific_nics %} {{ nic.name }} {{ nic.mac_address }}{% endfor %}</td>
   </tr>
 {% endfor %}  
 </tbody>
