@@ -18,6 +18,15 @@
 # - name: print azure_account_info
 #   ansible.builtin.debug:
 #     msg: "{{ azure_account_info }}"
+- name: Get list of all regions
+  azure.azcollection.azure_rm_resource_info:
+    url: "/locations"
+    api_version: "2020-01-01"
+  register: result
+
+- name: print #var
+  debug:
+    msg: "{{ result }}"
 
 - name: get all networks
   azure.azcollection.azure_rm_virtualnetwork_info:
@@ -34,21 +43,3 @@
 - name: print azure_vms
   ansible.builtin.debug:
     msg: "{{ azure_vms }}"
-
-# - name: grab boto version
-#   ansible.builtin.pip:
-#     name: boto3
-#   register: register_boto3_version
-#   check_mode: true
-
-# - name: grab information about AWS user
-#   amazon.aws.aws_caller_info:
-#   register: whoami
-#   delegate_to: localhost
-
-# - name: save username of AWS user and boto3 version
-#   set_fact:
-#     aws_user: '{{ whoami.arn.split("/")[-1] }}'
-#     boto3_version: >-
-#       {{ lookup('pipe', ansible_playbook_python ~ ' -c "import boto3; print(boto3.__version__)"') | default('unknown') }}    
-#   delegate_to: localhost
