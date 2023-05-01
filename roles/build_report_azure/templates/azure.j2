@@ -25,6 +25,13 @@
   </tr>
 {% set region_specific_nics = azure_vars.network_interfaces.networkinterfaces | selectattr('location', 'equalto', location.name) %}
 {% set nic_names = region_specific_nics | map(attribute='name') | list %}
+{% set filtered_vms = [] %}
+{% for vm in azure_vars.azure_vms.vms %}
+{% if nic_names | intersect(vm['network_interface_names'])  %}
+{{- filtered_vms.append(vm) -}}
+{% endif %}
+{% endfor %}
+
 {% for virtual_network in region_specific_networks %}
 {% set virtual_network_specific_nics = region_specific_nics | selectattr('virtual_network.name', 'equalto', virtual_network.name) %}
   <tr>
@@ -34,7 +41,7 @@
   <td><table>{% for subnet in virtual_network.subnets %}<tr><td>{{ subnet.name }}</td><td>{{ subnet.address_prefix }}</td></tr>{% endfor %}</table></td>
   <td style="text-align: center;">{{ virtual_network_specific_nics | length }}</td>
   <td><table>{% for nic in virtual_network_specific_nics %}<tr><td>{{ nic.name }}</td><td>{{ nic.mac_address }}</td></tr>{% endfor %}</table></td>
-  <td>{{ azure_vars.azure_vms.vms | selectattr('network_interface_names', 'intersect', nic_names) }}</td>
+  <td>{{ filtered_vms | length }}</td>
   </tr>
 {% endfor %}  
 </tbody>
