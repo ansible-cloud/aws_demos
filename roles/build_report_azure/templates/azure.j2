@@ -20,8 +20,8 @@
     <th class="vpc_info">Subnets</th>
     <th class="vpc_info">Subnet Details</th>
     <th class="vpc_info">Network<br>Interfaces</th>
-    <th class="vpc_info" id="cidr_assoc">Network Interface Details</th>
-    <th class="vpc_info" id="cidr_assoc">Virtual Machines</th>
+    <th class="vpc_info">Network Interface Details</th>
+    <th class="vpc_info">Virtual Machines</th>
   </tr>
 {% set region_specific_nics = azure_vars.network_interfaces.networkinterfaces | selectattr('location', 'equalto', location.name) %}
 {% for virtual_network in region_specific_networks %}
@@ -33,7 +33,7 @@
   <td><table>{% for subnet in virtual_network.subnets %}<tr><td>{{ subnet.name }}</td><td>{{ subnet.address_prefix }}</td></tr>{% endfor %}</table></td>
   <td style="text-align: center;">{{ virtual_network_specific_nics | length }}</td>
   <td><table>{% for nic in virtual_network_specific_nics %}<tr><td>{{ nic.name }}</td><td>{{ nic.mac_address }}</td></tr>{% endfor %}</table></td>
-  <td>Virtual Machines</td>
+  <td>{{ azure_vars.azure_vms.vms | selectattr('network_interface_names', 'in', virtual_network_specific_nics) }}</td>
   </tr>
 {% endfor %}  
 </tbody>
