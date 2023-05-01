@@ -1,8 +1,12 @@
 <!-- INTERNAL TABLE FOR Ansible -->
-{% set real_location = hostvars["localhost"].all_regions.response | selectattr('metadata.regionType', 'equalto', "Physical") %}
+{% set azure_vars = hostvars["localhost"] %}
+{% set real_location = azure_vars.all_regions.response | selectattr('metadata.regionType', 'equalto', "Physical") %}
 
 <div id="accordion">
 {% for location in real_location %}
+{% set running = azure_vars.vms | selectattr('location', 'equalto', location.name) | selectattr('power_state', 'equalto', "running") | length %}
+{% set stopped = azure_vars.vms | selectattr('location', 'equalto', location.name) | selectattr('power_state', 'equalto', "stopped") | length %}
+{% set total = azure_vars.vms | selectattr('location', 'equalto', location.name) | length %}
 <div>
 <h3><div id="region_title">{{ location.name }} - {{ location["metadata"]["physicalLocation"] | default('unknown') }}</div></h3>
 <div class="net_content">
