@@ -25,7 +25,7 @@
 {% set region_specific_networks = azure_vars.azure_networks.virtualnetworks | selectattr('location', 'equalto', location.name) %}
 {% for virtual_network in region_specific_networks %}
   <tr>
-  <td>{{ virtual_network.name | default("unknown")</td>
+  <td>{{ virtual_network.name | default("unknown") }}</td>
   <td>{% for prefix in virtual_network.address_prefixes %}{{ prefix }}{% endfor %}</td>
   <td style="text-align: center;">{{ virtual_network.subnets | length }}</td>
   <td style="text-align: center;">{% for subnet in virtual_network.subnets %}{{ subnet.name }}{{ subnet.address_prefix }}{% endfor %}</td>

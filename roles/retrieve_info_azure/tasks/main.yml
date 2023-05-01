@@ -31,3 +31,11 @@
 - name: print azure_vms
   ansible.builtin.debug:
     msg: "{{ azure_vms }}"
+
+- name: Get facts for network interfaces
+  azure_rm_networkinterface_info:
+  register: network_interfaces
+
+- name: print azure_vms
+  ansible.builtin.debug:
+    msg: "{{ network_interfaces }}"

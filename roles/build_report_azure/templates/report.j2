@@ -21,7 +21,7 @@ collapsible: true
   {% include 'header.j2' %}
 <section>
 <center>
-<h1>Ansible Hybrid Cloud Automation Example Report</h1>
+<h1>Ansible Azure Automation Example Report</h1>
 </center>
 <table class="main_net_table">
     <thead>
@@ -41,20 +41,16 @@ collapsible: true
               <table class="net_info">
               <tbody>
                 <tr>
-                  <td>Boto3 Version</td>
-                  <td class="sub_net_info">{{ boto3_version | default ('unknown')}}</td>
+                  <td>Azure Client ID</td>
+                  <td class="sub_net_info">{{ lookup('ansible.builtin.env', 'AZURE_CLIENT_ID') }}</td>
                 </tr>
                 <tr>
-                  <td>AWS user</td>
-                  <td class="sub_net_info">{{ aws_user | default('unknown') }}</td>
+                  <td>Azure Subscription ID</td>
+                  <td class="sub_net_info">{{ lookup('ansible.builtin.env', 'AZURE_SUBSCRIPTION_ID') }}</td>
                 </tr>
                 <tr>
-                  <td>Account ID</td>
-                  <td class="sub_net_info">{{ whoami.account | default('unknown') }}</td>
-                </tr>
-                <tr>
-                  <td>Account Alias</td>
-                  <td class="sub_net_info">{{ whoami.account_alias | default ('unknown')}}</td>
+                  <td>Azure Tenant</td>
+                  <td class="sub_net_info">{{ lookup('ansible.builtin.env', 'AZURE_TENANT') }}</td>
                 </tr>
               </tbody>
               </table>
