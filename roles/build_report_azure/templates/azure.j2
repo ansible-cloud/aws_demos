@@ -8,7 +8,7 @@
 {% set stopped = azure_vars.azure_vms.vms | selectattr('location', 'equalto', location.name) | selectattr('power_state', 'equalto', "stopped") | length %}
 {% set total = azure_vars.azure_vms.vms | selectattr('location', 'equalto', location.name) | length %}
 <div>
-<h3><div id="region_title">{{ location.name }} - {{ location["metadata"]["physicalLocation"] | default('unknown') }}</div></h3>
+<h3><div id="region_title">{{ location.name }} - {{ location["metadata"]["physicalLocation"] | default('unknown') }}</div><div class="instances_highlight">{% if total > 0 %}{% if running > 0 %}<div class="instances_running">{% endif %}<span class="ui-accordion-header-icon ui-icon ui-icon-power"></span>{{ running }} instances running{% if running > 0 %}</div>{% endif %}<div class="instances_stopped"><span class="ui-accordion-header-icon ui-icon ui-icon-stop"></span>{{ stopped }} stopped ({{ total }} total)</div>{% endif %}</div></h3>
 <div class="net_content">
 <p class="description">some cool info for this region</p>
 

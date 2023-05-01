@@ -52,7 +52,7 @@
   loop:
     - "webpage_logo.png"
     - "redhat-ansible-logo.svg"
-    - "aws.png"
+    - "azure.png"
 
 - name: print variables
   debug:
