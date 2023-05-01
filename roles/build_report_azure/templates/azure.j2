@@ -28,9 +28,9 @@
 {% set virtual_network_specific_nics = region_specific_nics | selectattr('virtual_network.name', 'equalto', virtual_network.name) %}
   <tr>
   <td>{{ virtual_network.name | default("unknown") }}</td>
-  <td>{% for prefix in virtual_network.address_prefixes %}<div id="table_item">{{ prefix }}</div>{% endfor %}</td>
+  <td><table>{% for prefix in virtual_network.address_prefixes %}<tr><td>{{ prefix }}</td></tr>{% endfor %}</table></td>
   <td style="text-align: center;">{{ virtual_network.subnets | length }}</td>
-  <td>{% for subnet in virtual_network.subnets %}<div id="table_item">{{ subnet.name }} {{ subnet.address_prefix }}</div>{% endfor %}</td>
+  <td><table>{% for subnet in virtual_network.subnets %}<tr><td>{{ subnet.name }}</td><td>{{ subnet.address_prefix }}</td></tr>{% endfor %}</table></td>
   <td style="text-align: center;">{{ virtual_network_specific_nics | length }}</td>
   <td><table>{% for nic in virtual_network_specific_nics %}<tr><td>{{ nic.name }}</td><td>{{ nic.mac_address }}</td></tr>{% endfor %}</table></td>
   </tr>
