@@ -10,8 +10,8 @@
 <div>
 <h3><div id="region_title">{{ location.name }} - {{ location["metadata"]["physicalLocation"] | default('unknown') }}</div><div class="instances_highlight">{% if total > 0 %}{% if running > 0 %}<div class="instances_running">{% endif %}<span class="ui-accordion-header-icon ui-icon ui-icon-power"></span>{{ running }} instances running{% if running > 0 %}</div>{% endif %}<div class="instances_stopped"><span class="ui-accordion-header-icon ui-icon ui-icon-stop"></span>{{ stopped }} stopped ({{ total }} total)</div>{% endif %}</div></h3>
 <div class="net_content">
-<p class="description">some cool info for this region</p>
-
+{% set region_specific_networks = azure_vars.azure_networks.virtualnetworks | selectattr('location', 'equalto', location.name) %}
+<p class="description">This region contains {{ region_specific_networks | length }} Virtual Network(s)</p>
 <table class="net_info">
 <tbody>
   <tr>
@@ -21,8 +21,8 @@
     <th class="vpc_info">Subnet Details</th>
     <th class="vpc_info">Network<br>Interfaces</th>
     <th class="vpc_info" id="cidr_assoc">Network Interface Details</th>
+    <th class="vpc_info" id="cidr_assoc">Virtual Machines</th>
   </tr>
-{% set region_specific_networks = azure_vars.azure_networks.virtualnetworks | selectattr('location', 'equalto', location.name) %}
 {% set region_specific_nics = azure_vars.network_interfaces.networkinterfaces | selectattr('location', 'equalto', location.name) %}
 {% for virtual_network in region_specific_networks %}
 {% set virtual_network_specific_nics = region_specific_nics | selectattr('virtual_network.name', 'equalto', virtual_network.name) %}
@@ -33,6 +33,7 @@
   <td><table>{% for subnet in virtual_network.subnets %}<tr><td>{{ subnet.name }}</td><td>{{ subnet.address_prefix }}</td></tr>{% endfor %}</table></td>
   <td style="text-align: center;">{{ virtual_network_specific_nics | length }}</td>
   <td><table>{% for nic in virtual_network_specific_nics %}<tr><td>{{ nic.name }}</td><td>{{ nic.mac_address }}</td></tr>{% endfor %}</table></td>
+  <td>Virtual Machines</td>
   </tr>
 {% endfor %}  
 </tbody>
