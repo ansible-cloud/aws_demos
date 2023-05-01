@@ -1,5 +1,5 @@
 <!-- INTERNAL TABLE FOR Ansible -->
-{% set real_location = all_regions.response | selectattr('metadata.regionType', 'equalto', "Physical") %}
+{% set real_location = hostvars["localhost].all_regions.response | selectattr('metadata.regionType', 'equalto', "Physical") %}
 
 <div id="accordion">
 {% for location in real_location %}
