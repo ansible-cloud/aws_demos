@@ -12,7 +12,7 @@
     api_version: "2020-01-01"
   register: all_regions
 
-- name: print #var
+- name: print var
   debug:
     msg: "{{ all_regions }}"
 

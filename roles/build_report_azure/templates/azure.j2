@@ -15,13 +15,24 @@
 <table class="net_info">
 <tbody>
   <tr>
-    <th class="vpc_info">VPC name</th>
+    <th class="vpc_info">Virtual Network name</th>
     <th class="vpc_info">VPC id</th>
     <th class="vpc_info">instances <br> running</th>
     <th class="vpc_info">instances <br> stopped</th>
     <th class="vpc_info">CIDR block</th>
     <th class="vpc_info" id="cidr_assoc">CIDR block<br> associations</th>
   </tr>
+{% set region_specific_networks = azure_vars.azure_networks.virtualnetworks | selectattr('location', 'equalto', location.name) %}
+{% for virtual_network in region_specific_networks %}
+  <tr>
+  <td>test</td>
+  <td>test2</td>
+  <td style="text-align: center;">test3</td>
+  <td style="text-align: center;">test4</td>
+  <td>test5</td>
+  <td style="text-align:center;">test6 }}</td>
+  </tr>
+{% endfor %}  
 </tbody>
 </table>
 </div>
