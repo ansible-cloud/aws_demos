@@ -16,21 +16,21 @@
 <tbody>
   <tr>
     <th class="vpc_info">Virtual Network name</th>
-    <th class="vpc_info">VPC id</th>
-    <th class="vpc_info">instances <br> running</th>
-    <th class="vpc_info">instances <br> stopped</th>
-    <th class="vpc_info">CIDR block</th>
-    <th class="vpc_info" id="cidr_assoc">CIDR block<br> associations</th>
+    <th class="vpc_info">Address Prefixes </th>
+    <th class="vpc_info">Subnets<br> running</th>
+    <th class="vpc_info">Subnet Details <br> stopped</th>
+    <th class="vpc_info">replace me</th>
+    <th class="vpc_info" id="cidr_assoc">replace me 2</th>
   </tr>
 {% set region_specific_networks = azure_vars.azure_networks.virtualnetworks | selectattr('location', 'equalto', location.name) %}
 {% for virtual_network in region_specific_networks %}
   <tr>
-  <td>test</td>
-  <td>test2</td>
-  <td style="text-align: center;">test3</td>
-  <td style="text-align: center;">test4</td>
+  <td>{{ virtual_network.name | default("unknown")</td>
+  <td>{% for prefix in virtual_network.address_prefixes %}{{ prefix }}{% endfor %}</td>
+  <td style="text-align: center;">{{ virtual_network.subnets | length }}</td>
+  <td style="text-align: center;">{% for subnet in virtual_network.subnets %}{{ subnet.name }}{{ subnet.address_prefix }}{% endfor %}</td>
   <td>test5</td>
-  <td style="text-align:center;">test6 }}</td>
+  <td style="text-align:center;">test6</td>
   </tr>
 {% endfor %}  
 </tbody>
