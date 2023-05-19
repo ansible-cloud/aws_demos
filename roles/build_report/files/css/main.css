@@ -262,3 +262,16 @@ th.vpc_info {
 .ui-state-active .ui-icon, .ui-button:active .ui-icon {
   background-image: url("http://code.jquery.com/ui/1.12.1/themes/base/images/ui-icons_ffffff_256x240.png") !important;
 }
+
+p.opportunities {
+  color: #5f0000;
+  padding: 0px 10px 0px 00px;
+  margin-top: 5px;
+}
+
+.opportunities_box {
+  background-color: #e6e6e6;
+  padding: 1px 5px 5px 5px;
+  width: fit-content;
+  margin-bottom: 10px;
+}
