@@ -1,8 +1,16 @@
 ---
-- name: loop over all ec2 regions
+# Need to supply one region for the module to work, but it will return all regions
+- name: Get all regions
+  amazon.aws.aws_region_info:
+    region: "us-east-2"
+  register: allregions
+  
+- name: Loop over all ec2 regions
   ansible.builtin.include_tasks:
     file: retrieve_info.yml
-  loop: "{{ ec2_regions }}"
+  loop: "{{ allregions.regions }}"
+  loop_control:
+    label: "{{ item.region_name }}"
 
 - name: grab boto version
   ansible.builtin.pip:
