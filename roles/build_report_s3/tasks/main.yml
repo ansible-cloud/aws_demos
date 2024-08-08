@@ -4,12 +4,11 @@
     name: "{{ reports_aws_bucket_name }}"
     region: "{{ reports_aws_region }}"
     state: present
-    acl: "{{ reports_aws_bucket_permissions }}"
     public_access:
-      block_public_acls: no
-      block_public_policy: no
-      ignore_public_acls: no
-      restrict_public_buckets: no
+      block_public_acls: false
+      block_public_policy: false
+      ignore_public_acls: false
+      restrict_public_buckets: false
 
 - name: Configure bucket for website
   community.aws.s3_website:
@@ -23,7 +22,7 @@
     bucket: "{{ reports_aws_bucket_name }}"
     file_root: "{{ role_path }}/files"
     region: "{{ reports_aws_region }}"
-    permission: "{{ reports_aws_bucket_permissions }}"
+    permission: public-read
 
 - name: Get bucket objects
   amazon.aws.s3_object_info:
@@ -36,7 +35,7 @@
     object: index.html
     src: "{{ playbook_dir }}/index.html"
     mode: put
-    permission: "{{ reports_aws_bucket_permissions }}"
+    permission: public-read
     headers:
       ContentType: text/html
 

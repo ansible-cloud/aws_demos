@@ -1,6 +1,3 @@
 ---
-reports_aws_bucket_name: cloud-report
-reports_aws_region: us-west-1
-reports_aws_bucket_permissions: public-read
-reports_aws_public_access: false
-reports_aws_report: report-file
+reports_aws_bucket_name: "cloudreport"
+reports_aws_region: "us-west-1"
