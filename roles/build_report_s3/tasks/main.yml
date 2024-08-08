@@ -5,7 +5,7 @@
     region: "{{ reports_aws_region }}"
     state: present
     acl: "{{ reports_aws_bucket_permissions }}"
-    public_access_block:
+    public_access:
       block_public_acls: no
       block_public_policy: no
       ignore_public_acls: no
