@@ -12,14 +12,14 @@
       restrict_public_buckets: no
 
 - name: Configure bucket for website
-  amazon.aws.s3_website:
+  community.aws.s3_website:
     name: "{{ reports_aws_bucket_name }}"
     index_document: index.html
     error_document: index.html
     state: present
 
 - name: Put website files
-  amazon.aws.s3_sync:
+  community.aws.s3_sync:
     bucket: "{{ reports_aws_bucket_name }}"
     file_root: "{{ role_path }}/files"
     region: "{{ reports_aws_region }}"
