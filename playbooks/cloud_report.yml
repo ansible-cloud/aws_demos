@@ -1,13 +1,23 @@
 ---
-- name: build report with facts
-  hosts: ansible-1
+- name: Build report with facts - Dynamic Documentation
+  hosts: "{{ _hosts | default('localhost') }}"
   gather_facts: true
 
   tasks:
-    - name: load retrieve info role
-      include_role:
+    - name: Load retrieve info role
+      ansible.builtin.include_role:
         name: "../roles/retrieve_info"
 
-    - name: build a report
-      include_role:
-        name: "../roles/build_report"
+    - name: Template report into HTML
+      ansible.builtin.include_role:
+        name: "../roles/template"
+
+    # - name: Load report to host on Linux
+    #   ansible.builtin.include_role:
+    #     name: "../roles/build_report_linux"
+    #   when: inventory_hostname != 'localhost'
+
+    # - name: Load report to host on AWS S3
+    #   ansible.builtin.include_role:
+    #     name: "../roles/build_report_s3"
+    #   when: inventory_hostname == 'localhost'

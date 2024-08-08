@@ -1,5 +1,6 @@
 {
     "githubPullRequests.ignoredPullRequestBranches": [
         "master"
-    ]
+    ],
+    "ansible.python.interpreterPath": "/usr/local/bin/python3"
 }
