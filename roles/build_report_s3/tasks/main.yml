@@ -20,7 +20,6 @@
     bucket: "{{ reports_aws_bucket_name }}"
     file_root: "{{ role_path }}/files"
     region: "{{ reports_aws_region }}"
-    permission: public-read
 
 - name: Get bucket objects
   amazon.aws.s3_object_info:
