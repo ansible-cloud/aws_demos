@@ -23,7 +23,7 @@
 
 - name: Get bucket objects
   amazon.aws.s3_object_info:
-    bucket: "{{ reports_aws_bucket_name }}"
+    bucket_name: "{{ reports_aws_bucket_name }}"
   register: bucket_objects
 
 - name: Put index.html
@@ -32,7 +32,6 @@
     object: index.html
     src: "{{ playbook_dir }}/index.html"
     mode: put
-    permission: public-read
     headers:
       ContentType: text/html
 
