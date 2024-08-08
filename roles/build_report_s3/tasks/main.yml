@@ -15,7 +15,7 @@
     name: "{{ reports_aws_bucket_name }}"
     state: present
 
-- name: Put website files
+- name: Put website files - Line 18
   community.aws.s3_sync:
     bucket: "{{ reports_aws_bucket_name }}"
     file_root: "{{ role_path }}/files"
