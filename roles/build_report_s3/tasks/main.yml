@@ -1,67 +1,45 @@
 ---
-- name: install apache
-  become: true
-  yum:
-    name: httpd
+- name: Create report bucket
+  amazon.aws.s3_bucket:
+    name: "{{ reports_aws_bucket_name }}"
+    region: "{{ reports_aws_region }}"
+    state: present
+    acl: "{{ reports_aws_bucket_permissions }}"
+    public_access_block:
+      block_public_acls: no
+      block_public_policy: no
+      ignore_public_acls: no
+      restrict_public_buckets: no
+
+- name: Configure bucket for website
+  amazon.aws.s3_website:
+    name: "{{ reports_aws_bucket_name }}"
+    index_document: index.html
+    error_document: index.html
     state: present
 
-- name: change apache to specified port
-  become: true
-  lineinfile:
-    path: /etc/httpd/conf/httpd.conf
-    regexp: '^Listen '
-    insertafter: '^#Listen '
-    line: 'Listen {{web_port}}'
+- name: Put website files
+  amazon.aws.s3_sync:
+    bucket: "{{ reports_aws_bucket_name }}"
+    file_root: "{{ role_path }}/files"
+    region: "{{ reports_aws_region }}"
+    permission: "{{ reports_aws_bucket_permissions }}"
 
-- name: Set nis_enabled flag on and keep it persistent across reboots
-  become: true
-  seboolean:
-    name: nis_enabled
-    state: true
-    persistent: true
+- name: Get bucket objects
+  amazon.aws.s3_object_info:
+    bucket: "{{ reports_aws_bucket_name }}"
+  register: bucket_objects
 
-- name: start httpd
-  become: true
-  service:
-    name: httpd
-    state: started
+- name: Put index.html
+  amazon.aws.s3_object:
+    bucket: "{{ reports_aws_bucket_name }}"
+    object: index.html
+    src: "{{ playbook_dir }}/index.html"
+    mode: put
+    permission: "{{ reports_aws_bucket_permissions }}"
+    headers:
+      ContentType: text/html
 
-- name: create HTML report
-  become: true
-  template:
-    src: report.j2
-    dest: "{{ file_path }}/index.html"
-
-- name: copy CSS over
-  become: true
-  copy:
-    src: "css"
-    dest: "{{ file_path }}"
-    directory_mode: true
-
-- name: copy CSS over
-  become: true
-  copy:
-    src: "{{ item }}"
-    dest: "{{ file_path }}"
-    directory_mode: true
-  loop:
-    - "webpage_logo.png"
-    - "redhat-ansible-logo.svg"
-    - "aws.png"
-
-- name: print variables
-  debug:
-    var: hostvars['ansible-1']
-
-- name: retrieve public IP address
-  ansible.builtin.command: curl https://ifconfig.me
-  register: public_ip_report
-  ignore_errors: true
-
-- name: display link to inventory report
-  debug:
-    msg:
-      - "Please go to http://{{ public_ip_report.stdout | default(ansible_fqdn) }}:{{ web_port }}"
-      - "or just refresh the Cloud Report tab"
-      - "at the top of your window if you using Instruqt labs!"
+- name: Print bucket URL
+  ansible.builtin.debug:
+    msg: "Bucket URL: http://{{ reports_aws_bucket_name }}.s3-website-{{ reports_aws_region }}.amazonaws.com"
