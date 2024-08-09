@@ -12,10 +12,10 @@
       ansible.builtin.include_role:
         name: "../roles/template"
 
-    # - name: Load report to host on Linux
-    #   ansible.builtin.include_role:
-    #     name: "../roles/build_report_linux"
-    #   when: inventory_hostname != 'localhost'
+    - name: Load report to host on Linux
+      ansible.builtin.include_role:
+        name: "../roles/build_report_linux"
+      when: inventory_hostname != 'localhost'
 
     - name: Load report to host on AWS S3
       ansible.builtin.include_role:
