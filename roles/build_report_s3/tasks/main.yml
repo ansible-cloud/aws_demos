@@ -4,6 +4,7 @@
     name: "{{ reports_aws_bucket_name }}"
     region: "{{ reports_aws_region }}"
     state: present
+    policy: "{{ lookup('ansible.builtin.template', 'policy.json') }}"
     public_access:
       block_public_acls: false
       block_public_policy: false
