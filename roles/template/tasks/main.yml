@@ -1,0 +1,8 @@
+---
+- name: Template HTML report
+  become: true
+  ansible.builtin.template:
+    src: report.j2
+    dest: "{{ playbook_dir }}/index.html"
+  delegate_to: localhost
+  run_once: true
