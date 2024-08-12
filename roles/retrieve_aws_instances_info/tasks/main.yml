@@ -2,3 +2,8 @@
 - name: Check Services
   ansible.builtin.service_facts:
   register: service_facts
+
+- name: Check if /etc/motd file exists
+  ansible.builtin.stat:
+    path: /etc/motd
+  register: motd_file

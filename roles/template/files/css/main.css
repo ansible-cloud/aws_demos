@@ -320,3 +320,11 @@ class#firewalld_severity
   padding: 3px;
   border-radius: 5px;
 }
+
+class#motd_severity
+{
+  background-color: #0066cc;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}

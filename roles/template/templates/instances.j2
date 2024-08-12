@@ -8,6 +8,7 @@
     <th class="instance_info">Tag</th>
     <th class="instance_info">Tag Policy Violations</th>
     <th class="instance_info">Firewalld Status</th>
+    <th class="instance_info">MOTD Status</th>
   </tr>
   {% for instance in value.ec2_instance_info.instances %}
   <tr>
@@ -23,7 +24,17 @@
         <class id="firewalld_severity">Severity: {{ firewalld_severity | default('HIGH') }}</class>
         <span class="service-not-running"><p class="violation">Not Running</p></span>
       {% endif %}
-    </td>  </tr>
+    </td>
+    <td>
+      {% set host = instance.tags['Name'] %}
+      {% if hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
+        <span class="service-running">Compliant. /etc/motd file exists and contains data.</span>
+      {% else %}
+        <class id="motd_severity">Severity: {{ motd_severity | default('LOW') }}</class>
+        <span class="motd-not-running"><p class="violation">MOTD is non-compliant</p></span>
+      {% endif %}
+    </td>
+  </tr>
   {% endfor %}
 </tbody>
 </table>
