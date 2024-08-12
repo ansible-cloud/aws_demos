@@ -24,8 +24,7 @@ p.hostname {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-family: "Open Sans", "Helvetica";
-
+  font-family: "Open Sans", "Helvetica", sans-serif;
 }
 
 a {
@@ -50,12 +49,8 @@ body {
 table {
   border-collapse: separate;
   background:#fff;
-  @include border-radius(5px);
-  @include box-shadow(0px 0px 5px rgba(0,0,0,0.3));
-}
-
-.main_net_table {
-  margin:50px auto;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
 
 .main_net_table {
@@ -179,9 +174,6 @@ p.expandclass:hover {
     cursor: pointer;
 }
 
-.summary_info {
-}
-
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
     border: 1px solid #5F0000;
     background: #EE0000;
@@ -272,7 +264,7 @@ th.instance_info {
 
 p.opportunities {
   color: #5f0000;
-  padding: 0px 10px 0px 00px;
+  padding: 0px 10px 0px 0px;
   margin-top: 5px;
 }
 
