@@ -16,7 +16,8 @@
     <td>{% if instance.tags | length > 0 %}<ul>{% for key, value in instance.tags.items() %}<li>{{ key }}: {{ value }}</li>{% endfor %}</ul>{% endif %}</td>
     <td style="text-align:center;">{% if required_tag is defined %}{% if required_tag not in instance.tags %}<class id="severity_button">Severity: {{ required_tag_severity | default('LOW') }}</class><p class="violation">Required tag <code class="sean_box">{{ required_tag }}</code> is missing</p>{% endif %}{% endif %}</td>
     <td>
-      {% if instance.ansible_facts['services']['firewalld.service'] is defined and instance.ansible_facts['services']['firewalld.service']['state'] == "running" %}
+      {% set host = instance.tags['Name'] %}
+      {% if hostvars[host]['ansible_facts']['services']['firewalld.service'] is defined and hostvars[host]['ansible_facts']['services']['firewalld.service']['state'] == "running" %}
         <span class="service-running">Running</span>
       {% else %}
         <span class="service-not-running">Not Running</span>
@@ -25,3 +26,6 @@
   {% endfor %}
 </tbody>
 </table>
+
+
+hostvars[instance.tags['Name']].
