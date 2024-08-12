@@ -16,7 +16,7 @@
     name: "{{ reports_aws_bucket_name }}"
     state: present
 
-- name: Put website files - Line 18
+- name: Put website files
   community.aws.s3_sync:
     bucket: "{{ reports_aws_bucket_name }}"
     file_root: "{{ role_path }}/files"
@@ -26,6 +26,13 @@
   amazon.aws.s3_object_info:
     bucket_name: "{{ reports_aws_bucket_name }}"
   register: bucket_objects
+
+- name: Put css file
+  amazon.aws.s3_object:
+    bucket: "{{ reports_aws_bucket_name }}"
+    object: "css/main.css"
+    src: "css/main.css"
+    mode: put
 
 - name: Put index.html
   amazon.aws.s3_object:
