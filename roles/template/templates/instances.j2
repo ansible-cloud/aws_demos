@@ -20,8 +20,8 @@
       {% if hostvars[host]['ansible_facts']['services']['firewalld.service'] is defined and hostvars[host]['ansible_facts']['services']['firewalld.service']['state'] == "running" %}
         <span class="service-running">Running</span>
       {% else %}
-        <class id="severity_button">Severity: {{ firewalld_severity | default('HIGH') }}</class>
-        <span class="service-not-running">Not Running</span>
+        <class id="firewalld_severity">Severity: {{ firewalld_severity | default('HIGH') }}</class>
+        <span class="service-not-running"><p class="violation">Not Running</p></span>
       {% endif %}
     </td>  </tr>
   {% endfor %}
