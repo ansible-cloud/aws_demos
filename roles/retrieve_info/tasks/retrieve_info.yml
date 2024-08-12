@@ -8,6 +8,8 @@
 - name: Retrieve info for ec2 instances
   amazon.aws.ec2_instance_info:
     region: "{{ item }}"
+    filters:
+      "tag:bluewave": "hichamrocks"
   register: ec2_instance_info
   delegate_to: localhost
 
@@ -17,14 +19,6 @@
   register: igw_info
   delegate_to: localhost
 
-- name: Retrieve info for the EC2 instances
-  amazon.aws.ec2_instance_info:
-    region: "{{ item }}"
-    filters:
-      instance-state-name: running
-      "tag:bluewave": "hichamrocks"
-  register: ec2_instance_info
-
 # Dashes are not allowed as Ansible var names so we use underscores _
 - name: Set facts all info for {{ item }}
   set_fact:
@@ -32,7 +26,6 @@
       vpc_info:  '{{ vpc_info }}'
       ec2_instance_info: '{{ ec2_instance_info }}'
       igw_info: '{{ igw_info }}'
-      instance_info: "{{ instance_info}}"
 
 - name: Set facts all info for {{ item }}
   set_fact:
