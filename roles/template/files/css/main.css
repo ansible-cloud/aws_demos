@@ -278,4 +278,9 @@ p.opportunities {
 div#instance_breakdown {
   color: #f5921b;
   font-size: 16px;
+  padding: 10px 0px 10px 0px;
+}
+
+hr.sean_line {
+  margin: 10px 0px 10px 0px;
 }

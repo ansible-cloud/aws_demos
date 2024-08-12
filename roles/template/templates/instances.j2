@@ -1,19 +1,19 @@
-<hr class="sean_line"><br>
+<hr class="sean_line">
 <div id="instance_breakdown">Instance Compliance Report</div>
 <table class="instance_info">
 <tbody>
   <tr>
     <th class="instance_info">Instance name</th>
     <th class="instance_info">VPC id</th>
-    <th class="instance_info">CIDR block</th>
+    <th class="instance_info">Tag Policy</th>
     <th class="instance_info" id="cidr_assoc">CIDR block<br> associations</th>
     <th class="instance_info">IGW</th>
   </tr>
   {% for instance in value.ec2_instance_info.instances %}
   <tr>
     <td>{{ instance.tags['Name'] | default('<span class="ui-accordion-header-icon ui-icon ui-icon-circle-close"></span>no name tag') }}</td>
-    <td>{{ instances.vpc_id | default('Unknown VPC ID') }}</td>
-    <td>not done yet</td>
+    <td>{{ instance.vpc_id | default('Unknown VPC ID') }}</td>
+    <td>{% if instance.tags | length > 0 %}<ul>{% for tag in instance.tags %}<li>{{ tag }}</li>{% endfor %}</ul>{% endif %}</td>
     <td style="text-align:center;">not done yet</td>
     <td>not done yet</td>
   </tr>
