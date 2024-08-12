@@ -282,3 +282,8 @@ p.opportunities {
   width: fit-content;
   margin-bottom: 10px;
 }
+
+div#instance_breakdown {
+  color: #f5921b;
+  font-size: 16px;
+}
