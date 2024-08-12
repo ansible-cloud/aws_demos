@@ -1,1 +1,26 @@
 THIS IS RENDERED
+
+<table class="instance_info">
+<tbody>
+  <tr>
+    <th class="instance_info">Instance name</th>
+    <th class="instance_info">VPC id</th>
+    <th class="instance_info">instances <br> running</th>
+    <th class="instance_info">instances <br> stopped</th>
+    <th class="instance_info">CIDR block</th>
+    <th class="instance_info" id="cidr_assoc">CIDR block<br> associations</th>
+    <th class="instance_info">IGW</th>
+  </tr>
+  {% for instance in value.ec2_instance_info.instances %}
+  <tr>
+    <td>{{ instance.tags['Name'] | default('<span class="ui-accordion-header-icon ui-icon ui-icon-circle-close"></span>no name tag') }}</td>
+    <td>not done yet</td>
+    <td style="text-align: center;">not done yet</td>
+    <td style="text-align: center;">not done yet</td>
+    <td>not done yet</td>
+    <td style="text-align:center;">not done yet</td>
+    <td>not done yet</td>
+  </tr>
+  {% endfor %}
+</tbody>
+</table>
