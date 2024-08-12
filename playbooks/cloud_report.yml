@@ -1,6 +1,6 @@
 ---
 - name: Build report with facts - Dynamic Documentation
-  hosts: "{{ _aws_instances }}"
+  hosts: "{{ _aws_instances | default('none') }}"
   gather_facts: true
 
   tasks:
