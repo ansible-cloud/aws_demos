@@ -9,7 +9,7 @@
   amazon.aws.ec2_instance_info:
     region: "{{ item }}"
     filters:
-      "tag:bluewave": "hichamrocks"
+      "{{ filter_tag | default(omit) }}"
   register: ec2_instance_info
   delegate_to: localhost
 
