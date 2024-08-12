@@ -33,6 +33,7 @@
     object: "css/main.css"
     src: "css/main.css"
     mode: put
+    force: true
 
 - name: Put index.html
   amazon.aws.s3_object:
