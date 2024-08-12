@@ -9,6 +9,7 @@
     <th class="instance_info">Tag Policy Violations</th>
     <th class="instance_info">Firewalld Status</th>
     <th class="instance_info">MOTD Status</th>
+    <th class="instance_info">SELinux</th>
   </tr>
   {% for instance in value.ec2_instance_info.instances %}
   <tr>
@@ -34,6 +35,7 @@
         <span class="motd-not-running"><p class="violation">MOTD is non-compliant</p></span>
       {% endif %}
     </td>
+    <td></td>
   </tr>
   {% endfor %}
 </tbody>
