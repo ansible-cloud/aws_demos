@@ -1,0 +1,4 @@
+---
+- name: Check Services
+  ansible.builtin.service_facts:
+  register: service_facts
