@@ -284,3 +284,12 @@ div#instance_breakdown {
 hr.sean_line {
   margin: 10px 0px 10px 0px;
 }
+
+table.instance_info td {
+  padding: 5px;
+}
+
+ul {
+  margin: 0;
+  padding: 0px 0px 0px 20px;
+}

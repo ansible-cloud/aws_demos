@@ -5,16 +5,16 @@
   <tr>
     <th class="instance_info">Instance name</th>
     <th class="instance_info">VPC id</th>
-    <th class="instance_info">Tag Policy</th>
-    <th class="instance_info" id="cidr_assoc">CIDR block<br> associations</th>
+    <th class="instance_info">Tag</th>
+    <th class="instance_info">Tag Policy Violations</th>
     <th class="instance_info">IGW</th>
   </tr>
   {% for instance in value.ec2_instance_info.instances %}
   <tr>
     <td>{{ instance.tags['Name'] | default('<span class="ui-accordion-header-icon ui-icon ui-icon-circle-close"></span>no name tag') }}</td>
     <td>{{ instance.vpc_id | default('Unknown VPC ID') }}</td>
-    <td>{% if instance.tags | length > 0 %}<ul>{% for tag in instance.tags %}<li>{{ tag }}</li>{% endfor %}</ul>{% endif %}</td>
-    <td style="text-align:center;">not done yet</td>
+    <td>{% if instance.tags | length > 0 %}<ul>{% for key, value in instance.tags %}<li>{{ key }}: {{ value }}</li>{% endfor %}</ul>{% endif %}</td>
+    <td>{% if required_tag not in instance.tags %}<p class="violation">Required tag {{ required_tag }} is missing</p <p class="severity_button">Severity: {{ required_tag_severity }}</p>{% endif %}</td>
     <td>not done yet</td>
   </tr>
   {% endfor %}
