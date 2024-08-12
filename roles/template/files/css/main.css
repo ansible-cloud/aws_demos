@@ -276,7 +276,7 @@ p.opportunities {
 }
 
 div#instance_breakdown {
-  color: #f5921b;
+  color: #000000;
   font-size: 16px;
   padding: 10px 0px 10px 0px;
 }
@@ -298,9 +298,17 @@ p.violation {
   color: #ee0000;
 }
 
-class#emea {
-  background-color: #b60045;
+class#severity_button {
+  background-color: #f5921b;
   color: white;
   padding: 3px;
   border-radius: 5px;
+}
+
+code.sean_box {
+  font-family: monospace !important;
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 3px;
 }
