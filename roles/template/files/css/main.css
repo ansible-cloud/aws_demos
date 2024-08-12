@@ -295,7 +295,7 @@ ul {
 }
 
 p.violation {
-  color: #ee0000;
+  color: #000000;
 }
 
 class#severity_button {
@@ -311,4 +311,12 @@ code.sean_box {
   color: #ffffff;
   border-radius: 5px;
   padding: 3px;
+}
+
+class#firewalld_severity
+{
+  background-color: #ee0000;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
 }
