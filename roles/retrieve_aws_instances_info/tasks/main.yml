@@ -22,6 +22,7 @@
     filters:
       "network-interface.private-ip-address": "{{ ansible_default_ipv4.address }}"
   register: ec2_info
+  delegate_to: localhost
 
 - name: Print out instance EC2 facts
   ansible.builtin.debug:
