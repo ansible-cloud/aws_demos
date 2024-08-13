@@ -11,3 +11,18 @@
 - name: Check if selinux is enabled
   ansible.builtin.command: getenforce
   register: selinux_status
+
+- name: Check IP address
+  ansible.builtin.debug:
+    var: ansible_default_ipv4.address
+
+- name: Retrieve EC2 instance information based on private IP address
+  amazon.aws.ec2_instance_info:
+    region: us-west-1
+    filters:
+      "network-interface.private-ip-address": "{{ ansible_default_ipv4.address }}"
+  register: ec2_info
+
+- name: Print out instance EC2 facts
+  ansible.builtin.debug:
+    var: ec2_info
