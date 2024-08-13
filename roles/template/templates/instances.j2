@@ -4,6 +4,7 @@
 <tbody>
   <tr>
     <th class="instance_info">Instance name</th>
+    <th class="instance_info">Reports</th>
     <th class="instance_info">ID</th>
     <th class="instance_info">VPC ID</th>
     <th class="instance_info">Tag(s)</th>
@@ -15,6 +16,16 @@
   {% for instance in value.ec2_instance_info.instances %}
   <tr>
     <td>{{ instance.tags['Name'] | default('<span class="ui-accordion-header-icon ui-icon ui-icon-circle-close"></span>no name tag') }}</td>
+    <td>
+      {% set host = instance.tags['Name'] %}
+      {% if 'webserver' not in hostvars[host] %}
+        <span class="service-running">Unable to connect and retrieve info.</span>
+      {% elif 'webserver' in hostvars[host] and hostvars[host]['webserver'].status != "-1" hostvars[host]['webserver'].status != "404" %}
+        <span class="service-running"><a href="{{ hostvars[host]['webserver'].url }}">hostvars[host]['webserver'].status</a></span>
+      {% else %}
+        <span class="service-running">Unknown issue</span>
+      {% endif %}
+    </td>
     <td>{{ instance.instance_id | default('Unknown instance ID') }}</td>
     <td>{{ instance.vpc_id | default('Unknown VPC ID') }}</td>
     <td>
