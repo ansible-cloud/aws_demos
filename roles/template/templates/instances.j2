@@ -20,8 +20,8 @@
       {% set host = instance.tags['Name'] %}
       {% if 'webserver' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
-      {% elif 'webserver' in hostvars[host] and hostvars[host]['webserver'].status != "-1" hostvars[host]['webserver'].status != "404" %}
-        <span class="service-running"><a href="{{ hostvars[host]['webserver'].url }}">hostvars[host]['webserver'].status</a></span>
+      {% elif 'webserver' in hostvars[host] and hostvars[host]['webserver'].status != "-1" and hostvars[host]['webserver'].status != "404" %}
+        <span class="service-running"><a href="{{ hostvars[host]['webserver'].url }}">{{ hostvars[host]['webserver'].status }}</a></span>
       {% else %}
         <span class="service-running">Unknown issue</span>
       {% endif %}
