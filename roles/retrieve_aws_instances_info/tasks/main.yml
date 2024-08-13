@@ -27,3 +27,25 @@
 - name: Print out instance EC2 facts
   ansible.builtin.debug:
     var: ec2_info
+
+- name: Check if the web URL is responding
+  ansible.builtin.uri:
+    url: "{{ ec2_info.instances[0].public_dns_name }}"
+    validate_certs: false
+  register: webserver
+  failed_when: result.status is undefined or result.status == ""
+
+- name: Check if the web URL is responding
+  ansible.builtin.uri:
+    url: "{{ ec2_info.instances[0].public_dns_name }}/oscap-reports/"
+    validate_certs: false
+  register: openscap_webserver
+  failed_when: result.status is undefined or result.status == ""
+
+- name: Print out webserver info
+  ansible.builtin.debug:
+    var: webserver
+
+- name: Print out openscap_webserver info
+  ansible.builtin.debug:
+    var: openscap_webserver
