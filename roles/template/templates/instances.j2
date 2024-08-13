@@ -46,7 +46,7 @@
     </td>
     <td>
       {% set host = instance.tags['Name'] %}
-      {% if hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
+      {% if 'motd_file' in hostvars[host] and hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
         <span class="service-running">Compliant. /etc/motd file exists and contains data.</span>
       {% else %}
         <class id="motd_severity">Severity: {{ motd_severity | default('LOW') }}</class>
