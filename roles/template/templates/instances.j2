@@ -4,7 +4,8 @@
 <tbody>
   <tr>
     <th class="instance_info">Instance name</th>
-    <th class="instance_info">VPC id</th>
+    <th class="instance_info">ID</th>
+    <th class="instance_info">VPC ID</th>
     <th class="instance_info">Tag(s)</th>
     <th class="instance_info">Tag Policy Violations</th>
     <th class="instance_info">Firewalld Status</th>
@@ -14,6 +15,7 @@
   {% for instance in value.ec2_instance_info.instances %}
   <tr>
     <td>{{ instance.tags['Name'] | default('<span class="ui-accordion-header-icon ui-icon ui-icon-circle-close"></span>no name tag') }}</td>
+    <td>{{ instance.instance_id | default('Unknown instance ID') }}</td>
     <td>{{ instance.vpc_id | default('Unknown VPC ID') }}</td>
     <td>{% if instance.tags | length > 0 %}<ul>{% for key, value in instance.tags.items() %}<li>{{ key }}: {{ value }}</li>{% endfor %}</ul>{% endif %}</td>
     <td>{% if required_tag is defined %}{% if required_tag not in instance.tags %}<class id="severity_button">Severity: {{ required_tag_severity | default('LOW') }}</class><p class="violation">Required tag <code class="sean_box">{{ required_tag }}</code> is missing</p>{% endif %}{% endif %}</td>
@@ -35,7 +37,15 @@
         <span class="motd-not-running"><p class="violation">MOTD is non-compliant</p></span>
       {% endif %}
     </td>
-    <td></td>
+    <td>
+      {% set host = instance.tags['Name'] %}
+      {% if hostvars[host]['selinux_status'].stdout == "Enforcing" %}
+        <span class="service-running">Compliant. The server is in compliance with the SELinux policy.</span>
+      {% else %}
+        <class id="selinux_severity">Severity: {{ selinux_severity | default('HIGH') }}</class>
+        <span class="motd-not-running"><p class="violation">The server is out of compliance with the SELinux policy.</p></span>
+      {% endif %}
+    </td>
   </tr>
   {% endfor %}
 </tbody>

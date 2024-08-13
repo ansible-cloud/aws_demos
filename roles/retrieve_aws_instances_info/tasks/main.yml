@@ -7,3 +7,7 @@
   ansible.builtin.stat:
     path: /etc/motd
   register: motd_file
+
+- name: Check if selinux is enabled
+  ansible.builtin.command: getenforce
+  register: selinux_status

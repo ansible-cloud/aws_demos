@@ -328,3 +328,11 @@ class#motd_severity
   padding: 3px;
   border-radius: 5px;
 }
+
+class#selinux_severity
+{
+  background-color: #ee0000;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
