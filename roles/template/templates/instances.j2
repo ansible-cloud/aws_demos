@@ -18,7 +18,7 @@
     <td>{{ instance.instance_id | default('Unknown instance ID') }}</td>
     <td>{{ instance.vpc_id | default('Unknown VPC ID') }}</td>
     <td>{% if instance.tags | length > 0 %}<ul>{% for key, value in instance.tags.items() %}<li>{{ key }}: {{ value }}</li>{% endfor %}</ul>{% endif %}</td>
-    <td>{% if required_tag is defined %}{% if required_tag not in instance.tags %}<class id="severity_button">Severity: {{ required_tag_severity | default('LOW') }}</class><p class="violation">Required tag <code class="sean_box">{{ required_tag }}</code> is missing</p>{% endif %}{% endif %}</td>
+    <td>{% if required_tag is defined %}{% if required_tag not in instance.tags %}<class id="severity_button">Severity: {{ required_tag_severity | default('LOW') }}</class><p class="violation">Required tag <code class="sean_box">{{ required_tag }}</code> is missing</p>{% endif %}{% else %}<span class="service-running">Compliant.</span>{% endif %}</td>
     <td>
       {% set host = instance.tags['Name'] %}
       {% if hostvars[host]['ansible_facts']['services']['firewalld.service'] is defined and hostvars[host]['ansible_facts']['services']['firewalld.service']['state'] == "running" %}
