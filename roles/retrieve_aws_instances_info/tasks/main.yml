@@ -33,14 +33,14 @@
     url: "http://{{ ec2_info.instances[0].public_dns_name }}"
     validate_certs: false
   register: webserver
-  failed_when: result.status is undefined or result.status == ""
+  failed_when: webserver.status is undefined or webserver.status == ""
 
 - name: Check if oscap-reports web URL is responding
   ansible.builtin.uri:
     url: "http://{{ ec2_info.instances[0].public_dns_name }}/oscap-reports/"
     validate_certs: false
   register: openscap_webserver
-  failed_when: result.status is undefined or result.status == ""
+  failed_when: openscap_webserver.status is undefined or openscap_webserver.status == ""
 
 - name: Print out webserver info
   ansible.builtin.debug:
