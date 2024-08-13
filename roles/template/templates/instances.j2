@@ -37,7 +37,9 @@
     </td>
     <td>
       {% set host = instance.tags['Name'] %}
-      {% if hostvars[host]['ansible_facts']['services']['firewalld.service'] is defined and hostvars[host]['ansible_facts']['services']['firewalld.service']['state'] == "running" %}
+      {% if hostvars[host]['ansible_facts']['services']['firewalld.service'] is not defined %}
+        <span class="service-running">Unable to connect and retrieve info.</span>
+      {% elif hostvars[host]['ansible_facts']['services']['firewalld.service'] is defined and hostvars[host]['ansible_facts']['services']['firewalld.service']['state'] == "running" %}
         <span class="service-running">Running</span>
       {% else %}
         <class id="firewalld_severity">Severity: {{ firewalld_severity | default('HIGH') }}</class>
@@ -46,7 +48,9 @@
     </td>
     <td>
       {% set host = instance.tags['Name'] %}
-      {% if 'motd_file' in hostvars[host] and hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
+      {% if 'motd_file' in hostvars[host] %}
+        <span class="service-running">Unable to connect and retrieve info.</span>
+      {% elif 'motd_file' in hostvars[host] and hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
         <span class="service-running">Compliant. /etc/motd file exists and contains data.</span>
       {% else %}
         <class id="motd_severity">Severity: {{ motd_severity | default('LOW') }}</class>
@@ -55,7 +59,9 @@
     </td>
     <td>
       {% set host = instance.tags['Name'] %}
-      {% if 'selinux_status' in hostvars[host] and hostvars[host]['selinux_status'].stdout == "Enforcing" %}
+      {% if 'selinux_status' not in hostvars[host] %}
+        <span class="service-running">Unable to connect and retrieve info.</span>
+      {% elif 'selinux_status' in hostvars[host] and hostvars[host]['selinux_status'].stdout == "Enforcing" %}
         <span class="service-running">Compliant. The server is in compliance with the SELinux policy.</span>
       {% else %}
         <class id="selinux_severity">Severity: {{ selinux_severity | default('HIGH') }}</class>
