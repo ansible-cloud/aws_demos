@@ -48,7 +48,7 @@
     </td>
     <td>
       {% set host = instance.tags['Name'] %}
-      {% if 'motd_file' in hostvars[host] %}
+      {% if 'motd_file' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'motd_file' in hostvars[host] and hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
         <span class="service-running">Compliant. /etc/motd file exists and contains data.</span>
