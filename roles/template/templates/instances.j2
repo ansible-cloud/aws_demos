@@ -55,7 +55,7 @@
     </td>
     <td>
       {% set host = instance.tags['Name'] %}
-      {% if hostvars[host]['selinux_status'].stdout == "Enforcing" %}
+      {% if 'selinux_status' in hostvars[host] and hostvars[host]['selinux_status'].stdout == "Enforcing" %}
         <span class="service-running">Compliant. The server is in compliance with the SELinux policy.</span>
       {% else %}
         <class id="selinux_severity">Severity: {{ selinux_severity | default('HIGH') }}</class>
