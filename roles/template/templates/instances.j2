@@ -25,7 +25,7 @@
       {% else %}
         <span class="service-running">Webserver: No Webserver</span>
       {% endif %}
-      {% set host = instance.tags['Name'] %}
+      <br>
       {% if 'openscap_webserver' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'openscap_webserver' in hostvars[host] and hostvars[host]['openscap_webserver'].status != -1 and hostvars[host]['openscap_webserver'].status != 404 %}
