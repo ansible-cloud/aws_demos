@@ -53,7 +53,7 @@
       <class id="severity_button">Severity: {{ required_tag_severity | default('LOW') }}</class>
       <p class="violation">Required tag <code class="sean_box">{{ required_tag }}</code> is missing</p>
       {% else %}
-        <span class="service-running">Compliant.</span>
+         <class id="compliant_button">Compliant.</class>
       {% endif %}
       {% endif %}
     </td>
@@ -73,7 +73,8 @@
       {% if 'motd_file' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'motd_file' in hostvars[host] and hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
-        <span class="service-running">Compliant.<br>/etc/motd file exists and contains data.</span>
+        <class id="compliant_button">Compliant.</class>
+        <span class="service-running">/etc/motd file exists and contains data.</span>
       {% else %}
         <class id="motd_severity">Severity: {{ motd_severity | default('LOW') }}</class>
         <span class="motd-not-running"><p class="violation">MOTD is non-compliant</p></span>
@@ -84,7 +85,8 @@
       {% if 'selinux_status' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'selinux_status' in hostvars[host] and hostvars[host]['selinux_status'].stdout == "Enforcing" %}
-        <span class="service-running">Compliant.<br>The server is in compliance with the SELinux policy.</span>
+        <class id="compliant_button">Compliant.</class>
+        <span class="service-running">The server is in compliance with the SELinux policy.</span>
       {% else %}
         <class id="selinux_severity">Severity: {{ selinux_severity | default('HIGH') }}</class>
         <span class="motd-not-running"><p class="violation">The server is out of compliance with the SELinux policy.</p></span>

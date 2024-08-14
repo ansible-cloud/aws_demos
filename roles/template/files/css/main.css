@@ -336,3 +336,11 @@ class#selinux_severity
   padding: 3px;
   border-radius: 5px;
 }
+
+class#compliant
+{
+  background-color: #32a800;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
