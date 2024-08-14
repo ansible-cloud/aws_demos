@@ -4,7 +4,8 @@
 <tbody>
   <tr>
     <th class="instance_info">Instance name</th>
-    <th class="instance_info">Reports</th>
+    <th class="instance_info">OpenSCAP</th>
+    <th class="instance_info">Webserver</th>
     <th class="instance_info">ID</th>
     <th class="instance_info">VPC ID</th>
     <th class="instance_info">Tag(s)</th>
@@ -17,21 +18,22 @@
   <tr>
     <td>{{ instance.tags['Name'] | default('<span class="ui-accordion-header-icon ui-icon ui-icon-circle-close"></span>no name tag') }}</td>
     <td>
+      {% if 'openscap_webserver' not in hostvars[host] %}
+        <span class="service-running">Unable to connect and retrieve info.</span>
+      {% elif 'openscap_webserver' in hostvars[host] and hostvars[host]['openscap_webserver'].status != -1 and hostvars[host]['openscap_webserver'].status != 404 %}
+        <span class="service-running"><a target="_new" href="{{ hostvars[host]['openscap_webserver'].url }}">Report</a></span>
+      {% else %}
+        <span class="service-running">No Report</span>
+      {% endif %}
+    </td>
+    <td>
       {% set host = instance.tags['Name'] %}
       {% if 'webserver' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'webserver' in hostvars[host] and hostvars[host]['webserver'].status != -1 and hostvars[host]['webserver'].status != 404 %}
-        <span class="service-running">Webserver: <a href="{{ hostvars[host]['webserver'].url }}">{{ hostvars[host]['webserver'].url }}</a></span>
+        <span class="service-running"><a target="_new" href="{{ hostvars[host]['webserver'].url }}">Link</a></span>
       {% else %}
-        <span class="service-running">Webserver: No Webserver</span>
-      {% endif %}
-      <br>
-      {% if 'openscap_webserver' not in hostvars[host] %}
-        <span class="service-running">Unable to connect and retrieve info.</span>
-      {% elif 'openscap_webserver' in hostvars[host] and hostvars[host]['openscap_webserver'].status != -1 and hostvars[host]['openscap_webserver'].status != 404 %}
-        <span class="service-running">OpenSCAP: <a href="{{ hostvars[host]['openscap_webserver'].url }}">{{ hostvars[host]['openscap_webserver'].url }}</a></span>
-      {% else %}
-        <span class="service-running">OpenSCAP: No Report</span>
+        <span class="service-running">Webserver: No webserver running</span>
       {% endif %}
     </td>
     <td>{{ instance.instance_id | default('Unknown instance ID') }}</td>
