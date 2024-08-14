@@ -54,6 +54,7 @@
       <p class="violation">Required tag <code class="sean_box">{{ required_tag }}</code> is missing</p>
       {% else %}
          <class id="compliant_button">Compliant.</class>
+         <p class="compliant">Required tag is present.</p>
       {% endif %}
       {% endif %}
     </td>
@@ -74,7 +75,7 @@
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'motd_file' in hostvars[host] and hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
         <class id="compliant_button">Compliant.</class>
-        <span class="service-running">/etc/motd file exists and contains data.</span>
+        <p class="compliant">/etc/motd file exists and contains data.</p>
       {% else %}
         <class id="motd_severity">Severity: {{ motd_severity | default('LOW') }}</class>
         <span class="motd-not-running"><p class="violation">MOTD is non-compliant</p></span>

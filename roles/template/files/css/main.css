@@ -344,3 +344,7 @@ class#compliant_button
   padding: 3px;
   border-radius: 5px;
 }
+
+p.compliant {
+  color: #5f6062;
+}
