@@ -337,7 +337,7 @@ class#selinux_severity
   border-radius: 5px;
 }
 
-class#compliant
+class#compliant_button
 {
   background-color: #32a800;
   color: white;
