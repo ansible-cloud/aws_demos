@@ -24,7 +24,7 @@
       {% elif 'openscap_webserver' in hostvars[host] and hostvars[host]['openscap_webserver'].status != -1 and hostvars[host]['openscap_webserver'].status != 404 %}
         <span class="service-running"><a target="_new" href="{{ hostvars[host]['openscap_webserver'].url }}">Report</a></span>
       {% else %}
-        <span class="service-running">No Report</span>
+        <span class="service-running">N/A</span>
       {% endif %}
     </td>
     <td>
@@ -34,7 +34,7 @@
       {% elif 'webserver' in hostvars[host] and hostvars[host]['webserver'].status != -1 and hostvars[host]['webserver'].status != 404 %}
         <span class="service-running"><a target="_new" href="{{ hostvars[host]['webserver'].url }}">Link</a></span>
       {% else %}
-        <span class="service-running">Webserver: No webserver running</span>
+        <span class="service-running">N/A</span>
       {% endif %}
     </td>
     <td>{{ instance.instance_id | default('Unknown instance ID') }}</td>
@@ -73,7 +73,7 @@
       {% if 'motd_file' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'motd_file' in hostvars[host] and hostvars[host]['motd_file'].stat.exists and hostvars[host]['motd_file'].stat.size > 0 %}
-        <span class="service-running">Compliant. /etc/motd file exists and contains data.</span>
+        <span class="service-running">Compliant.<br>/etc/motd file exists and contains data.</span>
       {% else %}
         <class id="motd_severity">Severity: {{ motd_severity | default('LOW') }}</class>
         <span class="motd-not-running"><p class="violation">MOTD is non-compliant</p></span>
@@ -84,7 +84,7 @@
       {% if 'selinux_status' not in hostvars[host] %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif 'selinux_status' in hostvars[host] and hostvars[host]['selinux_status'].stdout == "Enforcing" %}
-        <span class="service-running">Compliant. The server is in compliance with the SELinux policy.</span>
+        <span class="service-running">Compliant.<br>The server is in compliance with the SELinux policy.</span>
       {% else %}
         <class id="selinux_severity">Severity: {{ selinux_severity | default('HIGH') }}</class>
         <span class="motd-not-running"><p class="violation">The server is out of compliance with the SELinux policy.</p></span>
