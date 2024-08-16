@@ -228,8 +228,8 @@ th.instance_info {
 }
 
 .instances_running {
-    display: inline-block;
-    color: #ee0000;
+  display: inline-block;
+  color: #358a46;
 }
 
 .instances_stopped {
