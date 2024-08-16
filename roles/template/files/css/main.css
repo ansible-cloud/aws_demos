@@ -348,3 +348,7 @@ class#compliant_button
 p.compliant {
   color: #5f6062;
 }
+
+.fas {
+  padding: 5px;
+}
