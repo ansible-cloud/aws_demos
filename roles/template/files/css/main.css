@@ -224,7 +224,7 @@ th.instance_info {
 }
 
 .instances_highlight {
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .instances_running {
