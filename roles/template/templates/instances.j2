@@ -63,7 +63,8 @@
       {% if hostvars[host]['ansible_facts']['services']['firewalld.service'] is not defined %}
         <span class="service-running">Unable to connect and retrieve info.</span>
       {% elif hostvars[host]['ansible_facts']['services']['firewalld.service'] is defined and hostvars[host]['ansible_facts']['services']['firewalld.service']['state'] == "running" %}
-        <span class="service-running">Running</span>
+      <class id="compliant_button">Compliant.</class>
+      <span class="service-running">Running</span>
       {% else %}
         <class id="firewalld_severity">Severity: {{ firewalld_severity | default('HIGH') }}</class>
         <span class="service-not-running"><p class="violation">Not Running</p></span>
