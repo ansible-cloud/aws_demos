@@ -251,7 +251,7 @@ th.instance_info {
 }
 
 .ui-state-default .instances_running {
-  background-image: ui-icons_ee0000_256x240.png;
+  background-image: url("ui-icons_ee0000_256x240.png");
 }
 
 .instances_running .ui-icon {
