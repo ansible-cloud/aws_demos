@@ -24,8 +24,7 @@ p.hostname {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-family: "Open Sans", "Helvetica";
-
+  font-family: "Open Sans", "Helvetica", sans-serif;
 }
 
 a {
@@ -50,12 +49,8 @@ body {
 table {
   border-collapse: separate;
   background:#fff;
-  @include border-radius(5px);
-  @include box-shadow(0px 0px 5px rgba(0,0,0,0.3));
-}
-
-.main_net_table {
-  margin:50px auto;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
 }
 
 .main_net_table {
@@ -179,9 +174,6 @@ p.expandclass:hover {
     cursor: pointer;
 }
 
-.summary_info {
-}
-
 .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active, a.ui-button:active, .ui-button:active, .ui-button.ui-state-active:hover {
     border: 1px solid #5F0000;
     background: #EE0000;
@@ -220,17 +212,24 @@ th.vpc_info {
     min-width: 80px;
 }
 
+th.instance_info {
+  color: #ffffff;
+  background-color: #000000;
+  height: 30px;
+  min-width: 80px;
+}
+
 #cidr_assoc {
     min-width: 155px;
 }
 
 .instances_highlight {
-    display: inline-block;
+    /* display: inline-block; */
 }
 
 .instances_running {
-    display: inline-block;
-    color: #ee0000;
+  display: inline-block;
+  color: #358a46;
 }
 
 .instances_stopped {
@@ -252,7 +251,7 @@ th.vpc_info {
 }
 
 .ui-state-default .instances_running {
-  background-image: ui-icons_ee0000_256x240.png;
+  background-image: url("ui-icons_ee0000_256x240.png");
 }
 
 .instances_running .ui-icon {
@@ -265,7 +264,7 @@ th.vpc_info {
 
 p.opportunities {
   color: #5f0000;
-  padding: 0px 10px 0px 00px;
+  padding: 0px 10px 0px 0px;
   margin-top: 5px;
 }
 
@@ -274,4 +273,82 @@ p.opportunities {
   padding: 1px 5px 5px 5px;
   width: fit-content;
   margin-bottom: 10px;
+}
+
+div#instance_breakdown {
+  color: #000000;
+  font-size: 16px;
+  padding: 10px 0px 10px 0px;
+}
+
+hr.sean_line {
+  margin: 10px 0px 10px 0px;
+}
+
+table.instance_info td {
+  padding: 5px;
+}
+
+ul {
+  margin: 0;
+  padding: 0px 0px 0px 20px;
+}
+
+p.violation {
+  color: #000000;
+}
+
+class#severity_button {
+  background-color: #f5921b;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+code.sean_box {
+  font-family: monospace !important;
+  background-color: #000000;
+  color: #ffffff;
+  border-radius: 5px;
+  padding: 3px;
+}
+
+class#firewalld_severity
+{
+  background-color: #ee0000;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+class#motd_severity
+{
+  background-color: #0066cc;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+class#selinux_severity
+{
+  background-color: #ee0000;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+class#compliant_button
+{
+  background-color: #32a800;
+  color: white;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+p.compliant {
+  color: #5f6062;
+}
+
+.fas {
+  padding: 5px;
 }
