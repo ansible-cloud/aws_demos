@@ -18,7 +18,7 @@
       when: create_key.changed
 
     - name: Add machine credential
-      awx.awx.credential:
+      ansible.controller.credential:
         name: "RHEL on AWS - SSH KEY"
         description: "Machine Credential for AWS instances"
         organization: "{{ organization | default('Default') }}"
@@ -56,11 +56,11 @@
         rules:
           - proto: tcp
             ports:
-            - 22
+              -22
             cidr_ip: 0.0.0.0/0
           - proto: tcp
             ports:
-            - 80
+              - 80
             cidr_ip: 0.0.0.0/0
       register: create_sg
       until: create_sg is not failed
