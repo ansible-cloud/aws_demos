@@ -18,7 +18,7 @@
       when: create_key.changed
 
     - name: Add machine credential
-      awx.awx.credential:
+      ansible.controller.credential:
         name: "RHEL on AWS - SSH KEY"
         description: "Machine Credential for AWS instances"
         organization: "{{ organization | default('Default') }}"
@@ -28,8 +28,9 @@
           ssh_key_data: "{{ lookup('file', 'ansible-demo.pem') }}"
         controller_username: "{{ controller_username | default('admin') }}"
         controller_password: "{{ controller_password | default('ansible123!') }}"
-        controller_host: "{{ controller_host | default('https://host.containers.internal/') }}"
-        validate_certs: "{{ validate_certs | default('False') }}"
+#        controller_host: "{{ controller_host | default('https://host.containers.internal/') }}"
+        controller_host: "{{ controller_host | default('https://localhost/') }}"
+        validate_certs: false
 
     - name: Create AWS VPC {{ ec2_name_prefix }}-vpc
       amazon.aws.ec2_vpc_net:
@@ -56,11 +57,11 @@
         rules:
           - proto: tcp
             ports:
-            - 22
+              - 22
             cidr_ip: 0.0.0.0/0
           - proto: tcp
             ports:
-            - 80
+              - 80
             cidr_ip: 0.0.0.0/0
       register: create_sg
       until: create_sg is not failed
