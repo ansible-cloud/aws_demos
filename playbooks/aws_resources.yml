@@ -18,7 +18,7 @@
       when: create_key.changed
 
     - name: Add machine credential
-      ansible.controller.credential:
+      awx.awx.credential:
         name: "RHEL on AWS - SSH KEY"
         description: "Machine Credential for AWS instances"
         organization: "{{ organization | default('Default') }}"
