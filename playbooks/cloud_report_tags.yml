@@ -1,0 +1,11 @@
+---
+- name: Create and publish AWS cloud reports
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    reports_aws_report: tags
+  tasks:
+    - name: Include reports role
+      ansible.builtin.include_role:
+        name: "../roles/build_report_tags"
