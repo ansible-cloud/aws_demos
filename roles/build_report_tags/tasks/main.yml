@@ -12,12 +12,22 @@
   community.aws.s3_website:
     name: "{{ reports_aws_bucket_name }}"
     state: present
+    suffix: index.html
+    error_key: index.html
 
 - name: Put website files
   community.aws.s3_sync:
     bucket: "{{ reports_aws_bucket_name }}"
     file_root: "{{ role_path }}/files"
     permission: "{{ reports_aws_bucket_permissions }}"
+    mime_map:
+      .css: text/css
+      .js: application/javascript
+      .png: image/png
+      .jpg: image/jpeg
+      .jpeg: image/jpeg
+      .gif: image/gif
+      .svg: image/svg+xml
 
 - name: Retrieve instance information
   amazon.aws.ec2_instance_info:
@@ -32,8 +42,9 @@
     content: "{{ lookup('template', 'tags_report.j2') }}"
     mode: put
     permission: "{{ reports_aws_bucket_permissions }}"
-    headers:
-      ContentType: text/html
+    content_type: "text/html; charset=utf-8"
+    content_disposition: inline
+    cache_control: "no-cache, no-store, must-revalidate"
 
 - name: Get bucket objects
   amazon.aws.s3_object_info:
@@ -47,9 +58,8 @@
     content: "{{ lookup('template', 'landing_page.j2') }}"
     mode: put
     permission: "{{ reports_aws_bucket_permissions }}"
-    headers:
-      ContentType: "text/html; charset=utf-8"
-      ContentDisposition: inline
+    content_type: "text/html; charset=utf-8"
+    content_disposition: inline
 
 - name: Print bucket url
   ansible.builtin.debug:
