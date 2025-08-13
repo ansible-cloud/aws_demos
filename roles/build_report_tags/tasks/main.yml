@@ -48,7 +48,8 @@
     mode: put
     permission: "{{ reports_aws_bucket_permissions }}"
     headers:
-      ContentType: text/html
+      ContentType: "text/html; charset=utf-8"
+      ContentDisposition: inline
 
 - name: Print bucket url
   ansible.builtin.debug:
