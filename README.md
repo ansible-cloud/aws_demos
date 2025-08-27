@@ -22,7 +22,7 @@ This repository contains Ansible playbooks and roles for demonstrating AWS autom
 - [playbooks/tag_info_aws.yml](#playbookstag_info_awsyml)
 - [playbooks/stop_aws_ec2_instances.yml](#playbooksstop_aws_ec2_instancesyml)
 - [Notes](#notes)
-
+ - [License](#license)
 ### Prerequisites
 - Ansible 2.12+ and required AWS collections (`amazon.aws`, `community.aws`, `awx.awx`).
 - AWS credentials configured (env vars, shared credentials file, or instance profile).
