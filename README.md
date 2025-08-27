@@ -2,6 +2,27 @@
 
 This repository contains Ansible playbooks and roles for demonstrating AWS automation and reporting. Below is a quick reference to the playbooks under the `playbooks` directory. The `collections` directory is intentionally ignored here.
 
+### Table of Contents
+- [Prerequisites](#prerequisites)
+- [How to run](#how-to-run)
+- [playbooks/aws_resources.yml](#playbooksaws_resourcesyml)
+- [playbooks/aws_instances.yml](#playbooksaws_instancesyml)
+- [playbooks/aws_ssm.yml](#playbooksaws_ssmyml)
+- [playbooks/aws_ssm_assume.yml](#playbooksaws_ssm_assumeyml)
+- [playbooks/cloud_report.yml](#playbookscloud_reportyml)
+- [playbooks/cloud_report_tags.yml](#playbookscloud_report_tagsyml)
+- [playbooks/info_combined.yml](#playbooksinfo_combinedyml)
+- [playbooks/info_vpcs.yml](#playbooksinfo_vpcsyml)
+- [playbooks/info_instances.yml](#playbooksinfo_instancesyml)
+- [playbooks/info_igws.yml](#playbooksinfo_igwsyml)
+- [playbooks/lab2-deploy-application.yml](#playbookslab2-deploy-applicationyml)
+- [playbooks/lab2-ec2-info.yml](#playbookslab2-ec2-infoyml)
+- [playbooks/lab2-patching.yml](#playbookslab2-patchingyml)
+- [playbooks/lab3-challenge2.yml](#playbookslab3-challenge2yml)
+- [playbooks/tag_info_aws.yml](#playbookstag_info_awsyml)
+- [playbooks/stop_aws_ec2_instances.yml](#playbooksstop_aws_ec2_instancesyml)
+- [Notes](#notes)
+
 ### Prerequisites
 - Ansible 2.12+ and required AWS collections (`amazon.aws`, `community.aws`, `awx.awx`).
 - AWS credentials configured (env vars, shared credentials file, or instance profile).
@@ -171,3 +192,6 @@ ansible-playbook playbooks/stop_aws_ec2_instances.yml -e "your_region=us-east-1 
 - Many playbooks default to `us-east-1`; override with `-e ec2_region=...` or `-e your_region=...`.
 - Some reports publish to S3 when run against `localhost`; ensure proper permissions.
 - For SSM-based playbooks, ensure the instance has SSM agent running and proper IAM role.
+
+### License
+This project is licensed under the GNU General Public License v3.0 or later (GPL-3.0-or-later). See the `LICENSE` file for details.
