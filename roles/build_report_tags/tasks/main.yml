@@ -80,6 +80,7 @@
     src: "{{ playbook_dir }}/.build/index.html"
     mode: put
     permission: "{{ reports_aws_bucket_permissions }}"
+    force: different
     headers:
       ContentType: "text/html; charset=utf-8"
       ContentDisposition: inline
